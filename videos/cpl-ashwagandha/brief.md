@@ -6,6 +6,10 @@
 
 ## Kararlar
 - Dil: tr. Ana format 9:16.
-- Hikâye formatı: ürün tanıtımı (kanca → ürün → 3 özellik → CTA).
-- Ses: Higgsfield text2speech_v2 / elevenlabs (ön fiyat: 1,05 kredi; seed_audio 2,1 kredi). Onay bekleniyor (G3).
-- Müzik: Higgsfield'da müzik modeli yok; yerel üretilmiş sade bir ses yatağı veya müziksiz.
+- Hikâye formatı (v2): sorun → bitki → ürün → rutin → CTA; animasyonlu anlatım.
+- G1/G2/G4 onaylandı: kanca A, senaryo v2, stil wellness-sage (CPL renklerine uyarlanmış: gece → şafak → gündüz).
+- G3 onaylandı: Higgsfield text2speech_v2 / elevenlabs, kadın ses "Emily", ~1,1 kredi. Üretildi (job 82e1c51a…).
+- Telaffuz: CPL → "Si Pi El", Ashwagandha → "Aşvaganda", KSM-66 → "Ke Se Me altmış altı" (audio/lexicon.json).
+- Ses dosyası CDN'i (d8j0ntlcm91z4.cloudfront.net) ağ politikasınca engellendi; sahneler geçici zamanlamayla (audio/words.scratch.json) kuruldu.
+- Kelime zamanlaması: Whisper modeli (huggingface) indirilemiyor → word_timings --engine segments --text (sessizlik + senaryo).
+- Müzik: Higgsfield'da müzik modeli yok → build/bed.py ile yerel, deterministik pad (lisans gerekmez), sesin 21 dB altında, sidechain.

@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "historyId": "efc19a75-83ac-4e8c-928f-fc32a025adb3",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/fonts/dm-mono-latin-400-normal.woff2": {
+      "hash": "e1896b13b2b1bb112fac2f9571bd6c40e118746e77a4511edbf43fbb41bf3e1e",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/e1/e1896b13b2b1bb112fac2f9571bd6c40e118746e77a4511edbf43fbb41bf3e1e"
+    },
+    "assets/fonts/dm-mono-latin-ext-400-normal.woff2": {
+      "hash": "a52e19ebe0398c9c0f8fa28a0c5e9a6bc324f35d9f0881c9aa407d10af447175",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/a5/a52e19ebe0398c9c0f8fa28a0c5e9a6bc324f35d9f0881c9aa407d10af447175"
+    },
+    "assets/fonts/fraunces-latin-300-normal.woff2": {
+      "hash": "eb7978600911337e093a9b339e355a5493c4a2a6609af2839e8298c0b5444174",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/eb/eb7978600911337e093a9b339e355a5493c4a2a6609af2839e8298c0b5444174"
+    },
+    "assets/fonts/fraunces-latin-ext-300-normal.woff2": {
+      "hash": "12296b4361a32b0932e11e0c64d47d01688fe67df532a9664572559f4e4a9678",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/12/12296b4361a32b0932e11e0c64d47d01688fe67df532a9664572559f4e4a9678"
+    },
+    "assets/fonts/nunito-sans-latin-600-normal.woff2": {
+      "hash": "e03e312b8b7abd8b69ecef4060ded626f80e45723becd13676ad8273cf568a6e",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/e0/e03e312b8b7abd8b69ecef4060ded626f80e45723becd13676ad8273cf568a6e"
+    },
+    "assets/fonts/nunito-sans-latin-800-normal.woff2": {
+      "hash": "4c839e56cbef1bbdfd509670f523730e24298aaf9a7791e0151031b023c12e4c",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/4c/4c839e56cbef1bbdfd509670f523730e24298aaf9a7791e0151031b023c12e4c"
+    },
+    "assets/fonts/nunito-sans-latin-ext-600-normal.woff2": {
+      "hash": "dbdebff032a168f84b2deab4a6665d01f2622628e9fdf2086f0caa62dff8cfdd",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/db/dbdebff032a168f84b2deab4a6665d01f2622628e9fdf2086f0caa62dff8cfdd"
+    },
+    "assets/fonts/nunito-sans-latin-ext-800-normal.woff2": {
+      "hash": "47657923af8623c265b93d9a9c9157151b790c74f9b3f9fb6153e62b98767d3b",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/47/47657923af8623c265b93d9a9c9157151b790c74f9b3f9fb6153e62b98767d3b"
+    },
+    "assets/vendor/gsap.min.js": {
+      "hash": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/92/92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb"
+    },
+    "cues.js": {
+      "hash": "8c2bee9366e0944744b7c80714832fad66d99cdcc4aed8002d7d35042dde637f",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/8c/8c2bee9366e0944744b7c80714832fad66d99cdcc4aed8002d7d35042dde637f"
+    },
+    "hyperframes.json": {
+      "hash": "e246f6b9fce32c6fcb0cff56198e5fe5105b1c2c4e138254732b6eb21ef37c7e",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/e2/e246f6b9fce32c6fcb0cff56198e5fe5105b1c2c4e138254732b6eb21ef37c7e"
+    },
+    "index.html": {
+      "hash": "77350b2b67dafd5503a67ded01e352ce4a4515a7c03f425a721d024b91517607",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/77/77350b2b67dafd5503a67ded01e352ce4a4515a7c03f425a721d024b91517607"
+    },
+    "meta.json": {
+      "hash": "46252ca3e92d731a796635812683a92faab6736f17ee908577b38f4585d0d1c5",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/46/46252ca3e92d731a796635812683a92faab6736f17ee908577b38f4585d0d1c5"
+    },
+    "assets/packshot.png": {
+      "hash": "3f80c4fc8937e832e8a93a726376d1948bc00489283fcda8d87a25c9679323f0",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/3f/3f80c4fc8937e832e8a93a726376d1948bc00489283fcda8d87a25c9679323f0"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  }
+}

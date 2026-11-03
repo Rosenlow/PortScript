@@ -1,0 +1,6 @@
+node_modules/
+renders/scenes/
+qa/frames/
+audio/voice-raw.mp3
+scenes/main/assets/vendor/
+scenes/main/assets/fonts/

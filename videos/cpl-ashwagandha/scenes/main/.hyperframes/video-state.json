@@ -128,13 +128,14 @@
   },
   "renders": {
     "latest": {
-      "id": "bb8065e2-61a2-4838-93ee-e07247ce4d49",
-      "completedAt": 1793749653076,
-      "output": "/home/user/PortScript/videos/cpl-ashwagandha/renders/taslak-sessiz.mp4",
+      "id": "87b9c4cf-79c7-496a-9fa6-2760fd5b8099",
+      "completedAt": 1793750292601,
+      "output": "/home/user/PortScript/videos/cpl-ashwagandha/renders/scenes/main.mp4",
       "status": "completed",
-      "revision": "44c9f06a-4a3a-4887-a991-eba287eabddb"
+      "revision": "65609bd9-a218-461d-9ce1-47e62b9b7bc1"
     },
     "retainedRevisions": [
+      "65609bd9-a218-461d-9ce1-47e62b9b7bc1",
       "44c9f06a-4a3a-4887-a991-eba287eabddb"
     ]
   },

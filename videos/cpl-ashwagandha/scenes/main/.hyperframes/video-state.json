@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "efc19a75-83ac-4e8c-928f-fc32a025adb3",
-  "currentRevision": null,
+  "currentRevision": "44c9f06a-4a3a-4887-a991-eba287eabddb",
   "pendingChanges": false,
   "files": {
     "assets/fonts/dm-mono-latin-400-normal.woff2": {
@@ -49,8 +49,8 @@
       "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/e2/e246f6b9fce32c6fcb0cff56198e5fe5105b1c2c4e138254732b6eb21ef37c7e"
     },
     "index.html": {
-      "hash": "77350b2b67dafd5503a67ded01e352ce4a4515a7c03f425a721d024b91517607",
-      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/77/77350b2b67dafd5503a67ded01e352ce4a4515a7c03f425a721d024b91517607"
+      "hash": "8472cfe319b3052dee0bd7d77e41b4b0c1b2aa92df824d7d3056b9295194c485",
+      "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/84/8472cfe319b3052dee0bd7d77e41b4b0c1b2aa92df824d7d3056b9295194c485"
     },
     "meta.json": {
       "hash": "46252ca3e92d731a796635812683a92faab6736f17ee908577b38f4585d0d1c5",
@@ -61,7 +61,23 @@
       "content": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/3f/3f80c4fc8937e832e8a93a726376d1948bc00489283fcda8d87a25c9679323f0"
     }
   },
-  "revisions": {},
+  "revisions": {
+    "44c9f06a-4a3a-4887-a991-eba287eabddb": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793749568623,
+      "endedAt": 1793749568625,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/77/77350b2b67dafd5503a67ded01e352ce4a4515a7c03f425a721d024b91517607",
+          "after": "/root/.cache/hyperframes/history/efc19a75-83ac-4e8c-928f-fc32a025adb3/blobs/84/8472cfe319b3052dee0bd7d77e41b4b0c1b2aa92df824d7d3056b9295194c485"
+        }
+      }
+    }
+  },
   "checks": {
     "latest": null,
     "revisions": {},
@@ -74,13 +90,15 @@
   },
   "renders": {
     "latest": {
-      "id": "beed8914-8a33-4f52-b0b0-71aae5e12870",
-      "completedAt": 1793749494116,
-      "output": "/home/user/PortScript/videos/cpl-ashwagandha/renders/scenes/main-scratch.mp4",
+      "id": "bb8065e2-61a2-4838-93ee-e07247ce4d49",
+      "completedAt": 1793749653076,
+      "output": "/home/user/PortScript/videos/cpl-ashwagandha/renders/taslak-sessiz.mp4",
       "status": "completed",
-      "revision": null
+      "revision": "44c9f06a-4a3a-4887-a991-eba287eabddb"
     },
-    "retainedRevisions": []
+    "retainedRevisions": [
+      "44c9f06a-4a3a-4887-a991-eba287eabddb"
+    ]
   },
   "pendingArtifactCleanup": []
 }

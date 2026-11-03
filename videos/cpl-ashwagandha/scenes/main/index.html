@@ -253,13 +253,13 @@ const pop = (sel, at) => tl.fromTo(sel, { opacity: 0, y: 40, scale: 0.92 }, { op
 pop("#t1", C.s2); pop("#t2", C.stres); pop("#t3", C.yarim);
 tl.fromTo("#t2 svg", { rotation: -6 }, { rotation: 6, duration: 0.12, repeat: 5, yoyo: true, ease: "none" }, C.stres + 0.2);
 tl.fromTo("#batt", { attr: { width: 82 } }, { attr: { width: 40 }, duration: 0.8, ease: "power2.inOut" }, C.yarim + 0.1);
-fadeOut(["#t1", "#t2", "#t3"], C.s3 - 0.3, 0.5);
+fadeOut(["#t1", "#t2", "#t3"], C.s3 - 0.75, 0.45);
 
 // ---- S3: dawn + plant ----
-tl.to("#bgDay", { opacity: 1, duration: 1.6, ease }, C.s3 - 0.3);
-tl.to("#stars", { opacity: 0, duration: 1.2, ease }, C.s3 - 0.3);
+tl.to("#bgDay", { opacity: 1, duration: 0.8, ease }, C.s3 - 0.7);
+tl.to("#stars", { opacity: 0, duration: 0.7, ease }, C.s3 - 0.7);
 tl.to("#orbShade", { x: 160, y: -60, duration: 1.4, ease }, C.s3 - 0.3);                          // moon fills
-tl.to("#orb", { opacity: 0, duration: 1.2, ease }, C.s3);
+tl.to("#orb", { opacity: 0, duration: 0.6, ease }, C.s3 - 0.75);
 tl.to("#orbWrap", { x: 540, y: 900, duration: 1.6, ease }, C.s3 - 0.3);
 tl.to("#halo", { opacity: 1, duration: 1.4, ease }, C.s3 + 0.2);
 fadeIn("#plantTitle", C.s3, 0.8);
@@ -307,10 +307,10 @@ breath("#halo", C.s3 + 1.6, END, 1, 1.05, 4.5);
 const caps = document.getElementById("caps");
 window.CHUNKS.forEach((ch, i) => {
   if (ch.s < C.s2 - 0.05) return;
-  const el = document.createElement("div"); el.className = "cap " + (ch.s < C.s3 + 0.6 ? "cap-night" : "cap-day");
+  const el = document.createElement("div"); el.className = "cap " + (ch.s < C.s3 - 0.1 ? "cap-night" : "cap-day");
   el.innerHTML = ch.words.map((w) => `<span class="w">${w.w}</span>`).join(" "); caps.appendChild(el);
   tl.set(el, { opacity: 1 }, ch.s); tl.set(el, { opacity: 0 }, Math.min(ch.e, END));
-  const hl = ch.s < C.s3 + 0.6 ? "#73D5CB" : "#17736C", base = ch.s < C.s3 + 0.6 ? "#F3EFE4" : "#1B2F31";
+  const night = ch.s < C.s3 - 0.1, hl = night ? "#73D5CB" : "#17736C", base = night ? "#F3EFE4" : "#1B2F31";
   el.querySelectorAll(".w").forEach((sp, k) => { tl.set(sp, { color: hl }, ch.words[k].s); if (k + 1 < ch.words.length) tl.set(sp, { color: base }, ch.words[k + 1].s); });
 });
 

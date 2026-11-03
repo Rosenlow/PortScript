@@ -4,8 +4,7 @@ set -euo pipefail; cd "$(dirname "$0")/.."
 MF=${MF:-/home/user/aykutucesai/motionforge}
 SRC="$1"
 ffmpeg -y -v error -i "$SRC" -ar 48000 -ac 1 audio/voice.wav
-python3 "$MF/tools/word_timings.py" audio/voice.wav --engine segments --text audio/tts-spoken.txt \
-  --out audio/words.json --segments-out audio/segments.json --language tr
+python3 build/align_voice.py   # phrase map is specific to this take; re-check pauses for a new take
 python3 build/make_cues.py audio/words.json
 python3 build/srt.py > renders/captions.srt
 END=$(cat audio/duration.txt)

@@ -23,7 +23,7 @@ c["stresle"] = at("stresle"); c["dinlen"] = at("dinlendirici")
 c["s5"] = at("altmış", at("destek")); c["gunluk"] = at("günlük")
 c["s6"] = at("si", c["gunluk"]); c["dengeni"] = at("dengeni")
 c["voiceEnd"] = W[-1]["e"]
-c["end"] = round(c["voiceEnd"] + 1.6, 2)
+c["end"] = round(c["voiceEnd"] + 2.8, 2)
 # display spelling for captions
 disp, i = [], 0
 while i < len(W):

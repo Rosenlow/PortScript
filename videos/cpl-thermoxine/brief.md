@@ -6,4 +6,7 @@
 
 ## Kararlar
 - Hikâye formatı: kanca (tanıdık an) → sorun → ürün + 2 fayda → CTA.
-- Ses: kullanıcı Higgsfield'da üretip yükleyecek (text2speech_v2 / elevenlabs önerildi).
+- Ses: kullanıcı ElevenLabs'te üretti (Dilara, duygu etiketli), 17,7 sn. Kelime zamanları: build/align_voice.py (duraklama + /s/ başlangıç analizi; iç çekiş 3,55–4,25 sn).
+- Stil: kırmızı/beyaz enerjik "pop" (CPL kırmızısı), Anton + Nunito Sans; karanlık mutfak → kırmızı geçiş → ürün.
+- Ses miksi: sese hafif kompresör, yerel üretilmiş 104 BPM müzik + efektler (build/sound.py), −14,3 LUFS, tepe −1,2 dBTP.
+- Kapanış: www.cplsupplements.com (kullanıcı isteği), yasal ibare ürün sahnesinden itibaren ekranda.

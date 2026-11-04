@@ -1,0 +1,261 @@
+<!doctype html>
+<!--
+  CPL Thermoxine — 9:16 hook ad. index.html is GENERATED from this file by build/make_cues.py.
+  Cues come from cues.js (generated from audio/words.json). No wall clock, no Math.random().
+-->
+<html lang="tr" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="cues.js"></script>
+<style>
+  @font-face { font-family: "Anton"; src: url(assets/fonts/anton-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Anton"; src: url(assets/fonts/anton-latin-ext-400-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 600; src: url(assets/fonts/nunito-sans-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 600; src: url(assets/fonts/nunito-sans-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 800; src: url(assets/fonts/nunito-sans-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 800; src: url(assets/fonts/nunito-sans-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 900; src: url(assets/fonts/nunito-sans-latin-900-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Nunito Sans"; font-weight: 900; src: url(assets/fonts/nunito-sans-latin-ext-900-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+
+  :root { --red: #E32B2B; --red-deep: #B3151B; --pink: #FFE1DE; --cream: #FFF7F4; --ink: #1E1416; --night: #150E10; --warm: #FFF1D6; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--night); }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Nunito Sans", system-ui, sans-serif; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; }
+  #cam { position: absolute; inset: 0; }
+  #bgDark { background: radial-gradient(90% 60% at 50% 55%, #3A2528 0%, #1E1416 50%, var(--night) 100%); }
+  #bgLight { opacity: 0; background: radial-gradient(100% 65% at 50% 40%, #FFFFFF 0%, var(--cream) 45%, var(--pink) 100%); }
+  .blob { position: absolute; border-radius: 50%; background: rgba(227,43,43,.07); }
+  #grain { opacity: .05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='11'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+
+  .big { position: absolute; left: 70px; right: 70px; text-align: center; font-family: "Anton", sans-serif; text-transform: none; letter-spacing: .01em; line-height: .98; }
+  #hook { top: 255px; font-size: 112px; color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,.5); }
+  #hook em { font-style: normal; color: var(--red); }
+
+  /* fridge */
+  #fridge { left: 300px; top: 760px; width: 480px; height: 640px; perspective: 1400px; }
+  #fBody { position: absolute; inset: 0; border-radius: 34px; background: #2B2224; border: 6px solid #4A3B3E; overflow: hidden; }
+  #fInside { position: absolute; inset: 14px; border-radius: 22px; background: linear-gradient(180deg, #FFF8E8 0%, #FFE9C2 100%); }
+  .shelf { position: absolute; left: 10px; right: 10px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.9); box-shadow: 0 4px 10px rgba(160,110,60,.25); }
+  #fDoor { position: absolute; inset: 0; border-radius: 34px; background: linear-gradient(90deg, #3A2F31 0%, #2E2527 100%); border: 6px solid #4A3B3E;
+           transform-origin: 0% 50%; backface-visibility: hidden; }
+  #fDoor i { position: absolute; right: 34px; top: 120px; width: 14px; height: 150px; border-radius: 7px; background: #6B5A5D; }
+  #glow { left: 140px; top: 620px; width: 800px; height: 1000px; border-radius: 50%;
+          background: radial-gradient(closest-side, rgba(255,236,196,.55), rgba(255,236,196,.18) 55%, rgba(255,236,196,0) 100%); opacity: 0; }
+
+  /* stickers */
+  .sticker { position: absolute; padding: 26px 30px 24px; border-radius: 34px; background: #fff; box-shadow: 0 16px 40px rgba(0,0,0,.35);
+             display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .sticker b { font: 400 54px/1 "Anton", sans-serif; color: var(--ink); letter-spacing: .02em; }
+  #st1 { left: 60px; top: 690px; } #st2 { left: 590px; top: 790px; }
+  #gauge { left: 190px; top: 1075px; width: 520px; padding: 22px 26px 20px; }
+  #gauge b { font-size: 58px; color: var(--red); }
+
+  /* red wipe */
+  #wipe { left: 540px; top: 960px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%; background: var(--red); transform: scale(0); }
+
+  /* product */
+  #prodTitle { top: 255px; font-size: 132px; color: var(--ink); }
+  #prodTitle em { font-style: normal; color: var(--red); }
+  #bottle { position: absolute; left: 0; top: 0; width: 1000px; height: 1000px; mix-blend-mode: multiply; transform-origin: 52% 50.3%; }
+  #bottle img { width: 100%; height: 100%; display: block; }
+  .tag { position: absolute; left: 560px; width: 420px; padding: 24px 26px; border-radius: 30px; background: #fff;
+         box-shadow: 0 14px 34px rgba(179,21,27,.16); display: flex; align-items: center; gap: 18px; }
+  .tag svg { flex: 0 0 84px; }
+  .tag p { font: 400 44px/1.02 "Anton", sans-serif; color: var(--ink); letter-spacing: .01em; }
+  .tag p small { display: block; font: 800 28px/1.2 "Nunito Sans", sans-serif; color: var(--red); margin-top: 6px; letter-spacing: 0; }
+  #tag1 { top: 720px; } #tag2 { top: 960px; }
+  #badge { left: 570px; top: 840px; width: 400px; height: 240px; border-radius: 44px; background: var(--red); color: #fff;
+           display: flex; align-items: center; justify-content: center; gap: 18px;
+           box-shadow: 0 18px 40px rgba(179,21,27,.35); border: 10px solid #fff; outline: 4px dashed rgba(255,255,255,.6); outline-offset: -28px; }
+  #badge b { font: 400 150px/.8 "Anton", sans-serif; }
+  #badge span { font: 400 52px/1 "Anton", sans-serif; letter-spacing: .06em; }
+
+  /* end card */
+  #endTitle { top: 255px; font-size: 128px; color: var(--ink); }
+  #endTitle em { font-style: normal; color: var(--red); }
+  #url { left: 0; right: 0; top: 1180px; text-align: center; }
+  #url span { display: inline-block; padding: 24px 44px; border-radius: 999px; background: var(--red); color: #fff; font: 900 54px/1 "Nunito Sans", sans-serif;
+              letter-spacing: .005em; box-shadow: 0 14px 34px rgba(179,21,27,.3); }
+  #disclaimer { left: 90px; right: 90px; top: 1312px; text-align: center; font: 600 24px/1.35 "Nunito Sans", sans-serif; color: #6A5558; }
+
+  /* captions */
+  .cap { position: absolute; left: 50px; right: 50px; top: 1416px; text-align: center; font: 900 56px/1.12 "Nunito Sans", sans-serif; opacity: 0; }
+  .cap.cap-dark { color: #fff; text-shadow: 0 3px 16px rgba(0,0,0,.6); }
+  .cap.cap-light { color: var(--ink); text-shadow: 0 2px 14px rgba(255,255,255,.8); }
+  .cap .w { display: inline-block; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="__DUR__" data-width="1080" data-height="1920">
+ <div id="cam">
+  <div id="bgDark" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="0"></div>
+  <div id="bgLight" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="1">
+    <div class="blob" style="left:-220px;top:180px;width:620px;height:620px"></div>
+    <div class="blob" style="left:700px;top:1180px;width:560px;height:560px"></div>
+    <div class="blob" style="left:760px;top:-160px;width:420px;height:420px"></div>
+  </div>
+  <div id="glow" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="2"></div>
+
+  <!-- S1: fridge + hook -->
+  <div id="fridge" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="3">
+    <div id="fBody"><div id="fInside">
+      <div class="shelf" style="top:190px"></div><div class="shelf" style="top:390px"></div>
+      <svg class="abs" style="left:40px;top:70px" width="400" height="520" viewBox="0 0 400 520" fill="none" stroke-linejoin="round">
+        <!-- cake slice -->
+        <path d="M40 170 L170 110 L170 170 Z" fill="#F7C9A8" stroke="#8B4B3A" stroke-width="5"/>
+        <path d="M40 170 L170 170 L170 185 L40 185 Z" fill="#E9A07A" stroke="#8B4B3A" stroke-width="5"/>
+        <circle cx="150" cy="104" r="12" fill="#E32B2B"/>
+        <!-- milk -->
+        <rect x="250" y="40" width="70" height="140" rx="10" fill="#fff" stroke="#9A8A7A" stroke-width="5"/><rect x="262" y="20" width="46" height="26" rx="6" fill="#4AA3E0"/>
+        <!-- bowl -->
+        <path d="M50 330 Q120 400 190 330 Z" fill="#F3B544" stroke="#8B5A1A" stroke-width="5"/><ellipse cx="120" cy="328" rx="72" ry="12" fill="#FFD97A" stroke="#8B5A1A" stroke-width="5"/>
+        <!-- jar -->
+        <rect x="250" y="250" width="90" height="110" rx="16" fill="#C9603F" stroke="#6E2C1C" stroke-width="5"/><rect x="244" y="236" width="102" height="24" rx="8" fill="#E32B2B" stroke="#6E2C1C" stroke-width="5"/>
+        <!-- donut -->
+        <circle cx="200" cy="470" r="44" fill="#F48FB1" stroke="#8B3A5A" stroke-width="5"/><circle cx="200" cy="470" r="15" fill="#FFF3DC" stroke="#8B3A5A" stroke-width="5"/>
+      </svg>
+    </div></div>
+    <div id="fDoor"><i></i></div>
+  </div>
+  <h1 id="hook" class="big clip" data-start="0" data-duration="__DUR__" data-track-index="4">AKŞAM YEMEĞİNDEN<br>SONRA YİNE<br><em>BUZDOLABININ</em><br>ÖNÜNDE MİSİN?</h1>
+
+  <!-- S2: stickers + hunger gauge -->
+  <div id="st1" class="sticker clip" data-start="0" data-duration="__DUR__" data-track-index="5">
+    <svg width="150" height="150" viewBox="0 0 150 150" fill="none" stroke="#1E1416" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M30 80 L45 135 L105 135 L120 80 Z" fill="#F7C9A8"/><path d="M25 80 C25 45 50 35 75 35 C100 35 125 45 125 80 Z" fill="#F48FB1"/>
+      <circle cx="75" cy="26" r="11" fill="#E32B2B"/><line x1="60" y1="85" x2="65" y2="130"/><line x1="90" y1="85" x2="85" y2="130"/>
+    </svg><b>TATLI KRİZİ</b>
+  </div>
+  <div id="st2" class="sticker clip" data-start="0" data-duration="__DUR__" data-track-index="6">
+    <svg width="150" height="150" viewBox="0 0 150 150" fill="none" stroke="#1E1416" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M38 20 L112 20 L104 40 L112 60 L104 80 L112 100 L104 120 L112 132 L38 132 L46 120 L38 100 L46 80 L38 60 L46 40 Z" fill="#F3B544"/>
+      <circle cx="75" cy="76" r="22" fill="#E32B2B"/>
+    </svg><b>ATIŞTIRMALIK</b>
+  </div>
+  <div id="gauge" class="sticker clip" data-start="0" data-duration="__DUR__" data-track-index="7">
+    <svg width="350" height="192" viewBox="0 0 420 230" fill="none" stroke-linecap="round">
+      <path d="M40 210 A170 170 0 0 1 125 63" stroke="#7FC97F" stroke-width="34"/>
+      <path d="M125 63 A170 170 0 0 1 295 63" stroke="#F3B544" stroke-width="34"/>
+      <path d="M295 63 A170 170 0 0 1 380 210" stroke="#E32B2B" stroke-width="34"/>
+      <g id="needle"><line x1="210" y1="210" x2="210" y2="70" stroke="#1E1416" stroke-width="12"/></g>
+      <circle cx="210" cy="210" r="20" fill="#1E1416"/>
+    </svg><b>İŞTAH: MAX</b>
+  </div>
+
+  <!-- S3-S4: product -->
+  <h1 id="prodTitle" class="big clip" data-start="0" data-duration="__DUR__" data-track-index="8">CPL <em>THERMOXINE</em></h1>
+  <div id="bottle" class="clip" data-start="0" data-duration="__DUR__" data-track-index="9"><img src="assets/packshot.png" alt="CPL Thermoxine"></div>
+  <div id="tag1" class="tag clip" data-start="0" data-duration="__DUR__" data-track-index="10">
+    <svg width="84" height="84" viewBox="0 0 84 84" fill="none" stroke-linecap="round">
+      <circle cx="42" cy="42" r="40" fill="#FFE1DE"/>
+      <path d="M14 58 A30 30 0 0 1 70 58" stroke="#E32B2B" stroke-width="8"/>
+      <g id="needle2"><line x1="42" y1="58" x2="42" y2="30" stroke="#1E1416" stroke-width="6"/></g>
+      <circle cx="42" cy="58" r="6" fill="#1E1416"/>
+    </svg><p>İŞTAH KONTROLÜNE<small>destek</small></p>
+  </div>
+  <div id="tag2" class="tag clip" data-start="0" data-duration="__DUR__" data-track-index="11">
+    <svg width="84" height="84" viewBox="0 0 84 84" fill="none" stroke-linejoin="round">
+      <circle cx="42" cy="42" r="40" fill="#FFE1DE"/>
+      <path id="flame" d="M42 14 C52 28 62 36 62 50 C62 62 53 70 42 70 C31 70 22 62 22 50 C22 40 28 34 32 28 C34 36 38 38 40 38 C38 30 38 22 42 14 Z" fill="#E32B2B"/>
+      <path d="M42 46 C47 52 50 55 50 60 C50 65 46 68 42 68 C38 68 34 65 34 60 C34 56 38 52 42 46 Z" fill="#F3B544"/>
+    </svg><p>YAĞ YAKIMINA<small>destek</small></p>
+  </div>
+  <div id="badge" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="12"><b>30</b><span>SERVİS</span></div>
+
+  <!-- S5: end card -->
+  <h1 id="endTitle" class="big clip" data-start="0" data-duration="__DUR__" data-track-index="13">KONTROL <em>SENDE.</em></h1>
+  <div id="url" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="14"><span>www.cplsupplements.com</span></div>
+  <div id="disclaimer" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="15">Dengeli beslenme ve düzenli hareketle birlikte.<br>Takviye edici gıdadır, ilaç değildir.</div>
+
+  <div id="wipe" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="16"></div>
+  <div id="caps" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="17"></div>
+ </div>
+ <div id="grain" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="18"></div>
+</div>
+
+<script>
+const C = window.CUES, END = C.end;
+const tl = gsap.timeline({ paused: true });
+const ease = "power3.out";
+gsap.set("#st1,#st2,#gauge,#prodTitle,#bottle,.tag,#badge,#endTitle,#url,#disclaimer", { opacity: 0 });
+gsap.set("#st1", { rotation: -8 }); gsap.set("#st2", { rotation: 7 });
+const out = (sel, at, d = 0.25) => tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, at);
+const slam = (sel, at, from = 1.5, rot = 0) => tl.fromTo(sel, { opacity: 0, scale: from, rotation: rot - 6 }, { opacity: 1, scale: 1, rotation: rot, duration: 0.38, ease: "back.out(2.2)" }, at);
+const shake = (at, a = 14) => { [[a, -a / 2], [-a * .8, a * .6], [a * .5, -a * .4], [-a * .3, a * .2], [0, 0]].forEach(([x, y], i) => tl.to("#cam", { x, y, duration: 0.045, ease: "none" }, at + i * 0.045)); };
+
+// ---- S1: hook on frame 0, fridge door swings open ----
+tl.fromTo("#hook", { opacity: 0.92, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.45, ease }, 0);
+tl.fromTo("#fridge", { y: 40, opacity: 0.85 }, { y: 0, opacity: 1, duration: 0.5, ease }, 0);
+tl.to("#fDoor", { rotationY: -112, duration: 0.9, ease: "power2.inOut" }, 0.35);
+tl.to("#glow", { opacity: 1, duration: 0.7, ease: "power2.out" }, 0.55);
+tl.fromTo("#fridge", { scale: 1 }, { scale: 1.06, duration: 2.6, ease: "none", transformOrigin: "50% 60%" }, 0.5);   // slow push-in
+out("#hook", C.s2 - 0.2, 0.3);
+// the sigh: light flickers down
+tl.to("#glow", { opacity: 0.45, duration: 0.6, ease: "sine.inOut" }, C.sigh);
+tl.to("#fridge", { opacity: 0.35, scale: 0.96, duration: 0.6, ease: "sine.inOut" }, C.sigh);
+
+// ---- S2: stickers on their words, hunger gauge to max ----
+slam("#st1", C.s2, 1.6, -8); slam("#st2", C.ara, 1.6, 7);
+slam("#gauge", C.bitmeyen - 0.05, 1.3);
+tl.fromTo("#needle", { rotation: -80, svgOrigin: "210 210" }, { rotation: 78, svgOrigin: "210 210", duration: 0.55, ease: "back.out(1.6)" }, C.bitmeyen + 0.05);
+tl.to("#needle", { rotation: 70, svgOrigin: "210 210", duration: 0.07, repeat: 5, yoyo: true, ease: "none" }, C.bitmeyen + 0.6);
+shake(C.bitmeyen + 0.05, 10);
+
+// ---- transition: red wipe ----
+tl.to("#wipe", { scale: 1, duration: 0.32, ease: "power2.in" }, C.s3 - 0.34);
+tl.set(["#bgDark", "#glow", "#fridge", "#st1", "#st2", "#gauge"], { opacity: 0 }, C.s3 - 0.02);
+tl.set("#bgLight", { opacity: 1 }, C.s3 - 0.02);
+tl.to("#wipe", { opacity: 0, duration: 0.3, ease: "power1.out" }, C.s3);
+
+// ---- S3: product slam + tags ----
+const S = 1000, BX = (cx) => cx - 0.52 * S, BY = (cy) => cy - 0.503 * S;
+gsap.set("#bottle", { x: BX(540), y: BY(960) });
+tl.fromTo("#bottle", { opacity: 0, scale: 1.35, rotation: -6 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.45, ease: "back.out(1.8)" }, C.s3);
+shake(C.s3 + 0.12, 12);
+tl.fromTo("#prodTitle", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.35, ease }, C.s3 + 0.1);
+tl.to("#bottle", { x: BX(330), duration: 0.45, ease: "power2.inOut" }, C.istah2 - 0.45);
+const tagIn = (sel, at) => tl.fromTo(sel, { opacity: 0, x: 80, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.35, ease: "back.out(1.8)" }, at);
+tagIn("#tag1", C.istah2);
+tl.fromTo("#needle2", { rotation: 60, svgOrigin: "42 58" }, { rotation: -55, svgOrigin: "42 58", duration: 0.6, ease: "power2.out" }, C.istah2 + 0.25);
+tagIn("#tag2", C.yag);
+tl.fromTo("#flame", { scale: 0.8, transformOrigin: "50% 100%" }, { scale: 1.12, duration: 0.16, repeat: 9, yoyo: true, ease: "sine.inOut" }, C.yag + 0.2);
+tl.to("#bottle", { scale: 1.05, duration: 0.18, yoyo: true, repeat: 1, ease: "power1.inOut" }, C.senin);
+
+// ---- S4: 30 servings stamp ----
+out(["#tag1", "#tag2"], C.s4 - 0.28, 0.2);
+tl.fromTo("#badge", { opacity: 0, scale: 2.2, rotation: -24 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.3, ease: "power4.in" }, C.s4 - 0.1);
+shake(C.s4 + 0.2, 16);
+
+// ---- S5: end card ----
+out(["#badge", "#prodTitle"], C.s5 + 0.05, 0.22);
+tl.to("#bottle", { x: BX(540), y: BY(860), scale: 0.9, duration: 0.55, ease: "power3.inOut" }, C.s5 - 0.15);
+tl.fromTo("#endTitle", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, C.kontrol - 0.1);
+shake(C.kontrol + 0.12, 10);
+tl.fromTo("#url", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.8)" }, C.s5 + 0.45);
+tl.to("#url span", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, C.voiceEnd + 0.2);
+tl.fromTo("#disclaimer", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, C.s3 + 0.5);
+
+// ---- captions (hook text is already on screen in S1) ----
+const caps = document.getElementById("caps");
+window.CHUNKS.forEach((ch) => {
+  if (ch.s < C.s2 - 0.05) return;
+  const dark = ch.s < C.s3 - 0.1;
+  const el = document.createElement("div"); el.className = "cap " + (dark ? "cap-dark" : "cap-light");
+  el.innerHTML = ch.words.map((w) => `<span class="w">${w.w}</span>`).join(" "); caps.appendChild(el);
+  tl.set(el, { opacity: 1 }, ch.s); tl.set(el, { opacity: 0 }, Math.min(ch.e, END));
+  const hl = dark ? "#FF5A52" : "#E32B2B", base = dark ? "#FFFFFF" : "#1E1416";
+  el.querySelectorAll(".w").forEach((sp, k) => { tl.set(sp, { color: hl }, ch.words[k].s); if (k + 1 < ch.words.length) tl.set(sp, { color: base }, ch.words[k + 1].s); });
+});
+
+tl.set({}, {}, END);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>

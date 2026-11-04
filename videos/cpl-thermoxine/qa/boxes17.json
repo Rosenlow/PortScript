@@ -1,0 +1,34 @@
+[
+ {
+  "id": "#endTitle",
+  "text": "KONTROL SENDE.",
+  "x0": 83,
+  "y0": 216,
+  "x1": 997,
+  "y1": 441
+ },
+ {
+  "id": "#url",
+  "text": "www.cplsupplements.com",
+  "x0": 191,
+  "y0": 1194,
+  "x1": 889,
+  "y1": 1268
+ },
+ {
+  "id": "#disclaimer",
+  "text": "Dengeli beslenme ve düzenli hareketle birlikte. Takviye edici gıdadır, ilaç değildir.",
+  "x0": 285,
+  "y0": 1312,
+  "x1": 795,
+  "y1": 1376
+ },
+ {
+  "id": "#caps>div:8",
+  "text": "ile kontrol sende.",
+  "x0": 303,
+  "y0": 1408,
+  "x1": 777,
+  "y1": 1485
+ }
+]

@@ -1,0 +1,230 @@
+<!doctype html>
+<!--
+  Young Pharma N-Acetyl Semax — 9:16 lab-report ad (no health claims; research-use-only notice on screen).
+  index.html is GENERATED from this file by build/make_cues.py. Cues come from cues.js. No wall clock, no Math.random().
+-->
+<html lang="tr" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="cues.js"></script>
+<style>
+  @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/fonts/barlow-condensed-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url(assets/fonts/barlow-condensed-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url(assets/fonts/barlow-condensed-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Inter"; font-weight: 500; src: url(assets/fonts/inter-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 500; src: url(assets/fonts/inter-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Inter"; font-weight: 700; src: url(assets/fonts/inter-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 700; src: url(assets/fonts/inter-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(assets/fonts/jetbrains-mono-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+
+  :root { --bg: #F2F2F2; --ink: #17191C; --red: #C21F39; --red-d: #9C1730; --green: #2DAA4B; --green-d: #1E7F36; --green-l: #E6F5E9; --grey: #8A8F96; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", system-ui, sans-serif; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; }
+  #cam { position: absolute; inset: 0; }
+  #bg { background: radial-gradient(90% 60% at 50% 45%, #F7F7F7 0%, var(--bg) 60%, #E6E7E8 100%); }
+  #gridlines { opacity: .5; background-image: linear-gradient(rgba(23,25,28,.035) 2px, transparent 2px), linear-gradient(90deg, rgba(23,25,28,.035) 2px, transparent 2px);
+               background-size: 90px 90px; }
+  #grain { opacity: .045; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='3'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+
+  .big { position: absolute; left: 70px; right: 70px; text-align: center; font-family: "Barlow Condensed", sans-serif; font-weight: 800; line-height: .95; color: var(--ink); letter-spacing: .005em; }
+  .big em { font-style: normal; color: var(--red); }
+  .big .g { color: var(--green-d); }
+  .eyebrow { position: absolute; left: 0; right: 0; text-align: center; font: 700 30px/1 "Inter", sans-serif; letter-spacing: .22em; color: var(--red); }
+  #hook { top: 255px; font-size: 122px; }
+
+  /* S1 unknown vials */
+  #vials { left: 120px; top: 760px; width: 840px; height: 560px; filter: grayscale(1) blur(1.5px); }
+  .vial { position: absolute; bottom: 0; width: 200px; }
+  .vial .cap { height: 70px; margin: 0 44px; border-radius: 14px 14px 6px 6px; background: #9DA2A8; }
+  .vial .body { height: 330px; border-radius: 34px; background: linear-gradient(90deg, #D8DADD, #F4F5F6 45%, #CFD2D5); border: 3px solid #B9BDC1; position: relative; }
+  .vial .body b { position: absolute; left: 30px; right: 30px; top: 110px; height: 110px; border-radius: 14px; background: #E8E9EB; border: 3px dashed #A7ABB0;
+                  font: 800 90px/104px "Barlow Condensed", sans-serif; text-align: center; color: #8E939A; }
+  #xmark { left: 240px; top: 700px; width: 600px; height: 600px; opacity: 0; }
+
+  /* product + report */
+  #bottle { position: absolute; left: 0; top: 0; width: 860px; height: 860px; transform-origin: 50.2% 50.7%;
+            -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); }
+  #bottle img { width: 100%; height: 100%; display: block; }
+  #prodTitle { top: 300px; font-size: 128px; }
+  #prodEyebrow { top: 255px; }
+  #report { left: 560px; top: 620px; width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 24px 60px rgba(23,25,28,.22); background: #fff; transform-origin: 50% 50%; }
+  #report img { display: block; width: 100%; }
+  #stamp { left: 520px; top: 900px; width: 430px; padding: 18px 10px; border: 7px solid var(--green); border-radius: 16px; color: var(--green-d); background: rgba(230,245,233,.92);
+           text-align: center; font: 800 46px/1 "Barlow Condensed", sans-serif; letter-spacing: .03em; white-space: nowrap; }
+  #stamp small { display: block; font: 700 26px/1 "Inter", sans-serif; letter-spacing: .14em; margin-top: 22px; }
+  #check { left: 820px; top: 1090px; width: 130px; height: 130px; border-radius: 50%; background: var(--green); box-shadow: 0 12px 30px rgba(45,170,75,.4); }
+
+  /* S3 purity */
+  #purity { left: 60px; right: 60px; top: 560px; text-align: center; }
+  #pct { font: 800 300px/.8 "Barlow Condensed", sans-serif; color: var(--green-d); letter-spacing: -.01em; }
+  #pctLbl { font: 700 40px/1 "Inter", sans-serif; letter-spacing: .3em; color: var(--ink); margin-top: 96px; }
+  #results { left: 60px; top: 1010px; width: 960px; border-radius: 18px; background: #fff; padding: 18px; box-shadow: 0 20px 50px rgba(23,25,28,.14); }
+  #results img { display: block; width: 100%; }
+  #hiBox { left: 72px; top: 1066px; width: 936px; height: 50px; border: 6px solid var(--green); border-radius: 10px; }
+  #resMeta { left: 60px; right: 60px; top: 1210px; text-align: center; font: 500 28px/1.4 "Inter", sans-serif; color: #4A4F55; }
+
+  /* S4 verify */
+  #verTitle { top: 300px; font-size: 128px; }
+  #verCard { left: 70px; top: 620px; width: 940px; padding: 40px; border-radius: 28px; background: #fff; box-shadow: 0 22px 54px rgba(23,25,28,.14);
+             display: flex; gap: 40px; align-items: center; }
+  #verCard img { width: 260px; height: 260px; image-rendering: pixelated; border-radius: 10px; border: 2px solid #E3E5E8; }
+  #verTxt { flex: 1; }
+  #verTxt .lbl { font: 700 26px/1 "Inter", sans-serif; letter-spacing: .14em; color: var(--grey); }
+  #verTxt .url { font: 800 64px/1 "Barlow Condensed", sans-serif; color: var(--ink); margin: 12px 0 30px; }
+  #verTxt .key { font: 500 46px/1 "JetBrains Mono", monospace; color: var(--green-d); background: var(--green-l); padding: 16px 18px; border-radius: 12px; display: inline-block; min-width: 440px; }
+  #caret { display: inline-block; width: 4px; height: 44px; background: var(--green-d); vertical-align: -6px; margin-left: 4px; }
+
+  /* end card */
+  #endEyebrow { top: 255px; }
+  #endTitle { top: 318px; font-size: 116px; }
+  #url { left: 0; right: 0; top: 1245px; text-align: center; }
+  #url span { display: inline-block; padding: 22px 42px; border-radius: 999px; background: var(--red); color: #fff; font: 700 48px/1 "Inter", sans-serif; box-shadow: 0 14px 34px rgba(194,31,57,.28); }
+  #ruo { left: 90px; right: 90px; top: 1390px; text-align: center; font: 700 26px/1.3 "Inter", sans-serif; letter-spacing: .06em; color: var(--red-d); }
+
+  #endKey { left: 60px; right: 60px; top: 1338px; text-align: center; font: 500 28px/1.3 "Inter", sans-serif; color: #3E4349; }
+  #endKey b { font: 500 28px/1 "JetBrains Mono", monospace; color: var(--green-d); }
+  /* captions */
+  .cap { position: absolute; left: 50px; right: 50px; top: 1430px; text-align: center; font: 700 54px/1.12 "Inter", sans-serif; color: var(--ink); opacity: 0;
+         text-shadow: 0 2px 14px rgba(255,255,255,.85); }
+  .cap .w { display: inline-block; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="15.53" data-width="1080" data-height="1920">
+ <div id="cam">
+  <div id="bg" class="layer clip" data-start="0" data-duration="15.53" data-track-index="0"></div>
+  <div id="gridlines" class="layer clip" data-start="0" data-duration="15.53" data-track-index="1"></div>
+
+  <!-- S1 -->
+  <h1 id="hook" class="big clip" data-start="0" data-duration="15.53" data-track-index="2">SAFLIĞINDAN EMİN<br>OLMADIĞIN BİR<br>PEPTİT <em>ALMA.</em></h1>
+  <div id="vials" class="abs clip" data-start="0" data-duration="15.53" data-track-index="3">
+    <div class="vial" id="v1" style="left:20px"><div class="cap"></div><div class="body"><b>?</b></div></div>
+    <div class="vial" id="v2" style="left:320px;width:200px"><div class="cap"></div><div class="body" style="height:400px"><b style="top:140px">?</b></div></div>
+    <div class="vial" id="v3" style="left:620px"><div class="cap"></div><div class="body"><b>?</b></div></div>
+  </div>
+  <svg id="xmark" class="abs clip" data-start="0" data-duration="15.53" data-track-index="4" viewBox="0 0 600 600" fill="none" stroke="#C21F39" stroke-width="54" stroke-linecap="round">
+    <line class="xl" x1="110" y1="110" x2="490" y2="490"/><line class="xl" x1="490" y1="110" x2="110" y2="490"/>
+  </svg>
+
+  <!-- S2 -->
+  <div id="prodEyebrow" class="eyebrow clip" data-start="0" data-duration="15.53" data-track-index="5">YOUNG PHARMA</div>
+  <h1 id="prodTitle" class="big clip" data-start="0" data-duration="15.53" data-track-index="6">N-ACETYL <em>SEMAX</em></h1>
+  <div id="bottle" class="clip" data-start="0" data-duration="15.53" data-track-index="7"><img src="assets/packshot.jpg" alt="Young Pharma N-Acetyl Semax"></div>
+  <div id="report" class="abs clip" data-start="0" data-duration="15.53" data-track-index="8"><img src="assets/report.png" alt="Janoshik test report #248063"></div>
+  <div id="stamp" class="abs clip" data-start="0" data-duration="15.53" data-track-index="9">BAĞIMSIZ LAB TESTİ<small>JANOSHIK · #248063</small></div>
+  <svg id="check" class="abs clip" data-start="0" data-duration="15.53" data-track-index="10" viewBox="0 0 130 130" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="65" cy="65" r="65" fill="#2DAA4B" stroke="none"/><path id="checkPath" d="M36 68 L57 88 L96 44"/>
+  </svg>
+
+  <!-- S3 -->
+  <div id="purity" class="abs clip" data-start="0" data-duration="15.53" data-track-index="11"><div id="pct">%90,000</div><div id="pctLbl">SAFLIK</div></div>
+  <div id="results" class="abs clip" data-start="0" data-duration="15.53" data-track-index="12"><img src="assets/report-results.png" alt="Semax 0.45 mg/ml, Purity 99.237%"></div>
+  <div id="hiBox" class="abs clip" data-start="0" data-duration="15.53" data-track-index="13"></div>
+  <div id="resMeta" class="abs clip" data-start="0" data-duration="15.53" data-track-index="14">Janoshik rapor #248063 · 29 Ekim 2026</div>
+
+  <!-- S4 -->
+  <h1 id="verTitle" class="big clip" data-start="0" data-duration="15.53" data-track-index="15">RAPORU KENDİN <span class="g">DOĞRULA.</span></h1>
+  <div id="verCard" class="abs clip" data-start="0" data-duration="15.53" data-track-index="16">
+    <img src="assets/report-qr.png" alt="QR">
+    <div id="verTxt"><div class="lbl">DOĞRULAMA ADRESİ</div><div class="url">janoshik.com/verify</div>
+      <div class="lbl">ANAHTAR</div><div class="key" style="margin-top:12px"><span id="keyTxt"></span><span id="caret"></span></div></div>
+  </div>
+
+  <!-- S5 -->
+  <div id="endEyebrow" class="eyebrow clip" data-start="0" data-duration="15.53" data-track-index="17">YOUNG PHARMA</div>
+  <h1 id="endTitle" class="big clip" data-start="0" data-duration="15.53" data-track-index="18">ÖLÇÜLMÜŞ <em>KALİTE.</em></h1>
+  <div id="url" class="abs clip" data-start="0" data-duration="15.53" data-track-index="19"><span>youngpharmaceuticals.org</span></div>
+  <div id="endKey" class="abs clip" data-start="0" data-duration="15.53" data-track-index="23">Raporu doğrula: janoshik.com/verify · <b>U8YE4DJ1CMX2</b></div>
+  <div id="ruo" class="abs clip" data-start="0" data-duration="15.53" data-track-index="20">YALNIZCA ARAŞTIRMA AMAÇLIDIR.</div>
+
+  <div id="caps" class="layer clip" data-start="0" data-duration="15.53" data-track-index="21"></div>
+ </div>
+ <div id="grain" class="layer clip" data-start="0" data-duration="15.53" data-track-index="22"></div>
+</div>
+
+<script>
+const C = window.CUES, END = C.end;
+const tl = gsap.timeline({ paused: true });
+const ease = "power3.out";
+gsap.set("#endKey,#xmark,#prodEyebrow,#prodTitle,#bottle,#report,#stamp,#check,#purity,#results,#hiBox,#resMeta,#verTitle,#verCard,#endEyebrow,#endTitle,#url,#ruo", { opacity: 0 });
+const out = (sel, at, d = 0.25) => tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, at);
+const shake = (at, a = 12) => { [[a, -a / 2], [-a * .8, a * .6], [a * .5, -a * .4], [-a * .3, a * .2], [0, 0]].forEach(([x, y], i) => tl.to("#cam", { x, y, duration: 0.045, ease: "none" }, at + i * 0.045)); };
+
+// ---- S1: hook on frame 0; unknown vials wobble; red X on "alma" ----
+tl.fromTo("#hook", { opacity: 0.92, scale: 1.03 }, { opacity: 1, scale: 1, duration: 0.4, ease }, 0);
+[["#v1", -3, 0], ["#v2", 2.5, 0.15], ["#v3", -2, 0.3]].forEach(([s, r, d]) => {
+  tl.fromTo(s, { rotation: -r, transformOrigin: "50% 100%" }, { rotation: r, duration: 0.5, repeat: 4, yoyo: true, ease: "sine.inOut" }, d); });
+tl.set("#xmark", { opacity: 1 }, C.alma);
+document.querySelectorAll(".xl").forEach((el) => { const L = el.getTotalLength(); el.style.strokeDasharray = L; el.style.strokeDashoffset = L; });
+tl.to(".xl", { strokeDashoffset: 0, duration: 0.16, stagger: 0.1, ease: "power2.out" }, C.alma);
+shake(C.alma + 0.2, 12);
+out(["#hook", "#vials", "#xmark"], C.s2 - 0.1, 0.22);
+
+// ---- S2: product, report slides in, stamp, check ----
+const S = 860, BX = (cx) => cx - 0.502 * S, BY = (cy) => cy - 0.507 * S;
+gsap.set("#bottle", { x: BX(540), y: BY(930) });
+tl.fromTo("#bottle", { opacity: 0, y: BY(1010), scale: 0.94 }, { opacity: 1, y: BY(930), scale: 1, duration: 0.55, ease }, C.s2 - 0.05);
+tl.fromTo("#prodEyebrow", { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.35, ease }, C.s2);
+tl.fromTo("#prodTitle", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease }, C.semaks - 0.25);
+tl.to("#bottle", { x: BX(300), duration: 0.5, ease: "power2.inOut" }, C.bagimsiz - 0.35);
+tl.fromTo("#report", { opacity: 0, x: 420, rotation: 14 }, { opacity: 1, x: 0, rotation: 4, duration: 0.55, ease: "power3.out" }, C.bagimsiz - 0.2);
+tl.fromTo("#stamp", { opacity: 0, scale: 1.8, rotation: -16 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.26, ease: "power4.in" }, C.janosik - 0.3);
+shake(C.janosik - 0.04, 9);
+const cp = document.getElementById("checkPath"); const CL = cp.getTotalLength(); cp.style.strokeDasharray = CL; cp.style.strokeDashoffset = CL;
+tl.fromTo("#check", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, C.test);
+tl.to(cp, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, C.test + 0.15);
+out(["#prodEyebrow", "#prodTitle", "#bottle", "#stamp", "#check"], C.s3 - 0.3, 0.25);
+tl.to("#report", { opacity: 0, scale: 1.6, x: -260, y: 260, duration: 0.4, ease: "power2.in" }, C.s3 - 0.35);
+
+// ---- S3: purity counter + highlighted row ----
+tl.fromTo("#purity", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease }, C.s3);
+const pct = document.getElementById("pct"), P = { v: 90 };
+tl.fromTo(P, { v: 90 }, { v: 99.237, duration: 1.1, ease: "power3.out",
+  onUpdate: () => { pct.textContent = "%" + P.v.toFixed(3).replace(".", ","); } }, C.yuzde - 0.1);
+tl.fromTo("#results", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.4, ease }, C.s3 + 0.15);
+tl.fromTo("#hiBox", { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, C.yuzde + 0.6);
+tl.fromTo("#resMeta", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, C.s3 + 0.1);
+out(["#purity", "#results", "#hiBox", "#resMeta"], C.s4 - 0.25, 0.22);
+
+// ---- S4: verify card, key typed ----
+tl.fromTo("#verTitle", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease }, C.s4 - 0.05);
+tl.fromTo("#verCard", { opacity: 0, y: 60, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, C.s4 + 0.05);
+const KEY = "U8YE4DJ1CMX2", keyEl = document.getElementById("keyTxt");
+for (let i = 1; i <= KEY.length; i++) tl.set(keyEl, { textContent: KEY.slice(0, i) }, C.s4 + 0.35 + i * 0.06);
+tl.to("#caret", { opacity: 0, duration: 0.01, repeat: 5, yoyo: true, repeatDelay: 0.22 }, C.s4 + 0.4);
+out(["#verTitle", "#verCard"], C.s5 - 0.25, 0.22);
+
+// ---- S5: end card ----
+gsap.set("#bottle", { scale: 1 });
+tl.fromTo("#bottle", { opacity: 0, x: BX(540), y: BY(845), scale: 0.95 }, { opacity: 1, x: BX(540), y: BY(845), scale: 0.95, duration: 0.4, ease: "none", immediateRender: false }, C.s5 - 0.05);
+tl.fromTo("#endEyebrow", { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.35, ease }, C.s5);
+tl.fromTo("#endTitle", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, C.olculmus - 0.1);
+tl.fromTo("#url", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.8)" }, C.s5 + 0.3);
+tl.fromTo("#ruo", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, C.s5 + 0.5);
+tl.fromTo("#endKey", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, C.s5 + 0.4);
+
+// ---- captions (hook is already the big text) ----
+const caps = document.getElementById("caps");
+window.CHUNKS.forEach((ch) => {
+  if (ch.s < C.s2 - 0.05) return;
+  const el = document.createElement("div"); el.className = "cap";
+  el.innerHTML = ch.words.map((w) => `<span class="w">${w.w}</span>`).join(" "); caps.appendChild(el);
+  tl.set(el, { opacity: 1 }, ch.s); tl.set(el, { opacity: 0 }, Math.min(ch.e, END));
+  el.querySelectorAll(".w").forEach((sp, k) => { tl.set(sp, { color: "#C21F39" }, ch.words[k].s); if (k + 1 < ch.words.length) tl.set(sp, { color: "#17191C" }, ch.words[k + 1].s); });
+});
+
+tl.set({}, {}, END);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>

@@ -111,7 +111,7 @@ const eo = (k) => 1 - Math.pow(1 - k, 3), ei = (k) => k * k * k;
 const show = (el, o) => { el.style.opacity = o; el.style.visibility = o > 0.001 ? "visible" : "hidden"; };
 
 // Focal point of each representative photo (fraction of the 9:16 frame). Re-tune if a real photo frames differently.
-const PH = { p1: [0.50, 0.47], p2: [0.497, 0.553], p3: [0.38, 0.277], p4: [0.505, 0.58] };   // tube label / hand / fist / label
+const PH = { p1: [0.58, 0.40], p2: [0.497, 0.553], p3: [0.38, 0.277], p4: [0.505, 0.58] };   // patient by the window / hand / fist / label
 function place(id, key, s, sx, sy) {          // put focal point at screen (sx, sy) with scale s
   const [fx, fy] = PH[key]; const img = $(id).firstElementChild;
   img.style.transform = `translate(${sx - fx * 1080 * s}px, ${sy - fy * 1920 * s}px) scale(${s})`;
@@ -136,11 +136,11 @@ const capEls = window.CHUNKS.map((ch) => {
 });
 
 function render(t) {
-  // ---------- A: tube lifted to the window light (0 → rehab)
+  // ---------- A: patient by the window, slow push-in (0 → rehab)
   const a = prog(t, 0, C.rehab);
   show($("ph1"), t < C.rehab ? 1 : 0);
-  place("ph1", "p1", lerp(1.12, 1.19, eo(a)), 540, lerp(975, 900, io(a)));
-  show($("light"), t < C.rehab ? lerp(0.0, 0.42, io(prog(t, 0.2, 2.4))) : 0);
+  place("ph1", "p1", lerp(1.12, 1.20, io(a)), lerp(640, 600, io(a)), lerp(820, 770, io(a)));
+  show($("light"), t < C.rehab ? lerp(0.0, 0.25, io(prog(t, 0.2, 2.4))) : 0);
 
   // ---------- B: rehab bar (rehab → lab), pushes in toward the hand; match cut on the grip
   show($("ph2"), t >= C.rehab && t < C.lab ? 1 : 0);

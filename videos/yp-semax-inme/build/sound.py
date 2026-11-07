@@ -1,6 +1,6 @@
 """Deterministic documentary bed + sound effects (synthesised here, no licence needed).
 Usage: sound.py <seconds> <bed.wav> <sfx.wav>  — reads cue times from scenes/main/cues.js
-SFX: glass tube touching the stand (0.06 s), soft air at the label-to-label cut, paper sheet at the report."""
+SFX: soft air at the label-to-label cut, paper sheet at the report."""
 import sys, wave, math, struct, json, re, random
 import numpy as np
 dur, bed_out, sfx_out, sr = float(sys.argv[1]), sys.argv[2], sys.argv[3], 48000
@@ -45,7 +45,6 @@ def paper(at, a=0.5):                                # sheet lifted / laid open:
     for g in rng.uniform(0.0, 0.45, 26):             # crackle
         s = int(g * sr); L = int(0.006 * sr); x[s:s + L] += rng.standard_normal(L) * np.exp(-np.arange(L) / (0.0015 * sr)) * 0.7 * np.exp(-g * 3)
     add(at, a * x)
-clink(0.06, 0.55); clink(0.19, 0.16)                 # tube touches the stand, tiny settle
 air(C["prod"] + 0.05)
 paper(C["report"] - 0.02, 0.5)
 write(bed_out, bed); write(sfx_out, sfx)

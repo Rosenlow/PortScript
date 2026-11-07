@@ -16,8 +16,9 @@
 - Bulgu cümlesi ekranda okunurken kadraj sabit (itme hareketi tam C.finding'de biter); bu sürede altyazı gizli, kart altyazının yerini alır.
 - Rapor: kullanıcının yüklediği Janoshik raporu #248063 (assets/report.png), 2× lanczos ile büyütülerek. Son kare: Rapor #248063 + "Parti numarası belirtilmemiştir" (Batch: Unknown) + "Raporu inceleyebilirsin."
 - Ses: kullanıcının ElevenLabs kaydı (Çiçek), 33,96 sn. Kelime zamanları build/align_voice.py (sessizlik haritası + /s/ başlangıç kontrolü; ASR modeli indirilemedi).
-- SFX/müzik yerel üretim (build/sound.py): cam tık (0,06 sn), etiket geçişinde hafif hava, rapor açılırken kâğıt; sessiz pad, sesin altında sidechain. Miks −14,2 LUFS, tepe −1,5 dBFS.
-- **Fotoğraflar:** Higgsfield gpt_image_2_6 (kullanıcı onayıyla), 4 adet 752×1344, assets/photos/p1–p4 (orijinal PNG'ler *-higgsfield.png; sahne için 2× lanczos JPEG). Tarifler: build/photo-prompts.md. Job: p1 5721dd91, p2 ae21c5f9, p3 3857d0ea, p4 271c7992.
+- SFX/müzik yerel üretim (build/sound.py): etiket geçişinde hafif hava, rapor açılırken kâğıt; sessiz pad, sesin altında sidechain. Miks −14,2 LUFS, tepe −1,5 dBFS.
+- **Fotoğraflar:** Higgsfield gpt_image_2_6 (kullanıcı onayıyla), 4 adet 752×1344, assets/photos/p1–p4 (orijinal PNG'ler *-higgsfield.png; sahne için 2× lanczos JPEG). Tarifler: build/photo-prompts.md. Job: p1 d47df5f7 (v3; ilk p1 5721dd91), p2 ae21c5f9, p3 3857d0ea, p4 271c7992.
 - Higgsfield CDN (d8j0ntlcm91z4.cloudfront.net) Default ortamda engelliydi → yalnızca bu hostu açan kişisel "PortScript" ortamı oluşturuldu.
 - Eşleşmeli kesme: p2 eli (0,497; 0,553) ve p3 yumruğu (0,38; 0,277) kesmede aynı ekran noktası (540, 740) ve aynı ölçekte (1,50).
 - Fotoğraflar 752 px genişlikte; ~2× büyütülüyor. Daha keskin sonuç için Higgsfield upscale ile yeniden render edilebilir.
+- v3: açılıştaki kan tüpü (kullanıcı isteği) → pencere kenarında tekerlekli sandalyede hasta (job d47df5f7); tüp olmadığı için açılıştaki cam sesi kaldırıldı.

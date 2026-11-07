@@ -111,7 +111,7 @@ const eo = (k) => 1 - Math.pow(1 - k, 3), ei = (k) => k * k * k;
 const show = (el, o) => { el.style.opacity = o; el.style.visibility = o > 0.001 ? "visible" : "hidden"; };
 
 // Focal point of each representative photo (fraction of the 9:16 frame). Re-tune if a real photo frames differently.
-const PH = { p1: [0.50, 0.55], p2: [0.50, 0.51], p3: [0.50, 0.51], p4: [0.50, 0.567] };
+const PH = { p1: [0.50, 0.47], p2: [0.497, 0.553], p3: [0.38, 0.277], p4: [0.505, 0.58] };   // tube label / hand / fist / label
 function place(id, key, s, sx, sy) {          // put focal point at screen (sx, sy) with scale s
   const [fx, fy] = PH[key]; const img = $(id).firstElementChild;
   img.style.transform = `translate(${sx - fx * 1080 * s}px, ${sy - fy * 1920 * s}px) scale(${s})`;
@@ -139,31 +139,33 @@ function render(t) {
   // ---------- A: tube lifted to the window light (0 → rehab)
   const a = prog(t, 0, C.rehab);
   show($("ph1"), t < C.rehab ? 1 : 0);
-  place("ph1", "p1", lerp(1.10, 1.17, eo(a)), 540, lerp(1010, 900, io(a)));
+  place("ph1", "p1", lerp(1.12, 1.19, eo(a)), 540, lerp(975, 900, io(a)));
   show($("light"), t < C.rehab ? lerp(0.0, 0.42, io(prog(t, 0.2, 2.4))) : 0);
 
   // ---------- B: rehab bar (rehab → lab), pushes in toward the hand; match cut on the grip
   show($("ph2"), t >= C.rehab && t < C.lab ? 1 : 0);
   const b = prog(t, C.rehab, C.lab - C.rehab);
-  place("ph2", "p2", lerp(1.0, 1.14, ei(b) * 0.55 + b * 0.45), 540, 960);
+  const kb = ei(b) * 0.55 + b * 0.45;
+  place("ph2", "p2", lerp(1.30, 1.50, kb), 540, lerp(900, 740, kb));             // ends where p3 starts (match cut)
   show($("stat"), t >= C.rehab && t < C.lab ? eo(prog(t, C.n110 - 0.12, 0.35)) : 0);
   $("stat").style.transform = `translateY(${lerp(24, 0, eo(prog(t, C.n110 - 0.12, 0.35)))}px)`;
 
   // ---------- C: pipette hand, same scale / position at the cut, push continues and settles
   const c = prog(t, C.lab, C.tube - C.lab);
   show($("ph3"), t >= C.lab && t < C.tube + 0.3 ? 1 : 0);
-  place("ph3", "p3", lerp(1.14, 1.26, eo(c)), 540, lerp(960, 760, io(prog(t, C.tube - 0.45, 0.75))));
+  place("ph3", "p3", lerp(1.50, 1.62, eo(c)), 540, lerp(740, 560, io(prog(t, C.tube - 0.45, 0.75))));
   // ---------- D: blood sample close-up (tilt down from the pipette), BDNF tag, then a locked frame for the finding
   const dIn = io(prog(t, C.tube - 0.3, 0.6));
   show($("ph4"), t >= C.tube - 0.3 && t < C.prod + 0.32 ? dIn : 0);
   const push = eo(prog(t, C.tube, C.finding - C.tube));                       // finishes exactly at C.finding -> static hold
   const zoomOut = ei(prog(t, C.prod, 0.32));                                   // label push-in for the label-to-label cut
-  place("ph4", "p4", lerp(1.0, 1.10, push) * lerp(1, 7, zoomOut), 540, lerp(1160, 1000, dIn) );
+  const s4 = lerp(1.15, 1.25, push), sy4 = lerp(1230, 1080, dIn);
+  place("ph4", "p4", s4 * lerp(1, 7, zoomOut), 540, sy4);
   const bd = eo(prog(t, C.bdnf - 0.05, 0.3)), bdOn = t < C.prod ? bd : 0;
-  const tubeR = 540 + 105 * lerp(1.0, 1.10, push);
+  const tubeR = 540 + 0.085 * 1080 * s4;
   show($("bdnf"), bdOn); show($("bdnfLine"), bdOn);
-  Object.assign($("bdnf").style, { left: tubeR + 120 + "px", top: 960 + "px", transform: `translateX(${lerp(30, 0, bd)}px)` });
-  Object.assign($("bdnfLine").style, { left: tubeR + 14 + "px", top: 996 + "px", width: "106px", transform: `scaleX(${bd})` });
+  Object.assign($("bdnf").style, { left: tubeR + 120 + "px", top: sy4 - 140 + "px", transform: `translateX(${lerp(30, 0, bd)}px)` });
+  Object.assign($("bdnfLine").style, { left: tubeR + 14 + "px", top: sy4 - 104 + "px", width: "106px", transform: `scaleX(${bd})` });
   const fi = eo(prog(t, C.finding, 0.35));
   show($("finding"), t < C.prod ? fi : 0); $("finding").style.transform = `translateY(${lerp(20, 0, fi)}px)`;
   show($("grade"), t < C.prod ? 0.6 + 0.4 * fi : 0);

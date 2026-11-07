@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "historyId": "9a82a694-bc52-429c-b8c6-f8f04eb49024",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/fonts/barlow-condensed-latin-700-normal.woff2": {
+      "hash": "3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/37/3787a5a419171630e6890cfa47c4da067474d005cd0ff8dc11ec090fdc3ee2b8"
+    },
+    "assets/fonts/barlow-condensed-latin-ext-700-normal.woff2": {
+      "hash": "9d351bd9222bfab90f943850f8039aa73cdb40e0a6cfe4127308a48bef59d5f5",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/9d/9d351bd9222bfab90f943850f8039aa73cdb40e0a6cfe4127308a48bef59d5f5"
+    },
+    "assets/fonts/inter-latin-600-normal.woff2": {
+      "hash": "f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/f9/f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a"
+    },
+    "assets/fonts/inter-latin-700-normal.woff2": {
+      "hash": "6f56409fd3d64bb85f7d070bce20749db2d66b6d63cec586cc22d1c761be2491",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/6f/6f56409fd3d64bb85f7d070bce20749db2d66b6d63cec586cc22d1c761be2491"
+    },
+    "assets/fonts/inter-latin-800-normal.woff2": {
+      "hash": "a7d0a50f15d389cad679238466bdb5fc9787aa0715719064ce25abaff042820d",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/a7/a7d0a50f15d389cad679238466bdb5fc9787aa0715719064ce25abaff042820d"
+    },
+    "assets/fonts/inter-latin-ext-600-normal.woff2": {
+      "hash": "e4bdf67b0cd15ca9e184509275be95db942195d3cc2b17f6a0452f2adf75d0bf",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/e4/e4bdf67b0cd15ca9e184509275be95db942195d3cc2b17f6a0452f2adf75d0bf"
+    },
+    "assets/fonts/inter-latin-ext-700-normal.woff2": {
+      "hash": "143f9504f1377012aa3e39c90c4354ef429cb0494b9ac0e1437f1a81e5412236",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/14/143f9504f1377012aa3e39c90c4354ef429cb0494b9ac0e1437f1a81e5412236"
+    },
+    "assets/fonts/inter-latin-ext-800-normal.woff2": {
+      "hash": "eade55593308b9e4916dd7f47826929ce3e40cad85a2b338d56e5fd1e7bf8e5e",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/ea/eade55593308b9e4916dd7f47826929ce3e40cad85a2b338d56e5fd1e7bf8e5e"
+    },
+    "assets/packshot.jpg": {
+      "hash": "e2e4bc730b3dfe37bdddd5bc36e34ca5c4e0656455437e58519bb33e4293ad2c",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/e2/e2e4bc730b3dfe37bdddd5bc36e34ca5c4e0656455437e58519bb33e4293ad2c"
+    },
+    "assets/photos/p1.jpg": {
+      "hash": "1a34c0de76a2f7e684bdd3015fd6deaefe04ed501db480ee7b6157c719e56cb0",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/1a/1a34c0de76a2f7e684bdd3015fd6deaefe04ed501db480ee7b6157c719e56cb0"
+    },
+    "assets/photos/p2.jpg": {
+      "hash": "3aa8ed25925bc1c7a11058333517a58db271dd3fda794b4b14c7abb7997883b3",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/3a/3aa8ed25925bc1c7a11058333517a58db271dd3fda794b4b14c7abb7997883b3"
+    },
+    "assets/photos/p3.jpg": {
+      "hash": "31af8b01654ab435ea8f0392a2cc99ea8a3116eade24521fe091376e3cf6f37f",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/31/31af8b01654ab435ea8f0392a2cc99ea8a3116eade24521fe091376e3cf6f37f"
+    },
+    "assets/photos/p4.jpg": {
+      "hash": "b240940bb3c8d3b656893224b9b0056b9833dd37e46ec611413d627bf2cde0fd",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/b2/b240940bb3c8d3b656893224b9b0056b9833dd37e46ec611413d627bf2cde0fd"
+    },
+    "assets/report2x.png": {
+      "hash": "b7a7a4ef6cf7ff04db22a5df63639da483fdeed19bf2785fcc98f5ed1f20b452",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/b7/b7a7a4ef6cf7ff04db22a5df63639da483fdeed19bf2785fcc98f5ed1f20b452"
+    },
+    "assets/vendor/gsap.min.js": {
+      "hash": "3d1bea374ab1b703cc5c4105358eec63c4465efdc573931dc116e34a0a190c1b",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/3d/3d1bea374ab1b703cc5c4105358eec63c4465efdc573931dc116e34a0a190c1b"
+    },
+    "cues.js": {
+      "hash": "3cbafb435e15bd1860e4e6ef8c6a1fdb8fe6614cca66d7a4c7f5b99fcc3854d2",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/3c/3cbafb435e15bd1860e4e6ef8c6a1fdb8fe6614cca66d7a4c7f5b99fcc3854d2"
+    },
+    "hyperframes.json": {
+      "hash": "e246f6b9fce32c6fcb0cff56198e5fe5105b1c2c4e138254732b6eb21ef37c7e",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/e2/e246f6b9fce32c6fcb0cff56198e5fe5105b1c2c4e138254732b6eb21ef37c7e"
+    },
+    "index.html": {
+      "hash": "08b03cfa74cf79fe2212e75c8b49e72098089c43f48f11fa66fd0cce00b8f58f",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/08/08b03cfa74cf79fe2212e75c8b49e72098089c43f48f11fa66fd0cce00b8f58f"
+    },
+    "meta.json": {
+      "hash": "195dbf9e72356667dd0ad0905e917d5e13c3a34df6666f87dcc63f19fdc66d31",
+      "content": "/root/.cache/hyperframes/history/9a82a694-bc52-429c-b8c6-f8f04eb49024/blobs/19/195dbf9e72356667dd0ad0905e917d5e13c3a34df6666f87dcc63f19fdc66d31"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "9dc2cde6-845c-45af-a409-398273880dd9",
+      "completedAt": 1794090016379,
+      "output": "/home/user/PortScript/videos/yp-semax-inme/renders/scenes/main.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}

@@ -1,0 +1,12 @@
+node_modules/
+renders/scenes/
+qa/frames/
+scenes/main/assets/vendor/
+scenes/main/assets/fonts/
+audio/voice16k.wav
+scenes/main/assets/photos/
+qa/rframes/
+qa/frames/
+audio/mix-raw.wav
+audio/bed.wav
+audio/sfx.wav

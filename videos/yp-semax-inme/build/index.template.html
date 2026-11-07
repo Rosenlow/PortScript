@@ -1,0 +1,227 @@
+<!doctype html>
+<!--
+  Young Pharma — "Semaks verilen insanlarda ne değişti?" — photo documentary reel, 9:16.
+  Study: Gusev EI et al. 2018, Zh Nevrol Psikhiatr Im S S Korsakova 118(3 Pt 2):61-68, PMID 29798983 —
+  110 ischaemic-stroke patients followed 5 months; Semax raised plasma BDNF (abstract).
+  Clinical scenes use REPRESENTATIVE photos (p1..p4, labelled "Temsili görüntü"); product + report are the user's real files.
+  index.html is GENERATED from this file by build/make_cues.py. Every frame is a pure function of t (render(t)).
+-->
+<html lang="tr" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="cues.js"></script>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(assets/fonts/inter-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(assets/fonts/inter-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Inter"; font-weight: 700; src: url(assets/fonts/inter-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 700; src: url(assets/fonts/inter-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url(assets/fonts/inter-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url(assets/fonts/inter-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Barlow"; font-weight: 700; src: url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Barlow"; font-weight: 700; src: url(assets/fonts/barlow-condensed-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+
+  :root { --ink: #16181B; --red: #C21F39; --paper: #EEEEEC; --white: #FFFFFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0E0F11; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0E0F11; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; overflow: hidden; }
+  .ph img, #rep img { position: absolute; left: 0; top: 0; transform-origin: 0 0; display: block; }
+  .ph img { width: 1080px; height: 1920px; object-fit: cover; }
+  #light { background: radial-gradient(900px 1300px at 0% 30%, rgba(255,250,240,.85), rgba(255,250,240,0) 70%); mix-blend-mode: screen; }
+  #grade { background: linear-gradient(180deg, rgba(10,12,16,.55) 0%, rgba(10,12,16,0) 26%, rgba(10,12,16,0) 62%, rgba(10,12,16,.45) 100%); }
+  #flash { background: #F3F3F1; }
+
+  /* product */
+  #prod { background: linear-gradient(180deg, #ECECEC 0%, #F6F6F6 100%); }
+  #prod img { position: absolute; left: 0; top: 0; width: 2000px; height: 2000px; transform-origin: 0 0;
+              -webkit-mask-image: radial-gradient(closest-side, #000 82%, transparent 100%); mask-image: radial-gradient(closest-side, #000 82%, transparent 100%); }
+
+  /* report */
+  #repBg { background: linear-gradient(180deg, #E6E7E6 0%, #F1F1EF 100%); }
+  #rep { left: 0; top: 0; width: 1446px; height: 2064px; transform-origin: 0 0; box-shadow: 0 30px 80px rgba(0,0,0,.18); background: #fff; }
+  #rep img { width: 1446px; height: 2064px; }
+  .hl { position: absolute; border: 4px solid var(--red); border-radius: 6px; }
+  .tag { position: absolute; transform: translateY(-50%); white-space: nowrap; font-family: "Inter"; font-weight: 800; color: #fff;
+         background: var(--red); border-radius: 10px; padding: 6px 14px 7px; font-size: 30px; line-height: 1.1; box-shadow: 0 6px 18px rgba(194,31,57,.25); }
+  .tag.dark { background: var(--ink); box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+
+  /* type */
+  .pill { left: 44px; top: 176px; padding: 10px 18px 11px; border-radius: 10px; background: rgba(12,14,17,.58); color: #fff;
+          font-family: "Inter"; font-weight: 700; font-size: 30px; letter-spacing: .01em; }
+  #stat { left: 0; right: 0; top: 300px; text-align: center; font-family: "Barlow"; font-weight: 700; font-size: 132px; line-height: 1; color: #fff;
+          text-shadow: 0 4px 30px rgba(0,0,0,.45); letter-spacing: .01em; }
+  #stat .dot { color: #FF6B7F; padding: 0 .12em; }
+  #bdnf { font-family: "Inter"; font-weight: 800; font-size: 54px; color: var(--ink); background: #fff; border-radius: 12px; padding: 10px 22px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  #bdnfLine { height: 4px; background: #fff; transform-origin: 0 50%; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+  #finding { left: 60px; right: 60px; top: 300px; padding: 34px 40px 38px; background: rgba(12,14,17,.78); border-left: 10px solid var(--red); border-radius: 8px;
+             font-family: "Inter"; font-weight: 800; font-size: 66px; line-height: 1.16; color: #fff; }
+  #finding b { color: #FF8C9B; font-weight: 800; }
+  #closing { left: 40px; right: 40px; top: 1405px; text-align: center; font-family: "Barlow"; font-weight: 700; font-size: 92px; line-height: 1; color: var(--red); }
+  #ruo { left: 40px; right: 40px; top: 1515px; text-align: center; font-family: "Inter"; font-weight: 600; font-size: 28px; color: #5B6067; }
+
+  /* captions */
+  .cap { position: absolute; left: 50%; top: 1420px; transform: translateX(-50%); max-width: 1000px; white-space: nowrap; text-align: center;
+         font-family: "Inter"; font-weight: 700; font-size: 54px; line-height: 1.2; color: #fff; padding: 12px 26px 15px; border-radius: 14px;
+         background: rgba(12,14,17,.74); opacity: 0; }
+  .cap .w.on { color: #FF8C9B; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="__DUR__" data-width="1080" data-height="1920">
+  <div id="ph1" class="layer ph clip" data-start="0" data-duration="__DUR__" data-track-index="0"><img src="assets/photos/p1.jpg" alt=""></div>
+  <div id="ph2" class="layer ph clip" data-start="0" data-duration="__DUR__" data-track-index="1"><img src="assets/photos/p2.jpg" alt=""></div>
+  <div id="ph3" class="layer ph clip" data-start="0" data-duration="__DUR__" data-track-index="2"><img src="assets/photos/p3.jpg" alt=""></div>
+  <div id="ph4" class="layer ph clip" data-start="0" data-duration="__DUR__" data-track-index="3"><img src="assets/photos/p4.jpg" alt=""></div>
+  <div id="light" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="4"></div>
+  <div id="grade" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="5"></div>
+
+  <div id="stat" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="6">110 hasta<span class="dot">·</span>5 ay</div>
+  <div id="bdnfLine" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="7"></div>
+  <div id="bdnf" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="8">BDNF</div>
+  <div id="finding" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="9"><b>Semax</b> alan grupta kandaki <b>BDNF</b> yükseldi.</div>
+
+  <div id="prod" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="10"><img src="assets/packshot.jpg" alt="Young Pharma N-Acetyl Semax nasal spray"></div>
+
+  <div id="repBg" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="11"></div>
+  <div id="rep" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="12"><img src="assets/report2x.png" alt="Janoshik test report #248063"></div>
+  <div id="hls" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="13" style="overflow:visible">
+    <div class="hl" id="hlTask"></div><div class="hl" id="hlBatch"></div><div class="hl" id="hlRes"></div>
+    <div class="tag" id="tSemax">Semax 0,45 mg/ml</div><div class="tag" id="tPur">Saflık %99,237</div>
+    <div class="tag dark" id="tTask">Rapor #248063</div><div class="tag dark" id="tBatch">Parti numarası belirtilmemiştir</div>
+  </div>
+  <div id="closing" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="14">Raporu inceleyebilirsin.</div>
+  <div id="ruo" class="abs clip" data-start="0" data-duration="__DUR__" data-track-index="15">N-Acetyl Semax · Yalnızca araştırma amaçlıdır.</div>
+
+  <div id="flash" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="16"></div>
+  <div id="pillRep" class="abs pill clip" data-start="0" data-duration="__DUR__" data-track-index="17">Temsili görüntü</div>
+  <div id="pillProd" class="abs pill clip" data-start="0" data-duration="__DUR__" data-track-index="18">Gerçek ürün · Yalnızca araştırma amaçlıdır</div>
+  <div id="caps" class="layer clip" data-start="0" data-duration="__DUR__" data-track-index="19"></div>
+</div>
+
+<script>
+const C = window.CUES, END = C.end, $ = (id) => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const prog = (t, a, d) => clamp((t - a) / d);
+const lerp = (a, b, k) => a + (b - a) * k;
+const io = (k) => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;      // easeInOutCubic
+const eo = (k) => 1 - Math.pow(1 - k, 3), ei = (k) => k * k * k;
+const show = (el, o) => { el.style.opacity = o; el.style.visibility = o > 0.001 ? "visible" : "hidden"; };
+
+// Focal point of each representative photo (fraction of the 9:16 frame). Re-tune if a real photo frames differently.
+const PH = { p1: [0.50, 0.55], p2: [0.50, 0.51], p3: [0.50, 0.51], p4: [0.50, 0.567] };
+function place(id, key, s, sx, sy) {          // put focal point at screen (sx, sy) with scale s
+  const [fx, fy] = PH[key]; const img = $(id).firstElementChild;
+  img.style.transform = `translate(${sx - fx * 1080 * s}px, ${sy - fy * 1920 * s}px) scale(${s})`;
+}
+// packshot label point (2000px source) and report geometry (report2x = 2 x the uploaded 723x1032 report)
+const LABEL = [1000, 1010];
+const R = { task: [196, 136, 358, 158], batch: [195, 316, 641, 338], res: [77, 626, 642, 676], semaxRow: 638.5, purRow: 663.5, val: 450 };
+let repT = { s: 1, x: 0, y: 0 };
+function repPlace(s, sx, sy, cx, cy) {        // report source point (cx, cy) in 723-px units -> screen (sx, sy)
+  repT = { s, x: sx - cx * s, y: sy - cy * s };
+  $("rep").style.transform = `translate(${repT.x}px, ${repT.y}px) scale(${s / 2})`;
+}
+const rx = (x) => repT.x + x * repT.s, ry = (y) => repT.y + y * repT.s;
+function box(id, r, pad = 6) { const e = $(id).style; e.left = rx(r[0]) - pad + "px"; e.top = ry(r[1]) - pad + "px"; e.width = (r[2] - r[0]) * repT.s + 2 * pad + "px"; e.height = (r[3] - r[1]) * repT.s + 2 * pad + "px"; }
+function tagAt(id, x, y) { const e = $(id).style; e.left = x + "px"; e.top = y + "px"; }
+
+// caption elements
+const caps = $("caps");
+const capEls = window.CHUNKS.map((ch) => {
+  const el = document.createElement("div"); el.className = "cap";
+  el.innerHTML = ch.words.map((w) => `<span class="w">${w.w}</span>`).join(" "); caps.appendChild(el); return el;
+});
+
+function render(t) {
+  // ---------- A: tube lifted to the window light (0 → rehab)
+  const a = prog(t, 0, C.rehab);
+  show($("ph1"), t < C.rehab ? 1 : 0);
+  place("ph1", "p1", lerp(1.10, 1.17, eo(a)), 540, lerp(1010, 900, io(a)));
+  show($("light"), t < C.rehab ? lerp(0.0, 0.42, io(prog(t, 0.2, 2.4))) : 0);
+
+  // ---------- B: rehab bar (rehab → lab), pushes in toward the hand; match cut on the grip
+  show($("ph2"), t >= C.rehab && t < C.lab ? 1 : 0);
+  const b = prog(t, C.rehab, C.lab - C.rehab);
+  place("ph2", "p2", lerp(1.0, 1.14, ei(b) * 0.55 + b * 0.45), 540, 960);
+  show($("stat"), t >= C.rehab && t < C.lab ? eo(prog(t, C.n110 - 0.12, 0.35)) : 0);
+  $("stat").style.transform = `translateY(${lerp(24, 0, eo(prog(t, C.n110 - 0.12, 0.35)))}px)`;
+
+  // ---------- C: pipette hand, same scale / position at the cut, push continues and settles
+  const c = prog(t, C.lab, C.tube - C.lab);
+  show($("ph3"), t >= C.lab && t < C.tube + 0.3 ? 1 : 0);
+  place("ph3", "p3", lerp(1.14, 1.26, eo(c)), 540, lerp(960, 760, io(prog(t, C.tube - 0.45, 0.75))));
+  // ---------- D: blood sample close-up (tilt down from the pipette), BDNF tag, then a locked frame for the finding
+  const dIn = io(prog(t, C.tube - 0.3, 0.6));
+  show($("ph4"), t >= C.tube - 0.3 && t < C.prod + 0.32 ? dIn : 0);
+  const push = eo(prog(t, C.tube, C.finding - C.tube));                       // finishes exactly at C.finding -> static hold
+  const zoomOut = ei(prog(t, C.prod, 0.32));                                   // label push-in for the label-to-label cut
+  place("ph4", "p4", lerp(1.0, 1.10, push) * lerp(1, 7, zoomOut), 540, lerp(1160, 1000, dIn) );
+  const bd = eo(prog(t, C.bdnf - 0.05, 0.3)), bdOn = t < C.prod ? bd : 0;
+  const tubeR = 540 + 105 * lerp(1.0, 1.10, push);
+  show($("bdnf"), bdOn); show($("bdnfLine"), bdOn);
+  Object.assign($("bdnf").style, { left: tubeR + 120 + "px", top: 960 + "px", transform: `translateX(${lerp(30, 0, bd)}px)` });
+  Object.assign($("bdnfLine").style, { left: tubeR + 14 + "px", top: 996 + "px", width: "106px", transform: `scaleX(${bd})` });
+  const fi = eo(prog(t, C.finding, 0.35));
+  show($("finding"), t < C.prod ? fi : 0); $("finding").style.transform = `translateY(${lerp(20, 0, fi)}px)`;
+  show($("grade"), t < C.prod ? 0.6 + 0.4 * fi : 0);
+
+  // ---------- E: white label -> white label: tube label fills the frame, the bottle label pulls back out of it
+  const fl = t < C.prod + 0.32 ? prog(t, C.prod + 0.1, 0.22) : 1 - prog(t, C.prod + 0.32, 0.3);
+  show($("flash"), t >= C.prod && t < C.report ? fl : 0);
+  show($("prod"), t >= C.prod + 0.32 && t < C.report + 0.45 ? 1 : 0);
+  const pk = eo(prog(t, C.prod + 0.32, 0.9)), drift = prog(t, C.prod + 1.2, C.report - C.prod - 1.2);
+  const ps = lerp(5.2, 0.68, pk) * lerp(1, 1.035, drift);                      // 2000-px packshot -> 1360 px
+  const lx = lerp(540, 540, pk), ly = lerp(960, 80 + LABEL[1] * 0.68, pk);
+  $("prod").firstElementChild.style.transform = `translate(${lx - LABEL[0] * ps}px, ${ly - LABEL[1] * ps}px) scale(${ps})`;
+
+  // ---------- F: the real Janoshik report, full frame -> results rows -> final frame
+  const ro = eo(prog(t, C.report, 0.5));
+  show($("repBg"), t >= C.report ? ro : 0); show($("rep"), t >= C.report ? ro : 0);
+  const full = { s: 1.465, sx: 540, sy: 960 + lerp(90, 0, ro), cx: 361.5, cy: 516 };
+  const zres = { s: 1.90, sx: 540, sy: 900, cx: 361.5, cy: 651 };
+  const fin = { s: 1.18, sx: 540, sy: 130 + 516 * 1.18, cx: 361.5, cy: 516 };
+  const z1 = io(prog(t, C.report + 0.62, 1.05)), z2 = io(prog(t, C.otuz + 0.15, 0.95));
+  const mix = (p, q, k) => ({ s: lerp(p.s, q.s, k), sx: lerp(p.sx, q.sx, k), sy: lerp(p.sy, q.sy, k), cx: lerp(p.cx, q.cx, k), cy: lerp(p.cy, q.cy, k) });
+  const r = mix(mix(full, zres, z1), fin, z2);
+  repPlace(r.s, r.sx, r.sy, r.cx, r.cy);
+  $("rep").style.opacity = t >= C.report ? ro : 0;
+  const t1 = eo(prog(t, C.yuzde + 0.05, 0.3)), t2 = eo(prog(t, C.yuzde + 0.55, 0.3));
+  const fz = eo(prog(t, C.otuz + 0.9, 0.35)), fz2 = eo(prog(t, C.otuz + 1.25, 0.35));
+  show($("hls"), t >= C.report ? 1 : 0);
+  show($("tSemax"), t1); show($("tPur"), t2);
+  tagAt("tSemax", rx(R.val) + 12, ry(R.semaxRow)); tagAt("tPur", rx(R.val) + 12, ry(R.purRow));
+  for (const id of ["tSemax", "tPur"]) Object.assign($(id).style, { fontSize: lerp(32, 21, z2) + "px", padding: `${lerp(6, 2, z2)}px ${lerp(14, 9, z2)}px ${lerp(7, 3, z2)}px`, borderRadius: lerp(10, 6, z2) + "px" });
+  box("hlRes", R.res); show($("hlRes"), fz * 0.9);
+  box("hlTask", R.task); box("hlBatch", R.batch); show($("hlTask"), fz); show($("hlBatch"), fz2);
+  tagAt("tTask", rx(R.task[0]), ry(R.task[3]) + 30); tagAt("tBatch", rx(R.batch[0]), ry(R.batch[3]) + 24);
+  show($("tTask"), fz); show($("tBatch"), fz2);
+  $("tTask").style.fontSize = $("tBatch").style.fontSize = "26px";
+  const lastCapEnd = window.CHUNKS[window.CHUNKS.length - 1].e;
+  const cl = eo(prog(t, lastCapEnd, 0.4));
+  show($("closing"), cl); $("closing").style.transform = `translateY(${lerp(18, 0, cl)}px)`;
+  show($("ruo"), cl);
+
+  show($("pillRep"), t < C.prod + 0.1 ? 1 : 0);
+  show($("pillProd"), t >= C.prod + 0.6 && t < C.report ? eo(prog(t, C.prod + 0.6, 0.3)) : 0);
+
+  // ---------- captions (hidden while the on-screen finding sentence is read)
+  window.CHUNKS.forEach((ch, i) => {
+    const on = t >= ch.s && t < Math.min(ch.e, END) && !(ch.s >= C.finding - 0.05 && ch.s < C.prod - 0.05);
+    show(capEls[i], on ? 1 : 0);
+    if (on) capEls[i].querySelectorAll(".w").forEach((sp, k) => sp.classList.toggle("on", t >= ch.words[k].s && t < ch.words[k].e + 0.05));
+  });
+}
+
+// ---------- timeline (seekable clock for HyperFrames)
+const tl = gsap.timeline({ paused: true });
+tl.eventCallback("onUpdate", () => render(tl.time()));
+tl.set({}, {}, END);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+tl.seek(0); render(0);
+</script>
+</body>
+</html>

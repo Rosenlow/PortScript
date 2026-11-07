@@ -1,0 +1,317 @@
+<!doctype html>
+<!--
+  Young Pharma — "Semax sinir hücrelerini nasıl etkiliyor olabilir?" pixel-art explainer, 9:16.
+  Mechanism from Dolotov et al. 2006, Brain Res 1117(1):54-60 (PMID 16996037): rats, single intranasal dose,
+  hippocampus — BDNF protein ~1.4x, TrkB tyrosine phosphorylation ~1.6x (both measured). Survival / connectivity
+  are shown as NOT measured in that study. End: Janoshik report #248063 of this sample (content, not effect).
+  index.html is GENERATED from this file by build/make_cues.py. Every frame is a pure function of t.
+-->
+<html lang="tr" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="cues.js"></script>
+<style>
+  @font-face { font-family: "PS2P"; src: url(assets/fonts/press-start-2p-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "PS2P"; src: url(assets/fonts/press-start-2p-latin-ext-400-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "VT323"; src: url(assets/fonts/vt323-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "VT323"; src: url(assets/fonts/vt323-latin-ext-400-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(assets/fonts/inter-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+2000-206F, U+20AC, U+2122; }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url(assets/fonts/inter-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-0130, U+0132-024F; }
+
+  :root { --bg0: #0B1026; --bg1: #1D2B53; --yellow: #FFEC27; --green: #00E436; --pink: #FF77A8; --white: #FFF1E8; --lgrey: #C2C3C7; --orange: #FFA300; --red: #C21F39; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg0); }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; }
+  #px { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; image-rendering: pixelated; }
+  .ps { font-family: "PS2P", monospace; text-transform: none; }
+  .vt { font-family: "VT323", monospace; }
+  .shadow { text-shadow: 4px 4px 0 #000, -2px 0 0 #000, 0 -2px 0 #000, 2px 0 0 #000; }
+
+  #hook { left: 60px; right: 60px; top: 250px; text-align: center; font-size: 50px; line-height: 1.32; color: var(--white); }
+  #hook em { font-style: normal; color: var(--yellow); }
+  #ratTag { left: 60px; top: 1270px; padding: 10px 18px; background: #000; border: 4px solid var(--white); color: var(--white); font-size: 46px; line-height: 1; }
+  #ratTag b { color: var(--yellow); font-weight: 400; }
+  #hipoTag { left: 0; right: 0; top: 250px; text-align: center; font-size: 30px; line-height: 1.4; color: var(--yellow); }
+  #ctxTag { left: 0; right: 0; top: 1335px; text-align: center; font-size: 44px; color: #C2C3C7; text-shadow: 3px 3px 0 #000; }
+  #hipoTag small { display: block; font-family: "VT323", monospace; font-size: 46px; color: var(--white); }
+
+  /* meters */
+  .meter { left: 60px; width: 960px; padding: 16px 20px 18px; background: rgba(11,16,38,.86); border: 4px solid var(--white); }
+  .meter .row { display: flex; justify-content: space-between; align-items: baseline; color: var(--white); }
+  .meter .name { font-family: "PS2P", monospace; font-size: 26px; }
+  .meter .val { font-family: "PS2P", monospace; font-size: 34px; color: var(--yellow); }
+  .meter .bar { position: relative; height: 28px; margin-top: 14px; background: #000; border: 3px solid var(--lgrey); }
+  .meter .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: repeating-linear-gradient(90deg, var(--green) 0 20px, #00B32A 20px 24px); }
+  .meter .base { position: absolute; top: -8px; bottom: -8px; width: 4px; background: var(--white); }
+  .meter .foot { margin-top: 10px; font-family: "VT323", monospace; font-size: 34px; color: var(--lgrey); display: flex; align-items: center; gap: 12px; }
+  .ok { display: inline-flex; align-items: center; gap: 10px; color: var(--green); font-family: "PS2P", monospace; font-size: 20px; }
+  #mB { top: 250px; } #mT { top: 470px; }
+  #mT .fill { background: repeating-linear-gradient(90deg, var(--yellow) 0 20px, #D9C400 20px 24px); }
+
+  #notM { left: 60px; width: 960px; top: 250px; padding: 18px 20px; background: rgba(11,16,38,.86); border: 4px dashed var(--lgrey); color: var(--white); }
+  #notM .t { font-family: "PS2P", monospace; font-size: 26px; line-height: 1.5; }
+  #notM .s { font-family: "VT323", monospace; font-size: 40px; color: var(--lgrey); margin-top: 8px; }
+
+  /* chain */
+  #chain { left: 60px; width: 960px; top: 300px; display: flex; flex-direction: column; gap: 22px; }
+  .node { display: flex; align-items: center; justify-content: space-between; padding: 22px 26px; border: 5px solid var(--white); background: #000; }
+  .node .n { font-family: "PS2P", monospace; font-size: 34px; color: var(--white); }
+  .node .st { font-family: "PS2P", monospace; font-size: 22px; padding: 10px 12px; }
+  .node.m { border-color: var(--green); } .node.m .st { color: #000; background: var(--green); }
+  .node.u { border-style: dashed; border-color: var(--lgrey); } .node.u .n { color: var(--lgrey); } .node.u .st { color: var(--lgrey); border: 3px dashed var(--lgrey); }
+  .arrow { align-self: center; width: 0; height: 0; border-left: 22px solid transparent; border-right: 22px solid transparent; border-top: 26px solid var(--white); margin: -8px 0; }
+
+  /* end card */
+  #endBg { background: linear-gradient(180deg, #F4F4F2 0%, #E9EAEA 100%); opacity: 0; }
+  #endTitle { left: 50px; right: 50px; top: 250px; text-align: center; font-size: 46px; line-height: 1.35; color: #17191C; }
+  #endTitle em { font-style: normal; color: var(--red); }
+  #bottle { left: -40px; top: 520px; width: 620px; height: 620px;
+            -webkit-mask-image: radial-gradient(closest-side, #000 74%, transparent 100%); mask-image: radial-gradient(closest-side, #000 74%, transparent 100%); }
+  #bottle img { width: 100%; height: 100%; display: block; }
+  #chips { left: 520px; top: 560px; width: 500px; display: flex; flex-direction: column; gap: 22px; }
+  .chip { background: #fff; border: 4px solid #17191C; box-shadow: 8px 8px 0 #17191C; padding: 18px 20px; }
+  .chip .k { font-family: "PS2P", monospace; font-size: 18px; color: #6A6F75; }
+  .chip .v { font-family: "PS2P", monospace; font-size: 40px; color: #17191C; margin-top: 12px; }
+  .chip.g .v { color: #1E7F36; }
+  #results { left: 60px; top: 1130px; width: 960px; background: #fff; border: 4px solid #17191C; padding: 10px; }
+  #results img { display: block; width: 100%; }
+  #endNote { left: 60px; right: 60px; top: 1262px; text-align: center; font-family: "Inter", sans-serif; font-weight: 600; font-size: 30px; line-height: 1.35; color: #3E4349; }
+  #endNote b { color: var(--red); font-weight: 600; }
+
+  /* captions */
+  .cap { position: absolute; left: 40px; right: 40px; top: 1420px; text-align: center; font-family: "VT323", monospace; font-size: 72px; line-height: 1; opacity: 0; color: var(--white);
+         text-shadow: 4px 4px 0 #000, -3px 0 0 #000, 3px 0 0 #000, 0 -3px 0 #000, 0 3px 0 #000; }
+  .cap.light { color: #17191C; text-shadow: none; }
+  .cap .w { display: inline-block; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="29.58" data-width="1080" data-height="1920">
+  <canvas id="px" width="270" height="480" class="clip" data-start="0" data-duration="29.58" data-track-index="0"></canvas>
+
+  <h1 id="hook" class="abs ps shadow clip" data-start="0" data-duration="29.58" data-track-index="1">SEMAX SİNİR<br>HÜCRELERİNİ NASIL<br><em>ETKİLİYOR OLABİLİR?</em></h1>
+  <div id="ratTag" class="abs vt clip" data-start="0" data-duration="29.58" data-track-index="2">2006 · <b>SIÇAN</b> ÇALIŞMASI · tek doz, burundan</div>
+  <div id="hipoTag" class="abs ps shadow clip" data-start="0" data-duration="29.58" data-track-index="3">HİPOKAMPUS</div>
+  <div id="ctxTag" class="abs vt clip" data-start="0" data-duration="29.58" data-track-index="15">SIÇAN · HİPOKAMPUS NÖRONU</div>
+
+  <div id="mB" class="abs meter clip" data-start="0" data-duration="29.58" data-track-index="4">
+    <div class="row"><span class="name">BDNF PROTEİNİ</span><span class="val" id="vB">1,0×</span></div>
+    <div class="bar"><div class="fill" id="fB"></div><div class="base" style="left:calc(100%/1.7)"></div></div>
+    <div class="foot"><span class="ok" id="okB"><svg width="28" height="22" viewBox="0 0 7 5" shape-rendering="crispEdges"><path fill="#00E436" d="M6 0h1v1H6zM5 1h1v1H5zM4 2h1v1H4zM0 2h1v1H0zM1 3h1v1H1zM3 3h1v1H3zM2 4h1v1H2z"/></svg>ÖLÇÜLDÜ</span>sıçan hipokampusu · ~1,4 kat</div>
+  </div>
+  <div id="mT" class="abs meter clip" data-start="0" data-duration="29.58" data-track-index="5">
+    <div class="row"><span class="name">TrkB AKTİVASYONU</span><span class="val" id="vT">1,0×</span></div>
+    <div class="bar"><div class="fill" id="fT"></div><div class="base" style="left:calc(100%/1.7)"></div></div>
+    <div class="foot"><span class="ok" id="okT"><svg width="28" height="22" viewBox="0 0 7 5" shape-rendering="crispEdges"><path fill="#00E436" d="M6 0h1v1H6zM5 1h1v1H5zM4 2h1v1H4zM0 2h1v1H0zM1 3h1v1H1zM3 3h1v1H3zM2 4h1v1H2z"/></svg>ÖLÇÜLDÜ</span>tirozin fosforilasyonu · ~1,6 kat</div>
+  </div>
+  <div id="notM" class="abs clip" data-start="0" data-duration="29.58" data-track-index="6">
+    <div class="t">SAĞKALIM · BAĞLANTI</div>
+    <div class="s">Yolun bilinen rolleri · bu çalışmada ölçülmedi</div>
+  </div>
+
+  <div id="chain" class="abs clip" data-start="0" data-duration="29.58" data-track-index="7">
+    <div class="node" id="n0"><span class="n">SEMAX</span><span class="st" style="color:var(--lgrey)">SIÇAN, TEK DOZ</span></div>
+    <div class="arrow"></div>
+    <div class="node" id="n1"><span class="n">BDNF ~1,4×</span><span class="st">ÖLÇÜLDÜ</span></div>
+    <div class="arrow"></div>
+    <div class="node" id="n2"><span class="n">TrkB ~1,6×</span><span class="st">ÖLÇÜLDÜ</span></div>
+    <div class="arrow"></div>
+    <div class="node u" id="n3"><span class="n">SAĞKALIM?<br>BAĞLANTI?</span><span class="st">ÖLÇÜLMEDİ</span></div>
+  </div>
+
+  <div id="endBg" class="layer clip" data-start="0" data-duration="29.58" data-track-index="8"></div>
+  <h1 id="endTitle" class="abs ps clip" data-start="0" data-duration="29.58" data-track-index="9">BU ŞİŞEDE ÖLÇÜLEN:<br><em>İÇERİK VE SAFLIK</em></h1>
+  <div id="bottle" class="abs clip" data-start="0" data-duration="29.58" data-track-index="10"><img src="assets/packshot.jpg" alt="Young Pharma N-Acetyl Semax"></div>
+  <div id="chips" class="abs clip" data-start="0" data-duration="29.58" data-track-index="11">
+    <div class="chip" id="c1"><div class="k">SEMAX</div><div class="v">0,45 mg/ml</div></div>
+    <div class="chip g" id="c2"><div class="k">SAFLIK</div><div class="v">%99,237</div></div>
+    <div class="chip" id="c3"><div class="k">JANOSHIK RAPOR NO.</div><div class="v">248063</div></div>
+  </div>
+  <div id="results" class="abs clip" data-start="0" data-duration="29.58" data-track-index="12"><img src="assets/report-results.png" alt="Janoshik: Semax 0.45 mg/ml, Purity 99.237%"></div>
+  <div id="endNote" class="abs clip" data-start="0" data-duration="29.58" data-track-index="13">Analiz içeriği ölçer, etkiyi değil.<br><b>Yalnızca araştırma amaçlıdır.</b></div>
+
+  <div id="caps" class="layer clip" data-start="0" data-duration="29.58" data-track-index="14"></div>
+</div>
+
+<script>
+const C = window.CUES, END = C.end;
+const cv = document.getElementById("px"), g = cv.getContext("2d");
+const off = document.createElement("canvas"); off.width = 270; off.height = 480; const o = off.getContext("2d");
+g.imageSmoothingEnabled = false; o.imageSmoothingEnabled = false;
+const P = { bg0: "#0B1026", bg1: "#1D2B53", purple: "#7E2553", pink: "#FF77A8", green: "#00E436", dgreen: "#008751", yellow: "#FFEC27",
+            orange: "#FFA300", blue: "#29ADFF", white: "#FFF1E8", grey: "#5F574F", lgrey: "#C2C3C7", red: "#FF004D", lav: "#83769C", peach: "#FFCCAA" };
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const prog = (t, a, d) => clamp((t - a) / d);
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const R = (x, y, w, h, c, ctx = g) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
+function disc(cx, cy, r, c, ctx = g) { for (let dy = -r; dy <= r; dy++) { const dx = Math.floor(Math.sqrt(r * r - dy * dy)); R(cx - dx, cy + dy, 2 * dx + 1, 1, c, ctx); } }
+function ell(cx, cy, rx, ry, c, ctx = g) { for (let dy = -ry; dy <= ry; dy++) { const dx = Math.floor(rx * Math.sqrt(1 - (dy * dy) / (ry * ry))); R(cx - dx, cy + dy, 2 * dx + 1, 1, c, ctx); } }
+function line(x0, y0, x1, y1, c, w = 1, ctx = g, dash = 0) {
+  x0 = Math.round(x0); y0 = Math.round(y0); x1 = Math.round(x1); y1 = Math.round(y1);
+  const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1; let err = dx + dy, i = 0;
+  for (;;) { if (!dash || (i >> 1) % 2 === 0) R(x0 - (w >> 1), y0 - (w >> 1), w, w, c, ctx); i++;
+    if (x0 === x1 && y0 === y1) break; const e2 = 2 * err; if (e2 >= dy) { err += dy; x0 += sx; } if (e2 <= dx) { err += dx; y0 += sy; } } }
+function sprite(rows, x, y, map, s = 1, ctx = g) { rows.forEach((r, j) => [...r].forEach((ch, i) => { if (map[ch]) R(x + i * s, y + j * s, s, s, map[ch], ctx); })); }
+
+// ---------- static data ----------
+const r0 = rng(7);
+const stars = Array.from({ length: 70 }, () => [Math.floor(r0() * 270), Math.floor(r0() * 480), Math.floor(r0() * 9)]);
+const RAT = ["....GG..........", "...GWWG.........", "..GWWWWGGGGG....", ".GWWWWWWWWWWG...", "GKWWWWWWWWWWWG..", ".GWWWWWWWWWWWGTT", "..GGPGGGGPGGG..T", "...............T"];
+const SHIELD = ["GGGGGGGGG", "GYYYYYYYG", "GYYYWYYYG", "GYYWWWYYG", "GYYYWYYYG", ".GYYYYYG.", "..GYYYG..", "...GGG..."];
+// neuron geometry (logical px)
+const SX = 135, SY = 250, SR = 26;
+const dend = []; (function () { const rr = rng(21);
+  function br(x, y, a, len, d) { const x2 = x + Math.cos(a) * len, y2 = y + Math.sin(a) * len; dend.push([x, y, x2, y2, d]);
+    if (d < 3) { br(x2, y2, a - 0.35 - rr() * 0.3, len * 0.68, d + 1); br(x2, y2, a + 0.35 + rr() * 0.3, len * 0.66, d + 1); } }
+  [-2.6, -2.0, -1.57, -1.1, -0.5, -3.3, 0.1].forEach((a) => br(SX + Math.cos(a) * SR, SY + Math.sin(a) * SR, a, 34 + rr() * 10, 0)); })();
+const tips = dend.filter((d) => d[4] === 3).filter((_, i) => i % 5 === 0).slice(0, 5);
+const rec = Array.from({ length: 12 }, (_, i) => { const a = -Math.PI / 2 + (i / 12) * Math.PI * 2 + 0.13; return [a, SX + Math.cos(a) * (SR + 1), SY + Math.sin(a) * (SR + 1)]; });
+const part = Array.from({ length: 22 }, (_, i) => { const rr = rng(100 + i); return { a: rr() * Math.PI * 2, d: 60 + rr() * 60, sp: 0.5 + rr() * 0.6, ph: rr(), k: i }; });
+
+// ---------- scenes ----------
+function drawBrain(t, ctx) {
+  R(0, 0, 270, 480, P.bg0, ctx);
+  stars.forEach(([x, y, k]) => { if ((k + Math.floor(t * 4)) % 9) R(x, y, 1, 1, k % 3 ? P.lav : P.white, ctx); });
+  const bob = Math.round(Math.sin(t * 2) * 1.2), cx = 135, cy = 255 + bob;
+  R(cx + 18, cy + 40, 12, 34, P.lav, ctx); ell(cx + 32, cy + 38, 26, 15, P.lav, ctx); ell(cx + 32, cy + 38, 24, 13, "#9A8FB6", ctx);
+  ell(cx, cy, 74, 54, P.purple, ctx); ell(cx, cy, 71, 51, P.pink, ctx);
+  // gyri
+  for (let k = 0; k < 7; k++) { let px = null; for (let x = -64; x <= 64; x += 2) {
+    const y = -40 + k * 13 + Math.sin(x * 0.11 + k * 1.7) * 4; if ((x * x) / (66 * 66) + (y * y) / (48 * 48) > 1) { px = null; continue; }
+    if (px) line(cx + px[0], cy + px[1], cx + x, cy + y, P.purple, 1, ctx); px = [x, y]; } }
+  // hippocampus (seahorse-ish curl)
+  const hl = t >= C.hipo - 0.3 ? ((Math.floor(t * 6) % 2) ? P.yellow : P.orange) : "#E05C93";
+  [[-14, 20], [-10, 23], [-5, 25], [0, 24], [4, 21], [6, 17], [4, 13], [0, 12], [-2, 15]].forEach(([x, y]) => R(cx + x - 1, cy + y - 1, 4, 4, hl, ctx));
+}
+function drawNeuron(t, ctx = g) {
+  R(0, 0, 270, 480, P.bg1, ctx);
+  for (let y = 4; y < 480; y += 12) for (let x = 4; x < 270; x += 12) R(x, y, 1, 1, "#2A3A6B", ctx);
+  // axon + myelin
+  line(SX, SY + SR, SX + 4, 400, P.pink, 3, ctx);
+  for (let y = SY + SR + 12; y < 392; y += 22) R(SX - 3 + (y - SY) * 0.03, y, 8, 14, P.blue, ctx);
+  [[-18, 22], [0, 26], [18, 22]].forEach(([dx, dy]) => line(SX + 4, 400, SX + 4 + dx, 400 + dy, P.pink, 2, ctx));
+  dend.forEach(([x, y, x2, y2, d]) => line(x, y, x2, y2, d === 0 ? P.pink : (d === 1 ? P.pink : "#E05C93"), d < 2 ? 3 : 2, ctx));
+  disc(SX, SY, SR + 1, P.purple, ctx); disc(SX, SY, SR - 1, "#B4457E", ctx); disc(SX - 5, SY - 6, 6, "#C9609A", ctx);
+  disc(SX, SY + 2, 9, P.lav, ctx); disc(SX + 2, SY + 3, 3, P.bg1, ctx);
+  // receptors (TrkB): Y shapes, activated after C.trek
+  rec.forEach(([a, x, y], i) => { const on = t >= C.trek + 0.05 * i; const c = on ? P.yellow : P.lgrey;
+    const ox = Math.cos(a), oy = Math.sin(a), bx = x + ox * 4, by = y + oy * 4;
+    line(x, y, bx, by, c, 1, ctx); line(bx, by, bx + ox * 3 - oy * 3, by + oy * 3 + ox * 3, c, 1, ctx); line(bx, by, bx + ox * 3 + oy * 3, by + oy * 3 - ox * 3, c, 1, ctx);
+    if (on && (Math.floor(t * 5) + i) % 3) R(x - ox * 3 - 1, y - oy * 3 - 1, 2, 2, P.orange, ctx); });
+  // BDNF particles: 10 baseline (+ 4 after C.kirk ~ +40 %) drifting toward receptors
+  const vis = t < C.bdnf ? 0 : (t < C.kirk ? 10 : 10 + Math.min(4, Math.floor((t - C.kirk) / 0.12) + 1));
+  part.slice(0, Math.min(vis, 14)).forEach((p) => { const u = ((t - C.bdnf) * 0.18 * p.sp + p.ph) % 1;
+    const d = SR + 8 + (1 - u) * p.d, x = SX + Math.cos(p.a) * d, y = SY + Math.sin(p.a) * d;
+    const isNew = p.k >= 10; R(x - 1, y - 1, 3, 3, isNew ? P.white : P.green, ctx); R(x, y, 1, 1, isNew ? P.green : P.white, ctx); });
+  // signals inward after activation, outward to dendrites from C.s4
+  if (t >= C.trek + 0.3) rec.forEach(([a, x, y], i) => { const u = ((t - C.trek) * 0.9 + i * 0.083) % 1;
+    R(x + (SX - x) * u - 1, y + (SY - y) * u - 1, 2, 2, P.yellow, ctx); });
+  if (t >= C.s4) dend.filter((d) => d[4] === 0).forEach(([x, y, x2, y2], i) => { const u = ((t - C.s4) * 1.1 + i * 0.14) % 1;
+    R(x + (x2 - x) * u - 1, y + (y2 - y) * u - 1, 3, 3, P.white, ctx); });
+  // not measured: survival shield + new dashed branches
+  if (t >= C.hayatta - 0.1) { const s = (Math.floor(t * 3) % 2) ? P.yellow : P.orange;
+    sprite(SHIELD, SX - 70, SY + 50, { G: P.grey, Y: s, W: P.white }, 2, ctx); }
+  if (t >= C.baglanti - 0.1) { const p = prog(t, C.baglanti - 0.1, 0.9);
+    tips.forEach(([x, y, x2, y2], i) => { const a = Math.atan2(y2 - y, x2 - x) + (i % 2 ? 0.6 : -0.6);
+      line(x2, y2, x2 + Math.cos(a) * 16 * p, y2 + Math.sin(a) * 16 * p, P.white, 1, ctx, 1); }); }
+}
+function draw(t) {
+  g.imageSmoothingEnabled = false;
+  const z0 = C.hipo - 0.15, z1 = Math.min(C.hipo + 0.75, C.bdnf - 0.05);
+  if (t < z1) {
+    drawBrain(t, o);
+    const z = t < z0 ? 1 : 1 + 9 * Math.pow(prog(t, z0, z1 - z0), 2.2), fx = 135 - 3, fy = 255 + 20;
+    const sw = 270 / z, sh = 480 / z, sx = fx - sw / 2 * (1 - 0) * 1, sy = fy - sh / 2;
+    g.drawImage(off, Math.round((sx) * 4) / 4, Math.round(sy * 4) / 4, sw, sh, 0, 0, 270, 480);
+    if (t < z0 && t >= C.s2) sprite(RAT, 26, 300, { G: P.grey, W: P.lgrey, K: "#000", P: P.pink, T: P.pink }, 3);
+  } else {
+    drawNeuron(t);
+    if (t < z1 + 0.08) R(0, 0, 270, 480, "rgba(255,241,232,0.8)");
+  }
+  if (t >= C.s5 - 0.1 && t < C.s6) R(0, 0, 270, 480, `rgba(11,16,38,${0.7 * prog(t, C.s5 - 0.1, 0.3)})`);
+  // glitch into the end card
+  const gs = C.s6 - 0.35;
+  if (t >= gs && t < C.s6 + 0.05) { const f = Math.floor(t * 30), rr = rng(f * 13 + 5);
+    for (let i = 0; i < 9; i++) { const y = Math.floor(rr() * 480), h = 2 + Math.floor(rr() * 18), sh = Math.floor((rr() - 0.5) * 40);
+      g.drawImage(cv, 0, y, 270, h, sh, y, 270, h);
+      R(0, y + Math.floor(rr() * h), 270, 1, [P.green, P.pink, P.yellow, P.blue][i % 4]); } }
+}
+
+// ---------- timeline ----------
+const tl = gsap.timeline({ paused: true });
+tl.eventCallback("onUpdate", () => draw(tl.time()));
+const ease = "power2.out";
+gsap.set("#ctxTag,#ratTag,#hipoTag,#mB,#mT,#notM,#chain,#endTitle,#bottle,#chips,#results,#endNote,#okB,#okT,#c1,#c2,#c3", { opacity: 0 });
+const pop = (sel, at, d = 0.25) => tl.fromTo(sel, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: d, ease: "steps(4)" }, at);
+const out = (sel, at, d = 0.2) => tl.to(sel, { opacity: 0, duration: d, ease: "steps(3)" }, at);
+
+// S1 hook (frame 0)
+tl.fromTo("#hook", { opacity: 0.9 }, { opacity: 1, duration: 0.3, ease: "none" }, 0);
+tl.fromTo("#hook em", { color: "#FFEC27" }, { color: "#FFA300", duration: 0.25, repeat: 7, yoyo: true, ease: "steps(1)" }, 0.2);
+out("#hook", C.s2 - 0.15, 0.2);
+// S2 rat study + zoom to hippocampus
+pop("#ratTag", C.s2);
+pop("#hipoTag", C.hipo - 0.6);
+out(["#ratTag"], C.hipo + 0.35, 0.15);
+pop("#ctxTag", C.bdnf); out("#ctxTag", C.s5 - 0.15, 0.2);
+out("#hipoTag", C.bdnf - 0.15, 0.15);
+// BDNF meter
+pop("#mB", C.bdnf - 0.05);
+const fB = document.getElementById("fB"), vB = document.getElementById("vB");
+tl.fromTo(fB, { width: "0%" }, { width: `${100 / 1.7}%`, duration: 0.4, ease: "steps(8)" }, C.bdnf + 0.1);
+const vb = { v: 1 }; tl.fromTo(vb, { v: 1 }, { v: 1.4, duration: 0.7, ease: "steps(4)", onUpdate: () => { vB.textContent = vb.v.toFixed(1).replace(".", ",") + "×"; } }, C.kirk);
+tl.to(fB, { width: `${(1.4 / 1.7) * 100}%`, duration: 0.7, ease: "steps(8)" }, C.kirk);
+pop("#okB", C.kirk + 0.7);
+// TrkB meter
+pop("#mT", C.trek - 0.15);
+const fT = document.getElementById("fT"), vT = document.getElementById("vT");
+tl.fromTo(fT, { width: "0%" }, { width: `${100 / 1.7}%`, duration: 0.4, ease: "steps(8)" }, C.trek);
+const vt = { v: 1 }; tl.fromTo(vt, { v: 1 }, { v: 1.6, duration: 0.8, ease: "steps(6)", onUpdate: () => { vT.textContent = vt.v.toFixed(1).replace(".", ",") + "×"; } }, C.altmis);
+tl.to(fT, { width: `${(1.6 / 1.7) * 100}%`, duration: 0.8, ease: "steps(8)" }, C.altmis);
+pop("#okT", C.altmis + 0.35);
+out(["#mB", "#mT"], C.s4 + 0.25, 0.2);
+// S4 not measured roles
+pop("#notM", C.s4 + 0.35);
+out("#notM", C.s5 - 0.15, 0.2);
+// S5 chain
+pop("#chain", C.s5 - 0.05, 0.3);
+gsap.set(["#n1", "#n2"], { borderColor: "#FFF1E8" });
+tl.fromTo(["#n1 .st", "#n2 .st"], { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.2, ease: "steps(2)" }, C.olctu - 0.1);
+tl.set("#n1", { attr: { class: "node m" } }, C.olctu - 0.1); tl.set("#n2", { attr: { class: "node m" } }, C.olctu + 0.1);
+tl.fromTo("#n3 .st", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "steps(2)" }, C.degil - 0.65);
+tl.fromTo("#n3", { x: 0 }, { x: 8, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, C.degil);
+out("#chain", C.s6 - 0.35, 0.15);
+// S6 end card: product + Janoshik report of THIS sample
+tl.to("#endBg", { opacity: 1, duration: 0.1, ease: "steps(2)" }, C.s6 - 0.12);
+tl.to("#px", { opacity: 0, duration: 0.2, ease: "steps(3)" }, C.s6 + 0.05);
+pop("#endTitle", C.s6 + 0.05);
+tl.fromTo("#bottle", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.35, ease }, C.s6 + 0.1);
+pop("#chips", C.s6 + 0.2, 0.1);
+pop("#c1", C.s6 + 0.25); pop("#c2", C.doksan - 0.1); pop("#c3", C.janosik - 0.1);
+tl.fromTo("#results", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease }, C.s6 + 0.5);
+tl.fromTo("#endNote", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, C.s6 + 0.3);
+
+// captions (hook text is the S1 caption)
+const caps = document.getElementById("caps");
+window.CHUNKS.forEach((ch) => {
+  if (ch.s < C.s2 - 0.05) return;
+  const light = ch.s >= C.s6 - 0.05;
+  const el = document.createElement("div"); el.className = "cap" + (light ? " light" : "");
+  el.innerHTML = ch.words.map((w) => `<span class="w">${w.w}</span>`).join(" "); caps.appendChild(el);
+  tl.set(el, { opacity: 1 }, ch.s); tl.set(el, { opacity: 0 }, Math.min(ch.e, END));
+  const hl = light ? "#C21F39" : "#FFEC27", base = light ? "#17191C" : "#FFF1E8";
+  el.querySelectorAll(".w").forEach((sp, k) => { tl.set(sp, { color: hl }, ch.words[k].s); if (k + 1 < ch.words.length) tl.set(sp, { color: base }, ch.words[k + 1].s); });
+});
+
+tl.set({}, {}, END);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+tl.seek(0); draw(0);
+</script>
+</body>
+</html>

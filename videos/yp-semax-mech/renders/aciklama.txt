@@ -1,0 +1,13 @@
+Semax sinir hücrelerini nasıl etkiliyor olabilir? 🧠
+
+Videodaki mekanizma tek bir yayımlanmış çalışmadan: Dolotov OV ve ark. (2006). "Semax, an analog of ACTH(4-10) with cognitive effects, regulates BDNF and trkB expression in the rat hippocampus." Brain Research 1117(1):54–60.
+🔗 https://pubmed.ncbi.nlm.nih.gov/16996037/
+
+• Bu bir SIÇAN çalışmasıdır: burundan verilen tek doz Semax'tan sonra hipokampusta BDNF proteini ~1,4 kat, BDNF reseptörü TrkB'nin aktivasyonu (tirozin fosforilasyonu) ~1,6 kat arttı.
+• Araştırmacıların doğrudan ölçtüğü adımlar bunlar. BDNF–TrkB yolunun nöronların hayatta kalması ve bağlantı kurmasıyla ilişkisi genel literatüre dayanır; bu çalışmada ölçülmemiştir.
+• İnsanlarda aynı etki bu çalışmayla gösterilmemiştir.
+
+Bu şişe için ölçülen: Janoshik analizi, rapor no. 248063 (29 Ekim 2026) — Semax 0,45 mg/ml, saflık %99,237. Analiz numunenin içeriğini ve saflığını ölçer; etkisini değil.
+Raporu doğrula: janoshik.com/verify · anahtar U8YE4DJ1CMX2
+
+Yalnızca araştırma amaçlıdır.

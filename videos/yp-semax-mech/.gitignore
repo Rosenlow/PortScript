@@ -1,0 +1,6 @@
+node_modules/
+renders/scenes/
+qa/frames/
+scenes/main/assets/vendor/
+scenes/main/assets/fonts/
+audio/voice16k.wav

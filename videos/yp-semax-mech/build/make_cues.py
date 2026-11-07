@@ -22,7 +22,7 @@ c["s4"] = at("bu", c["altmis"]); c["hayatta"] = at("sağkalımı"); c["baglanti"
 c["s5"] = at("araştırmacılar"); c["olctu"] = at("ölçtü"); c["degil"] = at("değil")
 c["s6"] = at("bu", c["degil"]); c["janosik"] = at("janoşik"); c["doksan"] = at("yüzde", c["janosik"])
 c["voiceEnd"] = W[-1]["e"]
-c["end"] = round(c["voiceEnd"] + 0.9, 2)
+c["end"] = round(c["voiceEnd"] + 1.5, 2)
 # display spelling
 RULES = [  # spoken tokens -> display text
  (["bi", "di", "en", "ef"], "BDNF"), (["trek", "bi'nin"], "TrkB'nin"), 

@@ -5,3 +5,5 @@ bake/out/
 renders/parts/
 renders/*.mp4
 audio/*.wav
+!renders/teleport-10x.mp4
+renders/teleport-10x-master.mp4

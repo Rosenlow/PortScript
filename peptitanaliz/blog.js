@@ -31,7 +31,7 @@ window.PA_BLOG = [
       '<section><h2>Piyasadaki ürünler ve analiz neden önemli</h2>' +
       '<p>“Araştırma amaçlı” satılan peptitler ilaç denetiminden geçmez. Flakonun içinde etikette yazan maddenin, yazan miktarda bulunup bulunmadığını etikete bakarak bilemezsiniz. Bunu yalnızca bir laboratuvar analizi gösterir.</p>' +
       '<p>Bir analiz raporu üç soruya bakar: madde doğru mu (kimlik), ne kadar var (miktar) ve ne kadar saf (saflık). Sonuç yalnızca analiz edilen numune ve o lot için geçerlidir. Rapor, ürünün güvenli ya da etkili olduğunu söylemez.</p>' +
-      '<p>Raporların nasıl okunacağını <a href="{{blog-peptit-analiz-raporu-nasil-okunur}}">Peptit analiz raporu nasıl okunur?</a> yazısında anlattık. BPC-157 için arşivde bulunan raporlar bu sayfanın altında listeleniyor.</p></section>' +
+      '<p>Raporların nasıl okunacağını <a href="{{blog-peptit-analiz-raporu-nasil-okunur}}">Peptit analiz raporu nasıl okunur?</a> yazısında anlattık. BPC-157 için arşive giren raporlar bu sayfanın altında listelenir.</p></section>' +
 
       '<section><h2>Kaynaklar</h2><ul>' +
       '<li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=BPC+157" target="_blank" rel="noopener">PubMed’de BPC 157 üzerine yayınlar ↗</a></li>' +

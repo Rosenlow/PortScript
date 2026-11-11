@@ -26,6 +26,7 @@
   DATA.markalar.forEach(function (m) { markaBySlug[m.slug] = m; });
   var RAPORLAR = DATA.raporlar.slice().sort(function (a, b) { return a.tarih < b.tarih ? 1 : -1; });
   var raporBySlug = {};
+  var HAS_DEMO = RAPORLAR.some(function (r) { return r.demo; });
   RAPORLAR.forEach(function (r) {
     raporBySlug[r.slug] = r;
     /* Derişim + belgelenmiş hacim varsa toplam miktar hesaplanır; hacim yoksa karşılaştırma yapılmaz. */
@@ -188,6 +189,10 @@
   }
   /* Kapağın sağ yanı: gerçek fotoğraf ya da belge önizlemesi, yoksa demo için temsili görsel, o da yoksa grafik. */
   function coverMedia(r, zoom) {
+    /* Ana sayfa kapağında numune fotoğrafı, rapor sayfasında belge önizlemesi öne geçer. */
+    if (!zoom && r.foto) {
+      return '<figure class="cover-media"><img src="' + esc(asset(r.foto)) + '" alt="' + esc(r.fotoAlt || '') + '" style="object-position:center 60%"><figcaption>' + esc(r.fotoAlt || '') + '</figcaption></figure>';
+    }
     if (r.gorsel) {
       var img = '<img src="' + esc(asset(r.gorsel)) + '" alt="' + esc(r.gorselAlt || '') + '">';
       return '<figure class="cover-media">' +
@@ -232,7 +237,7 @@
       '<section class="wrap band" aria-labelledby="h-son"><div class="band-head"><h2 id="h-son">Son yayımlanan raporlar</h2>' +
         '<a class="more" href="' + href('raporlar') + '">Tüm raporlar →</a></div>' +
         '<ul class="files">' + RAPORLAR.slice(0, 6).map(fileRow).join('') + '</ul>' +
-        '<p class="muted">Demo kayıtlardaki ürün görselleri temsilidir. <a href="' + href('raporlar') + '">' + RAPORLAR.length + ' raporun tümünü filtrele</a>.</p>' +
+        (HAS_DEMO ? '<p class="muted">Demo kayıtlardaki ürün görselleri temsilidir. <a href="' + href('raporlar') + '">' + RAPORLAR.length + ' raporun tümünü filtrele</a>.</p>' : '') +
       '</section>' +
       (BLOG.length ? '<section class="wrap band" aria-labelledby="h-blog"><div class="band-head"><h2 id="h-blog">Blogdan</h2>' +
         '<a class="more" href="' + href('blog') + '">Tüm yazılar →</a></div><ul class="posts">' + BLOG.slice(0, 3).map(postRow).join('') + '</ul></section>' : '') +
@@ -396,7 +401,7 @@
         '<li>Rapor miktarı başka bir birimle veriyorsa (örneğin mg/ml derişim) etiket beyanıyla karşılaştırma yapılmaz.</li>' +
         '<li>Raporda bulunmayan ölçüme “Raporda belirtilmemiş” yazılır. Yalnızca saflık sonucu olan bir kayıt miktar açısından değerlendirilmez.</li>' +
         '</ul></section>' +
-      '<section><h2>Belgeler ve görseller</h2><p>Her kayıtta orijinal rapor belgesi ve varsa laboratuvarın kendi doğrulama bağlantısı yer alır. Belge yoksa bu açıkça yazılır. Demo kayıtlardaki ürün görselleri temsilidir ve böyle işaretlenir.</p></section>' +
+      '<section><h2>Belgeler ve görseller</h2><p>Her kayıtta orijinal rapor belgesi ve varsa laboratuvarın kendi doğrulama bağlantısı yer alır. Belge yoksa bu açıkça yazılır.' + (HAS_DEMO ? ' Demo kayıtlardaki ürün görselleri temsilidir ve böyle işaretlenir.' : '') + '</p></section>' +
       '<section><h2>Marka yanıtları</h2><p>Etiket beyanından sapan bir sonuç yayımlandığında ilgili marka yanıt verebilir. Yanıt, tarihiyle birlikte ve içeriği değiştirilmeden rapor sayfasında yayımlanır. Markanın ilettiği yeni rapor ayrı bir kayıt olarak eklenir; önceki kayıt silinmez.</p></section>' +
       '<section><h2>Düzeltmeler</h2><p>Yanlış girilen bir değer, tarih ya da kaynak bilgisi düzeltilir. Her düzeltme, neyin değiştiği ve tarihiyle birlikte rapor sayfasında kalır. Yayımlanan kayıtlar sessizce değiştirilmez ya da kaldırılmaz.</p></section>' +
       '<section><h2>Satış ve tavsiye</h2><p class="notice">' + NOTICE + '</p><p>Sitede satıcı bağlantısı ya da ürün tavsiyesi bulunmaz. Raporlar kullanım önerisi değildir.</p></section>' +
@@ -476,7 +481,7 @@
     BLOG.forEach(function (p) { list.push('blog-' + p.slug); });
     return list;
   }
-  if (!HAS_DOM) { module.exports = { render: render, routes: routes, href: href }; return; }
+  if (!HAS_DOM) { module.exports = { render: render, routes: routes, href: href, hasDemo: HAS_DEMO }; return; }
 
   function route() {
     var v = render(decodeURIComponent(location.hash.replace(/^#/, '')));

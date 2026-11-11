@@ -1,5 +1,6 @@
 /* Peptit Analiz — siteyi üretir. Bağımlılık yok: `node build.js`
    - dist/                     yayımlanacak statik site (her rapor, marka ve yazı kendi adresinde)
+   - demo kayıtlar yayına girmez; `--demo` ile dist/ içinde de tutulur
    - `node build.js --tek-dosya <yol>`  ayrıca # adresli tek dosyalık önizleme üretir */
 'use strict';
 const fs = require('fs');
@@ -13,11 +14,18 @@ const NOTICE = 'Peptit Analiz’de ürün satışı yapılmaz. Platform, farklı
 const read = (f) => fs.readFileSync(path.join(SRC, f), 'utf8');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-function load(isStatic) {
+const KEEP_DEMO = process.argv.includes('--demo');
+let dataJs = '';
+function load(isStatic, keepDemo) {
   ['data.js', 'blog.js', 'app.js'].forEach((f) => delete require.cache[require.resolve(path.join(SRC, f))]);
   global.window = global;
   global.PA_STATIC = isStatic;
   require(path.join(SRC, 'data.js'));
+  if (!keepDemo) {
+    global.PA_DATA.raporlar = global.PA_DATA.raporlar.filter((r) => !r.demo);
+    global.PA_DATA.markalar = global.PA_DATA.markalar.filter((m) => !m.demo);
+  }
+  dataJs = 'window.PA_DATA = ' + JSON.stringify(global.PA_DATA) + ';\n';
   require(path.join(SRC, 'blog.js'));
   return require(path.join(SRC, 'app.js'));
 }
@@ -43,8 +51,7 @@ function body(PA, view) {
   <div class="wrap foot-row">
     <span class="logo small">PEPTİT<i>/</i>ANALİZ</span>
     <span>${NOTICE}</span>
-    <span>“Demo veri” etiketli kayıtlar hayalîdir.</span>
-    <a href="${PA.href('blog')}">Blog</a>
+${PA.hasDemo ? '    <span>“Demo veri” etiketli kayıtlar hayalîdir.</span>\n' : ''}    <a href="${PA.href('blog')}">Blog</a>
     <a href="${PA.href('yayin-ilkeleri')}">Yayın ilkeleri</a>
   </div>
 </footer>
@@ -91,7 +98,8 @@ ${body(PA, view)}<script>window.PA_STATIC = true;</script>
 }
 
 /* ---------- statik site ---------- */
-const PA = load(true);
+const PA = load(true, KEEP_DEMO);
+const distData = dataJs;
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 const sitemap = [];
@@ -103,7 +111,8 @@ for (const name of PA.routes()) {
   if (!view.noindex) sitemap.push(SITE + PA.href(name));
 }
 fs.writeFileSync(path.join(OUT, '404.html'), page(PA, 'bulunamadi', PA.render('bulunamadi')));
-['styles.css', 'data.js', 'app.js'].forEach((f) => fs.copyFileSync(path.join(SRC, f), path.join(OUT, f)));
+['styles.css', 'app.js'].forEach((f) => fs.copyFileSync(path.join(SRC, f), path.join(OUT, f)));
+fs.writeFileSync(path.join(OUT, 'data.js'), distData);
 fs.cpSync(path.join(SRC, 'belgeler'), path.join(OUT, 'belgeler'), { recursive: true });
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
@@ -114,7 +123,7 @@ console.log(`dist/: ${PA.routes().length} sayfa, site haritasında ${sitemap.len
 /* ---------- tek dosyalık önizleme (# adresli) ---------- */
 const i = process.argv.indexOf('--tek-dosya');
 if (i !== -1 && process.argv[i + 1]) {
-  const SPA = load(false);
+  const SPA = load(false, true);
   fs.writeFileSync(process.argv[i + 1], `<title>Peptit Analiz</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="${FONTS}">

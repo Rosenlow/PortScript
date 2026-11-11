@@ -1,0 +1,7 @@
+node_modules/
+qa/
+scratch/
+bake/out/
+renders/parts/
+renders/*.mp4
+audio/*.wav

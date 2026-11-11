@@ -14,7 +14,13 @@
   DATA.markalar.forEach(function (m) { markaBySlug[m.slug] = m; });
   var RAPORLAR = DATA.raporlar.slice().sort(function (a, b) { return a.tarih < b.tarih ? 1 : -1; });
   var raporBySlug = {};
-  RAPORLAR.forEach(function (r) { raporBySlug[r.slug] = r; });
+  RAPORLAR.forEach(function (r) {
+    raporBySlug[r.slug] = r;
+    /* Derişim + belgelenmiş hacim varsa toplam miktar hesaplanır; hacim yoksa karşılaştırma yapılmaz. */
+    if (r.miktarBirim === 'mg/ml' && r.birim === 'mg' && r.hacimMl && r.miktar != null) {
+      r.derisim = r.miktar; r.miktar = Math.round(r.derisim * r.hacimMl * 100) / 100; r.miktarBirim = null;
+    }
+  });
 
   /* ---------- yardımcılar ---------- */
   function esc(s) {
@@ -76,7 +82,7 @@
         lines: ['Raporda ' + der + '.'].concat(r.saflik != null ? ['Saflık %' + num(r.saflik) + '.'] : []),
         kisa: der + (r.saflik != null ? ' · saflık %' + num(r.saflik) : ''),
         satir: 'Raporda ' + der + ' derişim' + (r.saflik != null ? ' ve %' + num(r.saflik) + ' saflık' : '') + ' bildirildi.',
-        dek: 'Rapor miktarı derişim olarak veriyor. Etikette ' + beyanAd(r) + ' beyan ediliyor; iki değer aynı birimde olmadığı için karşılaştırılmadı.' };
+        dek: 'Rapor miktarı derişim olarak veriyor. Etikette ' + beyanAd(r) + ' beyan ediliyor; şişe hacmi belgelenmediği için iki değer karşılaştırılmadı.' };
     }
     return { key: 'olculmedi', alert: false,
       lines: ['Miktar raporda yok.'].concat(r.saflik != null ? ['Saflık %' + num(r.saflik) + '.'] : []),
@@ -133,7 +139,7 @@
       '</g></svg>';
   }
   function thumb(r) {
-    if (r.gorsel) return '<img src="' + esc(r.gorsel) + '" alt="" loading="lazy">';
+    if (r.foto || r.gorsel) return '<img src="' + esc(r.foto || r.gorsel) + '" alt="" loading="lazy">';
     return r.demo ? vial(r) : '';
   }
 
@@ -290,6 +296,7 @@
       ['Kimlik', r.kimlik === 'dogrulandi' ? 'Doğrulandı' : r.kimlik === 'dogrulanamadi' ? 'Doğrulanamadı' : null, 'Beyan edilen madde: ' + r.urun]
     ];
     if (!comparable(r)) olcumler.push(['Miktar', r.miktar != null ? num(r.miktar) + ' ' + r.miktarBirim : null, r.miktar != null ? 'Derişim olarak verilmiş; etiket beyanı ' + beyanAd(r) : 'Etiket beyanı ' + beyanAd(r)]);
+    if (r.derisim != null) olcumler.push(['Derişim', num(r.derisim) + ' mg/ml', 'Toplam miktar = derişim × ' + num(r.hacimMl) + ' ml']);
     olcumler.push(['Saflık', r.saflik != null ? '%' + num(r.saflik) : null, '']);
     var log = [];
     if (r.yanit) log.push({ tarih: r.yanit.tarih, kim: 'Marka yanıtı · ' + markaAd(r), metin: r.yanit.metin });
@@ -313,7 +320,9 @@
             '<div><dt>Raporu sağlayan</dt><dd>' + esc(taraf(r, r.saglayan)) + '</dd></div>' +
             '<div><dt>Analizi yapan laboratuvar</dt><dd>' + esc(labAd(r)) + (r.raporNo ? '<small>Görev numarası ' + esc(r.raporNo) + '</small>' : '') + '</dd></div>' +
             '<div><dt>Rapor tarihi</dt><dd>' + time(r.tarih) + '</dd></div>' +
-          '</dl><p class="notice">' + NOTICE + '</p></section>' +
+          '</dl>' + (r.etiketNotu ? '<p class="muted">' + esc(r.etiketNotu) + '</p>' : '') +
+          (r.foto ? '<figure class="sample"><img src="' + esc(r.foto) + '" alt="' + esc(r.fotoAlt || '') + '" loading="lazy"><figcaption>' + esc(r.fotoAlt || '') + '</figcaption></figure>' : '') +
+          '<p class="notice">' + NOTICE + '</p></section>' +
         '<section aria-labelledby="h-diger"><h2 id="h-diger">Diğer ölçümler</h2><dl class="facts">' +
           olcumler.map(function (o) {
             return '<div><dt>' + o[0] + '</dt><dd' + (o[1] ? '' : ' class="none"') + '>' + esc(o[1] || YOK) + (o[2] && o[1] ? '<small>' + esc(o[2]) + '</small>' : '') + '</dd></div>';

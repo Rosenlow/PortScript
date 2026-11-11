@@ -148,7 +148,7 @@ h2 { font: 700 clamp(1.625rem, 3.2vw, 2.25rem)/1.05 var(--display); letter-spaci
 .files { border-top: 2px solid var(--ink); }
 .file { display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; gap: 0.25rem 1.25rem; align-items: center; padding-block: 0.9rem; border-bottom: 1px solid var(--rule); text-decoration: none; }
 .file .thumb { grid-row: 1 / span 2; width: 6rem; aspect-ratio: 1; background: var(--tone); border-radius: 3px; overflow: hidden; }
-.file .thumb img, .file .thumb svg { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.file .thumb img, .file .thumb svg { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
 .file .thumb svg { transform: scale(1.7); transform-origin: 46% 68%; }
 .file .name { font: 700 1.375rem/1.1 var(--display); align-self: end; }
 .file .name .demo { margin-left: 0.5rem; font-family: var(--sans); }
@@ -198,6 +198,9 @@ h2 { font: 700 clamp(1.625rem, 3.2vw, 2.25rem)/1.05 var(--display); letter-spaci
 .facts dd { font-weight: 600; }
 .facts dd small { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--ink-2); }
 .facts dd.none { font-weight: 400; color: var(--ink-2); }
+.sample { max-width: 20rem; display: grid; gap: 0.4rem; }
+.sample img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 3px; }
+.sample figcaption { font-size: 0.8125rem; color: var(--ink-2); }
 .log { border-top: 2px solid var(--ink); max-width: 52rem; }
 .log li { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 0.25rem 1rem; padding-block: 0.9rem; border-bottom: 1px solid var(--rule); }
 .log time { font-size: 0.875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }

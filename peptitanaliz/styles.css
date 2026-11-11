@@ -1,0 +1,235 @@
+/* Düzen: tek sütunlu araştırma yayını; ölçüm değerleri büyük monospace, satırlar ince çizgilerle hizalı. */
+:root {
+  --paper: #f5f5f0;
+  --raise: #fcfcfa;
+  --ink: #14213d;
+  --ink-2: #4b566f;
+  --rule: #d3d6dc;
+  --rule-strong: #14213d;
+  --red: #9b1c1c;
+  --red-wash: #f6e8e6;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --head: "Archivo", "IBM Plex Sans", "Segoe UI", system-ui, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1rem/1.55 var(--sans);
+}
+h1, h2, h3, p, dl, dd, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+main:focus { outline: none; }
+button, input, select { font: inherit; color: inherit; }
+
+.wrap {
+  display: block;
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-2); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Üst şerit, başlık, alt bilgi */
+.proto { background: var(--ink); color: var(--paper); font-size: 0.8125rem; padding-block: 0.4rem; }
+.site-head { border-bottom: 1px solid var(--rule-strong); }
+.head-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1.5rem; padding-block: 0.9rem; }
+.logo { font: 500 1.25rem/1.2 var(--head); letter-spacing: -0.01em; text-decoration: none; }
+.logo b, .foot-row b { font-weight: 800; }
+.site-head nav { display: flex; gap: 1.25rem; font-size: 0.9375rem; }
+.site-head nav a { text-decoration: none; padding-block: 0.35rem; border-bottom: 2px solid transparent; }
+.site-head nav a:hover, .site-head nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+main.wrap { padding-block: 0 4rem; min-height: 60vh; }
+.site-foot { border-top: 1px solid var(--rule); font-size: 0.875rem; color: var(--ink-2); }
+.foot-row { display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem; padding-block: 1.25rem 2rem; }
+.foot-row span:first-child { color: var(--ink); font-family: var(--head); }
+
+/* Ortak parçalar */
+.demo {
+  display: inline-block; font: 500 0.6875rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-2); border: 1px solid var(--rule); padding: 0.25rem 0.4rem; white-space: nowrap; vertical-align: middle;
+}
+.eyebrow { font: 500 0.75rem/1.3 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.notice {
+  font-size: 0.875rem; line-height: 1.5; color: var(--ink-2);
+  border-left: 2px solid var(--ink); padding-left: 0.75rem; max-width: 44rem;
+}
+.section { padding-top: 3rem; display: grid; gap: 1.25rem; }
+.section > h2, .page-head h1 { font-family: var(--head); letter-spacing: -0.015em; text-wrap: balance; }
+.section > h2 { font-size: 1.5rem; line-height: 1.2; font-weight: 700; padding-bottom: 0.6rem; border-bottom: 1px solid var(--rule-strong); }
+.alert { color: var(--red); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.75rem;
+  padding: 0.6rem 1.1rem; border: 1px solid var(--ink); background: transparent; cursor: pointer;
+  font-weight: 500; text-decoration: none; border-radius: 2px;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn.primary { background: var(--ink); color: var(--paper); font-size: 1.0625rem; padding: 0.8rem 1.4rem; }
+.btn.primary:hover { background: #0b1530; }
+.btn.small { min-height: 2rem; padding: 0.2rem 0.6rem; font-size: 0.8125rem; }
+
+/* Ana sayfa: arama */
+.hero { padding-top: 3rem; display: grid; gap: 1.25rem; }
+.hero h1 { font: 800 clamp(2rem, 6.4vw, 3.75rem)/1.04 var(--head); letter-spacing: -0.03em; max-width: 16ch; text-wrap: balance; }
+.search { position: relative; max-width: 46rem; }
+.search input {
+  width: 100%; min-height: 3.5rem; padding: 0.75rem 1rem; font-size: 1.0625rem;
+  background: var(--raise); border: 1.5px solid var(--ink); border-radius: 2px;
+}
+.search input::placeholder { color: var(--ink-2); opacity: 1; }
+.suggest {
+  position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% - 1.5px);
+  background: var(--raise); border: 1.5px solid var(--ink); border-radius: 0 0 2px 2px;
+  box-shadow: 0 10px 24px rgba(20, 33, 61, 0.12);
+}
+.suggest a { display: grid; gap: 0.1rem; padding: 0.65rem 1rem; text-decoration: none; border-top: 1px solid var(--rule); }
+.suggest li:first-child a { border-top: 0; }
+.suggest a:hover, .suggest a:focus-visible { background: var(--paper); }
+.suggest .s-name { font-weight: 600; }
+.suggest .s-meta { font-size: 0.8125rem; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 0.15rem 0.75rem; }
+.suggest .s-none, .suggest .s-all { padding: 0.65rem 1rem; font-size: 0.875rem; color: var(--ink-2); border-top: 1px solid var(--rule); }
+.suggest .s-none { border-top: 0; }
+
+/* Öne çıkan bulgu */
+.finding { background: var(--raise); border: 1px solid var(--rule-strong); border-radius: 2px; padding: clamp(1.1rem, 3.5vw, 2rem); display: grid; gap: 1.25rem; }
+.finding-top { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; justify-content: space-between; align-items: center; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; }
+.pair > div { display: grid; gap: 0.35rem; align-content: start; min-width: 0; }
+.pair > div + div { border-left: 1px solid var(--rule); padding-left: clamp(0.9rem, 3vw, 2rem); }
+.pair .k { font-size: 0.875rem; color: var(--ink-2); }
+.pair .v { font: 600 clamp(2rem, 9.5vw, 4.75rem)/1 var(--mono); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pair .v small { font-size: 0.45em; letter-spacing: 0; font-weight: 500; margin-left: 0.15em; }
+.pair .v.none { font-size: clamp(1.25rem, 5vw, 2rem); letter-spacing: -0.01em; color: var(--ink-2); line-height: 1.6; }
+.pair .delta { font: 500 0.875rem/1.3 var(--mono); }
+.finding-foot { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: space-between; align-items: end; border-top: 1px solid var(--rule); padding-top: 1rem; }
+.finding-foot .what { display: grid; gap: 0.2rem; min-width: 0; }
+.finding-foot .what strong { font: 700 1.125rem/1.3 var(--head); }
+.finding-foot .go { font-weight: 600; white-space: nowrap; }
+.also { display: grid; }
+.also li { display: flex; flex-wrap: wrap; gap: 0.15rem 1rem; justify-content: space-between; padding-block: 0.6rem; border-bottom: 1px solid var(--rule); font-size: 0.9375rem; }
+.also .mono { font-size: 0.875rem; }
+
+/* Arşiv */
+.toolbar { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); gap: 0.75rem; align-items: end; }
+.toolbar label { display: grid; gap: 0.25rem; font-size: 0.8125rem; color: var(--ink-2); min-width: 0; }
+.toolbar input, .toolbar select {
+  width: 100%; min-height: 2.75rem; padding: 0.4rem 0.6rem; font-size: 0.9375rem; color: var(--ink);
+  background: var(--raise); border: 1px solid var(--ink-2); border-radius: 2px;
+}
+.status { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: space-between; font-size: 0.875rem; color: var(--ink-2); min-height: 2rem; }
+.rows { width: 100%; border-collapse: collapse; }
+.rows th { text-align: left; font: 500 0.75rem/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); padding: 0 0.75rem 0.5rem 0; border-bottom: 1px solid var(--rule-strong); white-space: nowrap; }
+.rows td { padding: 0.8rem 0.75rem 0.8rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; font-size: 0.9375rem; }
+.rows th:last-child, .rows td:last-child { padding-right: 0; text-align: right; white-space: nowrap; }
+.rows tbody tr { cursor: pointer; }
+.rows tbody tr:hover { background: var(--raise); }
+.rows .c-name a { font-weight: 600; text-decoration: none; }
+.rows .c-name a:hover { text-decoration: underline; }
+.rows .c-name .brand { display: block; font-size: 0.8125rem; color: var(--ink-2); }
+.rows .c-name .demo { margin-left: 0.5rem; }
+.rows .c-lot { font-family: var(--mono); font-size: 0.875rem; white-space: nowrap; }
+.rows .c-find b { font-weight: 600; display: block; }
+.rows .c-find span { font: 400 0.8125rem/1.4 var(--mono); color: var(--ink-2); }
+.rows .c-find.alert span { color: var(--red); }
+.rows .c-date { font-family: var(--mono); font-size: 0.875rem; }
+.empty { border: 1px dashed var(--ink-2); padding: 1.5rem; display: grid; gap: 0.75rem; justify-items: start; }
+.empty strong { font: 700 1.125rem/1.3 var(--head); overflow-wrap: anywhere; }
+
+/* Sayfa başlıkları */
+.crumb { padding-top: 1.5rem; font-size: 0.875rem; color: var(--ink-2); }
+.page-head { padding-top: 1rem; display: grid; gap: 0.75rem; }
+.page-head h1 { font-size: clamp(1.75rem, 5.5vw, 2.75rem); line-height: 1.08; font-weight: 800; }
+.page-head h1 .brand { display: block; font-size: 0.5em; font-weight: 600; letter-spacing: 0; line-height: 1.4; }
+.page-head .lede { max-width: 44rem; color: var(--ink-2); }
+
+/* Rapor sayfası */
+.lot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
+.lot .k { font-size: 0.875rem; color: var(--ink-2); }
+.lot code { font: 600 clamp(1.125rem, 5vw, 1.5rem)/1.2 var(--mono); letter-spacing: -0.01em; user-select: all; overflow-wrap: anywhere; }
+.verdict { font-size: 1rem; max-width: 44rem; }
+.verdict b { font-weight: 600; }
+.report-block { margin-top: 1.5rem; background: var(--raise); border: 1px solid var(--rule-strong); border-radius: 2px; }
+.report-block .pair { padding: clamp(1rem, 3.5vw, 1.75rem); }
+.fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong); }
+.fields > div { padding: 0.9rem clamp(1rem, 3.5vw, 1.75rem); display: grid; gap: 0.15rem; align-content: start; min-width: 0; }
+.fields > div + div { border-left: 1px solid var(--rule); }
+.fields dt { font: 500 0.75rem/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); }
+.fields dd.val { font: 600 1.25rem/1.3 var(--mono); font-variant-numeric: tabular-nums; }
+.fields dd.val.none { color: var(--ink-2); font-weight: 500; }
+.fields dd.note { font-size: 0.8125rem; color: var(--ink-2); }
+.source { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+.source > div { display: grid; grid-template-columns: minmax(8rem, 0.9fr) minmax(0, 1.1fr); gap: 0.75rem; padding-block: 0.65rem; border-bottom: 1px solid var(--rule); }
+.source dt { font-size: 0.875rem; color: var(--ink-2); }
+.source dd { font-weight: 500; }
+.actions { display: grid; gap: 0.75rem; justify-items: start; }
+.actions .nodoc { border: 1px dashed var(--ink-2); padding: 0.8rem 1rem; max-width: 44rem; }
+.log { display: grid; }
+.log li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 0.25rem 1rem; padding-block: 0.8rem; border-bottom: 1px solid var(--rule); }
+.log time { font: 500 0.875rem/1.6 var(--mono); color: var(--ink-2); }
+.log p { max-width: 40rem; }
+.log .who { font-weight: 600; display: block; }
+
+/* Markalar, ilkeler, belge */
+.brand-list li { border-bottom: 1px solid var(--rule); }
+.brand-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.2rem 1rem; padding-block: 0.9rem; text-decoration: none; }
+.brand-list a:hover strong { text-decoration: underline; }
+.brand-list strong { font: 700 1.125rem/1.3 var(--head); }
+.brand-list span { font-size: 0.875rem; color: var(--ink-2); }
+.brand-list .last { font-family: var(--mono); text-align: right; }
+.facts { display: flex; flex-wrap: wrap; gap: 0.5rem 2.5rem; }
+.facts div { display: grid; }
+.facts dt { font-size: 0.8125rem; color: var(--ink-2); }
+.facts dd { font: 600 1.5rem/1.3 var(--mono); }
+.prose { display: grid; gap: 2rem; max-width: 42rem; padding-top: 2rem; }
+.prose section { display: grid; gap: 0.6rem; }
+.prose h2 { font: 700 1.25rem/1.25 var(--head); }
+.prose ul { display: grid; gap: 0.4rem; }
+.prose li { padding-left: 1rem; position: relative; }
+.prose li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.4rem; height: 1px; background: var(--ink); }
+.sheet { margin-top: 1.5rem; border: 1px dashed var(--ink-2); padding: clamp(1.25rem, 5vw, 3rem); display: grid; gap: 1rem; max-width: 44rem; }
+.sheet h1 { font: 800 1.5rem/1.2 var(--head); }
+
+@media (max-width: 760px) {
+  .hero { padding-top: 2rem; }
+  .section { padding-top: 2.25rem; }
+  .toolbar { grid-template-columns: 1fr 1fr; }
+  .toolbar .t-q { grid-column: 1 / -1; }
+  .toolbar .t-find { grid-column: 1 / -1; }
+  .rows, .rows tbody { display: block; }
+  .rows thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .rows tbody tr {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.3rem 0.75rem;
+    grid-template-areas: "name name" "lot date" "find find" "lab lab";
+    padding-block: 0.9rem; border-bottom: 1px solid var(--rule);
+  }
+  .rows tbody tr:first-child { border-top: 1px solid var(--rule-strong); }
+  .rows td { display: block; padding: 0; border: 0; }
+  .rows .c-name { grid-area: name; font-size: 1rem; }
+  .rows .c-lot { grid-area: lot; }
+  .rows .c-date { grid-area: date; }
+  .rows .c-find { grid-area: find; }
+  .rows .c-find b { display: inline; margin-right: 0.5rem; }
+  .rows .c-lab { grid-area: lab; font-size: 0.8125rem; color: var(--ink-2); }
+  .rows .c-lab::before { content: "Laboratuvar: "; }
+  .fields { grid-template-columns: 1fr; }
+  .fields > div { grid-template-columns: 5.5rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; }
+  .fields > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+  .fields dd.note { grid-column: 2; }
+  .source { grid-template-columns: 1fr; }
+  .log li { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .rows tbody tr, .site-head nav a { transition: background-color 0.12s, border-color 0.12s, color 0.12s; }
+}

@@ -36,13 +36,14 @@ void spiral(vec3 q, float type, float seed, out vec3 em, out float kap){
   float ph = th - lr;
   float arm = max(pow(0.5+0.5*cos(2.0*ph + wob), 2.4), 0.5*pow(0.5+0.5*cos(4.0*ph + 1.3 + wob*1.7), 4.0)) * smoothstep(3.0, 7.0, r);
   float armD = max(pow(0.5+0.5*cos(2.0*ph + wob + 0.45), 2.4), 0.5*pow(0.5+0.5*cos(4.0*ph + 1.75 + wob*1.7), 4.0)) * smoothstep(2.5, 6.0, r);
-  float n = fbm(q*vec3(0.45,0.45,1.4)+seed), nh = vn3(q*vec3(1.6,1.6,3.0)+seed*2.0);
+  float n = fbm(q*vec3(0.45,0.45,1.4)+seed); vec2 r1 = vec2(0.8*q.x-0.6*q.y, 0.6*q.x+0.8*q.y), r2 = vec2(0.33*q.x+0.94*q.y, -0.94*q.x+0.33*q.y);
+  float nh = 0.55*vn3(vec3(r1*1.5, q.z*3.0)+seed*2.0) + 0.45*vn3(vec3(r2*2.6, q.z*3.0)+seed) + 0.12;
   float sz = sech2(z/(0.45*thin)), szy = sech2(z/(0.24*thin)), szd = sech2(z/(0.15*thin));
   em += vec3(1.0,0.76,0.48) * exp(-r/24.0)*edge * sz * (0.22 + 0.75*arm) * (0.4+1.2*n) * 0.9;
   float yd = exp(-r/38.0)*edge*szy;
   em += vec3(0.36,0.56,1.0) * yd * arm * (0.15+2.4*n*n) * 2.6;
   em += vec3(0.78,0.88,1.0) * smoothstep(0.72,0.93, nh) * arm * yd * 3.8;
-  em += vec3(1.0,0.28,0.42) * smoothstep(0.82,0.95, vn3(q*vec3(2.3,2.3,3.0)+11.0+seed)) * arm*arm * yd * 4.5;
+  em += vec3(1.0,0.28,0.42) * smoothstep(0.74,0.9, 0.5*vn3(vec3(r2*2.1, q.z*3.0)+11.0+seed)+0.5*vn3(vec3(r1*3.3, q.z*3.0)+5.0)+0.1) * arm*arm * yd * 4.5;
   float cb = cos(0.45+seed), sb = sin(0.45+seed); vec2 bq = vec2(cb*q.x+sb*q.y, -sb*q.x+cb*q.y); float bs = type > 2.5 ? 0.6 : 1.0;
   float rb = length(vec3(bq.x/(3.4*bs), bq.y/(1.6*bs), z/(1.2*bs)));
   em += vec3(1.0,0.75,0.46) * (3.0*exp(-rb*2.2) + 9.0*exp(-rb*7.0));

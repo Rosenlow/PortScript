@@ -255,7 +255,7 @@ export function buildSpace(tl, renderer) {
     setCamera(camera, c) { camera.position.set(0, 0, 0); const [n] = this.range(c.stop); camera.near = c.stop <= 10 ? n : 0.1; camera.far = 60000; camera.updateProjectionMatrix(); camera.updateMatrixWorld(); },
     renderDynamic(renderer, rt, camera, c) {
       const { t, stop, gain } = c; const cam = P[stop];
-      for (const m of skyMats) m.uniforms.gain.value = (stop <= 19 ? 0.85 : 1.0) * gain;
+      for (const m of skyMats) m.uniforms.gain.value = ({ 20: 1.3, 21: 1.6, 22: 2.6, 23: 2.6, 25: 1.15 }[stop] ?? 0.9) * gain;
       // stars
       for (const k in cats) if (cats[k]) cats[k].pts.visible = false;
       const cat = stop <= 19 ? cats.A : stop === 20 ? cats.B : stop === 21 ? cats.C : null;
@@ -265,11 +265,11 @@ export function buildSpace(tl, renderer) {
       const sg = sunGlare[stop]; sunSpr.visible = sunCore.visible = !!sg;
       if (sg) { const d = norm(sub(W.sun, cam)); const D = 30000; sunSpr.position.set(d[0] * D, d[1] * D, d[2] * D); sunSpr.scale.setScalar(D * sg[0]); sunSpr.material.opacity = sg[1]; sunCore.position.copy(sunSpr.position); sunCore.scale.setScalar(D * Math.max(0.012, sg[0] * 0.035)); }
       // galaxies + map
-      if (gal) { gal.visible = stop >= 21 && stop <= 25; const q = toM(cam); gal.material.uniforms.camP.value.set(...q); gal.material.uniforms.gain.value = stop === 21 ? 0.5 : stop === 22 ? 0.8 : 1.0; }
+      if (gal) { gal.visible = stop >= 21 && stop <= 25; const q = toM(cam); gal.material.uniforms.camP.value.set(...q); gal.material.uniforms.gain.value = stop === 21 ? 0.6 : stop === 22 ? 1.1 : stop === 25 ? 1.2 : 1.7; }
       const mapOn = stop >= 26 ? 1 : stop === 25 ? sstep(575.0, 576.2, t) : 0;
       if (dots.A) { dots.A.visible = stop === 25 && mapOn > 0; const u = dots.A.material.uniforms; u.camP.value.set(...toM(cam)); u.alphaK.value = mapOn; u.reveal.value = 1e9; u.sizeK.value = 600; }
       if (dots.B) { dots.B.visible = mapOn > 0; const u = dots.B.material.uniforms; u.camP.value.set(0, 0, 0); u.alphaK.value = 0.95 * mapOn; u.reveal.value = stop === 25 ? lerp(30, 1500, Math.pow(sstep(575.3, 579.2, t), 1.6)) : 1e9; u.sizeK.value = 700; }
-      if (dots.C) { dots.C.visible = true; const u = dots.C.material.uniforms; u.camP.value.set(0, 0, 0); u.alphaK.value = stop === 26 ? 0.22 : 0.4; u.sizeK.value = 2200; u.reveal.value = 1e9; u.tint.value.setRGB(0.5, 0.7, 0.95); }
+      if (dots.C) { dots.C.visible = true; const u = dots.C.material.uniforms; u.camP.value.set(0, 0, 0); u.alphaK.value = stop === 26 ? 0.10 : 0.16; u.sizeK.value = 2200; u.reveal.value = 1e9; u.tint.value.setRGB(0.5, 0.7, 0.95); }
       renderer.setRenderTarget(rt); const ac = renderer.autoClear; renderer.autoClear = false; renderer.render(dyn, camera); renderer.autoClear = ac;
       const near = stop <= 12; const eDir = norm(sub(W.earthC, cam));
       return { bloom: stop <= 15 ? 0.55 : 0.4, threshold: 0.75, radius: 0.7, vig: 0.3, grain: 0.022,

@@ -85,7 +85,7 @@
       dek: lotOncesi(r) + (r.saflik != null ? ' yalnızca saflık ölçüldü.' : ' miktar ölçülmedi.') + ' Miktar açısından değerlendirme yapılmadı.' };
   }
 
-  /* Türkçe harfleri ve ayraçları yok sayan arama: "yg slk", "YGSLK0690", "kirlangic" eşleşir. */
+  /* Türkçe harfleri ve ayraçları yok sayan arama: "yg slk", "YGSLK0690", "kestrel" eşleşir. */
   function norm(s) {
     return String(s).toLocaleLowerCase('tr')
       .replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c')

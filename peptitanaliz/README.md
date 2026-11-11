@@ -4,7 +4,8 @@ peptitanaliz.com için analiz raporu arşivi prototipi. Derleme adımı yok; sta
 
 - `index.html` — sayfa iskeleti
 - `styles.css` — görsel dil
-- `data.js` — kayıtlar (şu an tamamı hayalî, `demo: true`)
+- `data.js` — kayıtlar (`demo: true` olanlar hayalî; Young Pharma kaydı gerçek rapordan)
+- `belgeler/` — gerçek kayıtların rapor belgeleri
 - `app.js` — arama, filtreler, sayfalar
 
 Çalıştırmak için `index.html` dosyasını tarayıcıda açmak ya da klasörü herhangi bir statik sunucuyla yayımlamak yeterli.

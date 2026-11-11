@@ -4,17 +4,30 @@
    - gonderen / saglayan: { tur: 'platform' | 'marka' | 'okuyucu' } ya da null (Belirtilmemiş)
    - lab: laboratuvar adı ya da null (Belirtilmemiş)
    - kimlik: 'dogrulandi' | 'dogrulanamadi' | null (Ölçülmedi)
-   - miktar / saflik: sayı ya da null (Ölçülmedi). miktar, beyan ile aynı birimdedir.
-   - belgeUrl / dogrulamaUrl: laboratuvarın yayımladığı gerçek adres ya da null. */
+   - miktar / saflik: sayı ya da null (Raporda belirtilmemiş).
+   - miktarBirim: rapor miktarı etiketten farklı bir birimle veriyorsa (ör. 'mg/ml'). Bu durumda
+     beyanla karşılaştırma yapılmaz, grafik çizilmez.
+   - belgeUrl / dogrulamaUrl: gerçek belge adresi ya da null. Görsel bir belge sayfada büyütülerek açılır.
+   - gorsel / gorselAlt: numune fotoğrafı ya da rapor önizlemesi. Demo kayıtlarda yoksa temsili çizim kullanılır.
+   - kapak: true olan kayıt ana sayfa kapağında yer alır. */
 window.PA_DATA = {
   tolerans: 10, // etiket beyanından ±% kaç sapma "miktar sapması" sayılır
   markalar: [
-    { slug: 'tuzgolu-peptit', ad: 'Tuzgölü Peptit' },
-    { slug: 'kirlangic-biyo', ad: 'Kırlangıç Biyo' },
-    { slug: 'yedigol-labs', ad: 'Yedigöl Labs' },
-    { slug: 'poyraz-arastirma', ad: 'Poyraz Araştırma' }
+    { slug: 'young-pharma', ad: 'Young Pharma' },
+    { slug: 'tuzgolu-peptit', ad: 'Tuzgölü Peptit', demo: true },
+    { slug: 'kirlangic-biyo', ad: 'Kırlangıç Biyo', demo: true },
+    { slug: 'yedigol-labs', ad: 'Yedigöl Labs', demo: true },
+    { slug: 'poyraz-arastirma', ad: 'Poyraz Araştırma', demo: true }
   ],
   raporlar: [
+    /* Gerçek kayıt. Değerler Janoshik'in 29 Ekim 2026 tarihli, #248063 görev numaralı raporundan alındı. */
+    { slug: 'young-pharma-n-acetyl-semax-248063', demo: false, marka: 'young-pharma', urun: 'N-Acetyl Semax',
+      lot: null, beyan: 10, birim: 'mg', kimlik: null, miktar: 0.45, miktarBirim: 'mg/ml', saflik: 99.237,
+      gonderen: { tur: 'marka' }, saglayan: null, lab: 'Janoshik', raporNo: '#248063', tarih: '2026-10-29',
+      belgeUrl: 'belgeler/janoshik-248063.webp', gorsel: 'belgeler/janoshik-248063.webp',
+      gorselAlt: 'Janoshik test raporu, görev numarası #248063',
+      dogrulamaUrl: 'https://www.janoshik.com/verify/', dogrulamaAnahtari: 'U8YE4DJ1CMX2',
+      yanit: null, duzeltmeler: [] },
     { slug: 'tuzgolu-peptit-bpc-157-tg-2410-b157', demo: true, marka: 'tuzgolu-peptit', urun: 'BPC-157',
       lot: 'TG-2410-B157', beyan: 5, birim: 'mg', kimlik: 'dogrulandi', miktar: 2.8, saflik: 97.9,
       gonderen: { tur: 'platform' }, saglayan: { tur: 'platform' }, lab: 'Demo Laboratuvar Kuzey', tarih: '2026-10-28',
@@ -52,7 +65,7 @@ window.PA_DATA = {
       lot: 'PRZ-0802-B', beyan: 10, birim: 'mg', kimlik: 'dogrulandi', miktar: 10.6, saflik: 98.1,
       gonderen: { tur: 'platform' }, saglayan: { tur: 'platform' }, lab: 'Demo Laboratuvar Kuzey', tarih: '2026-08-04',
       belgeUrl: '#belge-poyraz-arastirma-bpc-157-prz-0802-b', dogrulamaUrl: null, yanit: null, duzeltmeler: [] },
-    { slug: 'yedigol-labs-selank-yg-slk-0690', demo: true, marka: 'yedigol-labs', urun: 'Selank',
+    { slug: 'yedigol-labs-selank-yg-slk-0690', demo: true, kapak: true, marka: 'yedigol-labs', urun: 'Selank',
       lot: 'YG-SLK-0690', beyan: 5, birim: 'mg', kimlik: 'dogrulandi', miktar: 5.9, saflik: 97.4,
       gonderen: { tur: 'okuyucu' }, saglayan: { tur: 'okuyucu' }, lab: 'Demo Laboratuvar Ege', tarih: '2026-07-19',
       belgeUrl: '#belge-yedigol-labs-selank-yg-slk-0690', dogrulamaUrl: null, yanit: null, duzeltmeler: [] },

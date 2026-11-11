@@ -63,7 +63,7 @@ const KEYS = [
   /* J7 186 */ [188.5, { hold: 1 }], [195, { aim: earth, off: [0, 24] }], [203, { aim: earth, off: [14, 30] }], [209.5, OUT],
   /* J8 211 */ [213, { hold: 1 }], [219, { aim: earth, off: [0, 3] }], [223, { aim: earth, off: [3, 11] }], [227.5, { aim: earth, off: [-3, -9] }], [232.5, OUT],
   /* J9 234 */ [236, { hold: 1 }], [241.5, { aim: earth }], [250, { aim: earth, off: [2, 1] }], [257.5, { aim: () => W.moon }],
-  /* J10 261 */ [263, { hold: 1 }], [269.5, { aim: (c) => mul(add(W.earthC, W.moon), 0.5), off: [0, 2] }], [279, { hold: 1 }], [284.5, { dir: () => W.fwd10 }],
+  /* J10 261 */ [263, { hold: 1 }], [269.5, { dir: (c) => norm(add(norm(sub(W.earthC, c.P)), norm(sub(W.moon, c.P)))) }], [279, { hold: 1 }], [284.5, { dir: () => W.fwd10 }],
   /* J11 287 */ [289, { hold: 1 }], [294.5, { aim: earth }], [301, { hold: 1 }], [305.5, { dir: () => W.fwd10 }],
   /* J12 308 */ [310, { hold: 1 }], [315.5, { aim: earth, off: [-2, 1] }], [319, { aim: earth, off: [5, 2] }], [322.5, { aim: earth, off: [-6, -3] }], [326, { aim: earth, off: [1, 0] }],
   [333, { aim: sun }], [336.5, { hold: 1 }], [342.5, { aim: antiSun }],
@@ -104,9 +104,9 @@ const AFTER = {
     const land = add(c.P, mul(d, 106 * L));
     const at = (dx, dy, dist) => add(land, mul(offsetDir(d, dx, dy), dist * L));
     W.trio = [
-      { name: 'spiral', pos: at(-13.5, -3.5, 0.50), diam: 105, type: 0, seed: 23, nrm: norm(add(mul(d, -0.72), add(mul(viewBasis(d).u, 0.62), mul(viewBasis(d).r, 0.3)))) },
-      { name: 'edge', pos: at(15, 5.5, 0.78), diam: 125, type: 3, seed: 31, nrm: norm(add(mul(viewBasis(d).u, 0.93), mul(viewBasis(d).r, 0.36))) },
-      { name: 'elliptical', pos: at(3.5, 12.5, 0.66), diam: 70, type: 1, seed: 37, nrm: norm([0.3, 0.5, 0.8]) },
+      { name: 'spiral', pos: at(-14.5, -4.5, 0.34), diam: 150, type: 0, seed: 23, nrm: norm(add(mul(d, -0.72), add(mul(viewBasis(d).u, 0.62), mul(viewBasis(d).r, 0.3)))) },
+      { name: 'edge', pos: at(15, 5.5, 0.52), diam: 170, type: 3, seed: 31, nrm: norm(add(mul(viewBasis(d).u, 0.93), mul(viewBasis(d).r, 0.36))) },
+      { name: 'elliptical', pos: at(2.5, 12.0, 0.44), diam: 110, type: 1, seed: 37, nrm: norm([0.3, 0.5, 0.8]) },
     ];
   },
   25: (c) => { W.void1 = mul(pickVoid(mul(c.P, 1 / (1e6 * LY)), c.dir), 1e6 * LY); },

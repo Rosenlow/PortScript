@@ -52,14 +52,14 @@ void main(){
   vec3 base = texture2D(tDay, uv).rgb;
   // regional detail around the Sea of Marmara
   vec2 ruv = vec2((lonD-reg.x)/(reg.y-reg.x), (latD-reg.z)/(reg.w-reg.z));
-  float w = smoothstep(0.0,0.06,ruv.x)*smoothstep(1.0,0.94,ruv.x)*smoothstep(0.0,0.08,ruv.y)*smoothstep(1.0,0.92,ruv.y)*detail;
+  float w = smoothstep(0.0,0.22,ruv.x)*smoothstep(1.0,0.78,ruv.x)*smoothstep(0.0,0.25,ruv.y)*smoothstep(1.0,0.75,ruv.y)*detail;
   float seaMask = 1.0;
   if (w > 0.001) {
     vec4 rg = texture2D(tReg, ruv); float n1 = fbm(p*900.0), n2 = fbm(p*4200.0+3.0), n3 = vn3(p*16000.0);
     vec3 forest = vec3(0.045,0.085,0.035), field = vec3(0.17,0.16,0.085), dry = vec3(0.24,0.2,0.13);
     float north = smoothstep(40.6, 41.6, latD + (n1-0.5)*1.2);
-    vec3 land = mix(mix(field, dry, n2), forest, clamp(north*0.75 + (n1-0.45)*1.3, 0.0, 1.0)); land *= 0.8 + 0.4*n3;
-    land = mix(land, vec3(0.30,0.29,0.27)*(0.75+0.5*n3), clamp(rg.b*1.25,0.0,1.0));
+    vec3 land = mix(mix(field, dry, n2), forest, clamp(north*0.75 + (n1-0.45)*1.3, 0.0, 1.0)); land *= (0.8 + 0.4*n3)*1.9;
+    land = mix(land, vec3(0.50,0.48,0.45)*(0.75+0.5*n3), clamp(rg.b*1.3,0.0,1.0));
     float shallow = smoothstep(0.02, 0.5, rg.g);
     vec3 sea = mix(vec3(0.008,0.035,0.085), vec3(0.02,0.11,0.16), shallow*0.8) * (0.9+0.2*n1);
     vec3 rc = mix(sea, land, smoothstep(0.42,0.58,rg.r)); base = mix(base, rc, w); seaMask = mix(1.0, 1.0-smoothstep(0.42,0.58,rg.r), w);
@@ -70,18 +70,18 @@ void main(){
   float dIst = distance(vec2(lonD*0.75, latD), vec2(29.0*0.75, 41.0));
   float thin = mix(0.10, 1.0, smoothstep(2.0, 9.0, dIst));
   float cn = fbm(p*260.0); float cl = texture2D(tCloud, uv).a; cl = clamp(cl*(0.55+0.9*cn), 0.0, 1.0)*thin;
-  float puffs = smoothstep(0.60, 0.74, fbm(p*1500.0+7.0)) * smoothstep(0.45,0.6,fbm(p*320.0+2.0)) * (1.0-thin) * 0.85 * detail; cl = max(cl, puffs);
+  float puffs = smoothstep(0.60, 0.74, fbm(p*1500.0+7.0)) * smoothstep(0.45,0.6,fbm(p*320.0+2.0)) * smoothstep(4.5, 1.2, dIst) * 0.85 * detail * detail; cl = max(cl, puffs);
   vec3 ps = normalize(p - (inverse(mat3(modelMatrix))*sunT)*0.0011);
-  float cs = texture2D(tCloud, llToUv(ps)).a*thin; cs = max(cs*(0.55+0.9*fbm(ps*260.0)), smoothstep(0.60, 0.74, fbm(ps*1500.0+7.0))*smoothstep(0.45,0.6,fbm(ps*320.0+2.0))*(1.0-thin)*0.85*detail);
+  float cs = texture2D(tCloud, llToUv(ps)).a*thin; cs = max(cs*(0.55+0.9*fbm(ps*260.0)), smoothstep(0.60, 0.74, fbm(ps*1500.0+7.0))*smoothstep(0.45,0.6,fbm(ps*320.0+2.0))*smoothstep(4.5, 1.2, dIst)*0.85*detail*detail);
   vec3 col = base * (1.0 - 0.55*cs);
-  float light = max(ndl, 0.0)*1.15 + 0.03;
+  float light = pow(max(ndl, 0.0), 0.62)*1.3 + 0.02;
   vec3 warm = mix(vec3(1.0,0.55,0.3), vec3(1.0), smoothstep(0.0, 0.3, ndl));
   col = col * light * warm;
   vec3 R = reflect(-sunW, N); col += vec3(1.0,0.9,0.75) * pow(max(dot(R, V),0.0), 60.0) * 0.5 * seaMask * step(0.0, ndl) * (1.0-cl) * smoothstep(0.1, 0.0, base.r-base.b+0.05);
-  col = mix(col, vec3(1.0)*(max(ndl,0.0)*1.25+0.02)*warm, cl);
-  col += texture2D(tNight, uv).rgb * vec3(1.0,0.8,0.5) * (1.0-day) * 0.5 * (1.0-cl);
+  col = mix(col, vec3(1.0)*(pow(max(ndl,0.0),0.62)*1.35+0.02)*warm, cl);
+  col += texture2D(tNight, uv).rgb * vec3(1.0,0.8,0.5) * smoothstep(0.03, -0.14, ndl) * 0.3 * (1.0-cl);
   float fr = pow(1.0 - max(dot(N, V), 0.0), 3.2);
-  col = mix(col, vec3(0.22,0.42,0.95)*day, 0.10 + 0.55*fr); col += vec3(0.25,0.5,1.0)*fr*day*0.5;
+  col = mix(col, vec3(0.22,0.42,0.95)*day, 0.04 + 0.42*fr); col += vec3(0.25,0.5,1.0)*fr*day*0.3;
   gl_FragColor = vec4(col*1.15, 1.0);
 }`;
 const ATMO_FS = `
@@ -131,7 +131,7 @@ export function buildSpace(tl, renderer) {
   const aU = { sunW: { value: sunV }, camW: eU.camW, cW: { value: new THREE.Vector3() }, R: { value: 6371 }, H: { value: 22 } };
   const atmo = new THREE.Mesh(new THREE.SphereGeometry(6371 * 1.06, 180, 90), new THREE.ShaderMaterial({ uniforms: aU, vertexShader: VS, fragmentShader: ATMO_FS, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); atmo.matrixAutoUpdate = false; atmo.frustumCulled = false; stat.add(atmo);
   const moonTex = canvasTex(1024, 512, (c, w, h) => { const r = rng(3); c.fillStyle = '#9a9792'; c.fillRect(0, 0, w, h); for (let i = 0; i < 26; i++) { c.fillStyle = `rgba(60,60,64,${0.25 + r() * 0.3})`; c.beginPath(); c.ellipse(r() * w, h * (0.2 + r() * 0.6), 30 + r() * 90, 20 + r() * 60, r() * 3, 0, 7); c.fill(); } for (let i = 0; i < 500; i++) { const x = r() * w, y = r() * h, s = 1 + r() * r() * 9; c.fillStyle = 'rgba(220,220,215,0.35)'; c.beginPath(); c.arc(x, y, s, 0, 7); c.fill(); c.fillStyle = 'rgba(40,40,40,0.3)'; c.beginPath(); c.arc(x + s * 0.2, y + s * 0.2, s * 0.75, 0, 7); c.fill(); } });
-  const moon = new THREE.Mesh(new THREE.SphereGeometry(1737, 64, 32).rotateX(Math.PI / 2), new THREE.MeshLambertMaterial({ map: moonTex })); moon.frustumCulled = false; stat.add(moon);
+  const moon = new THREE.Mesh(new THREE.SphereGeometry(1737, 64, 32).rotateX(Math.PI / 2), new THREE.MeshLambertMaterial({ map: moonTex, color: new THREE.Color(1.7, 1.7, 1.7) })); moon.frustumCulled = false; stat.add(moon);
   const sunL = new THREE.DirectionalLight(0xffffff, 3.0); sunL.position.copy(sunV); stat.add(sunL); stat.add(new THREE.AmbientLight(0xffffff, 0.01));
 
   // ---------- star catalogues (light-years) ----------
@@ -153,7 +153,7 @@ export function buildSpace(tl, renderer) {
   const cats = { A: catalogue(catC, 520, 300000, 11, tri), B: null, C: null };
   // ---------- Sun glare, planets ----------
   const glareTex = canvasTex(512, 512, (c, w) => { const g = c.createRadialGradient(256, 256, 0, 256, 256, 256); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.02, 'rgba(255,250,235,1)'); g.addColorStop(0.06, 'rgba(255,225,170,0.55)'); g.addColorStop(0.2, 'rgba(255,190,120,0.14)'); g.addColorStop(0.5, 'rgba(255,170,110,0.035)'); g.addColorStop(1, 'rgba(255,160,100,0)'); c.fillStyle = g; c.fillRect(0, 0, w, w);
-    c.globalCompositeOperation = 'lighter'; for (let i = 0; i < 6; i++) { c.save(); c.translate(256, 256); c.rotate(i * Math.PI / 6 + 0.26); const l = c.createLinearGradient(-256, 0, 256, 0); l.addColorStop(0, 'rgba(255,220,180,0)'); l.addColorStop(0.5, 'rgba(255,240,220,0.5)'); l.addColorStop(1, 'rgba(255,220,180,0)'); c.fillStyle = l; c.fillRect(-256, -1.2, 512, 2.4); c.restore(); } }, { clamp: true });
+    c.globalCompositeOperation = 'lighter'; for (let i = 0; i < 6; i++) { c.save(); c.translate(256, 256); c.rotate(i * Math.PI / 6 + 0.26); const l = c.createLinearGradient(-256, 0, 256, 0); l.addColorStop(0, 'rgba(255,220,180,0)'); l.addColorStop(0.3, 'rgba(255,220,180,0)'); l.addColorStop(0.5, 'rgba(255,240,220,0.5)'); l.addColorStop(0.7, 'rgba(255,220,180,0)'); l.addColorStop(1, 'rgba(255,220,180,0)'); c.fillStyle = l; c.fillRect(-256, -1.2, 512, 2.4); c.restore(); } }, { clamp: true });
   const sunSpr = new THREE.Sprite(new THREE.SpriteMaterial({ map: glareTex, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: true, transparent: true, color: 0xffffff })); sunSpr.renderOrder = 5; dyn.add(sunSpr);
   const sunCore = new THREE.Sprite(new THREE.SpriteMaterial({ map: canvasTex(64, 64, (c) => { const g = c.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.5, 'rgba(255,250,235,1)'); g.addColorStop(1, 'rgba(255,240,220,0)'); c.fillStyle = g; c.fillRect(0, 0, 64, 64); }, { clamp: true }), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, color: new THREE.Color(8, 8, 7) })); sunCore.renderOrder = 6; dyn.add(sunCore);
   // sun-centred ecliptic frame; planets as wandering "stars"
@@ -221,7 +221,7 @@ export function buildSpace(tl, renderer) {
 
   const unitOf = (stop) => [1, 1, 10, 100, 1000][stop - 6] ?? 1;        // km per scene unit, so baked depth stays in half-float range
   let prepared = -1;
-  const sunGlare = { 6: [1.9, 1], 7: [1.9, 1], 8: [1.9, 1], 9: [1.9, 1], 10: [1.9, 1], 11: [1.85, 1], 12: [1.7, 1], 13: [0.62, 0.85], 14: [0.2, 0.6], 15: [0.055, 0.45] };
+  const sunGlare = { 6: [1.5, 1], 7: [1.5, 1], 8: [1.5, 1], 9: [1.5, 1], 10: [1.5, 1], 11: [1.5, 1], 12: [1.4, 1], 13: [0.62, 0.85], 14: [0.2, 0.6], 15: [0.055, 0.45] };
   const visTo = (dir, target, cam, half, soft) => { const a = angleBetween(dir, sub(target, cam)); return 1 - sstep(half, half + soft, a); };
   return {
     name: 'space', hasStatic: (stop) => stop <= 10, isLive: () => false, pos: () => [0, 0, 0],
@@ -248,7 +248,7 @@ export function buildSpace(tl, renderer) {
       const u = unitOf(stop), c = P[stop]; const rel = (p) => mul(sub(p, c), 1 / (KM * u));
       const eC = rel(W.earthC); earth.matrix.copy(ecef2enu).scale(new THREE.Vector3(1 / u, 1 / u, 1 / u)).setPosition(eC[0], eC[1], eC[2]); earth.matrix.premultiply(new THREE.Matrix4()); earth.matrixWorldNeedsUpdate = true;
       { const m = new THREE.Matrix4().makeScale(1 / u, 1 / u, 1 / u); m.multiply(ecef2enu); m.setPosition(eC[0], eC[1], eC[2]); earth.matrix.copy(m); atmo.matrix.copy(m); atmo.matrixWorldNeedsUpdate = true; }
-      eU.camW.value.set(0, 0, 0); aU.cW.value.set(...eC); aU.R.value = 6371 / u; aU.H.value = 20 / u; eU.detail.value = stop <= 7 ? 1 : stop === 8 ? 0.5 : 0;
+      eU.camW.value.set(0, 0, 0); aU.cW.value.set(...eC); aU.R.value = 6371 / u; aU.H.value = 20 / u; eU.detail.value = stop <= 6 ? 1 : stop === 7 ? 0.4 : 0;
       let mC = rel(W.moon), ms = 1 / u; const dm = len(mC); if (dm > 40000) { ms *= 40000 / dm; mC = mul(mC, 40000 / dm); } moon.position.set(...mC); moon.scale.setScalar(ms);
       renderer.setRenderTarget(rt); renderer.setClearColor(0, 1); renderer.clear(); renderer.render(stat, cam);
     },

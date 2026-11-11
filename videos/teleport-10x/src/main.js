@@ -68,7 +68,7 @@ window.renderAt = async (t) => {
   await stage.prepare(stop);
   const o = tl.orientAt(t), sw = tl.sway(t, stop >= 6 ? 0.7 : 1);
   const dir = dirFromAzPitch(o.az + sw.az, o.p + sw.p);
-  camera.fov = 48; camera.position.set(0, 0, 0); camera.up.set(0, 0, 1); camera.lookAt(dir[0], dir[1], dir[2]); camera.rotateZ(sw.roll * DEG);
+  camera.fov = 48 - 22 * sstep(266.5, 270.5, t) * (1 - sstep(279, 283, t)); camera.position.set(0, 0, 0); camera.up.set(0, 0, 1); camera.lookAt(dir[0], dir[1], dir[2]); camera.rotateZ(sw.roll * DEG);
   const ctx = { t, stop, dir, gain: lerpArr(gains, t) };
   stage.setCamera(camera, ctx);
   if (stage.isLive(t, stop)) stage.renderStatic(renderer, post.rt, camera, stop);

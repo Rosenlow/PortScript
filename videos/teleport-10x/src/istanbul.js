@@ -287,7 +287,7 @@ export function buildIstanbul(tl) {
   B.box('f4', 17, 18.2, 103.6, 105.2, P3[2] - 1.6, P3[2] + 0.9, [0.8, 0.74, 0.66], 6, 'z'); 
   building(heroes[3], { floors: 5, zb: 48.3, style: 1, tint: PAL[8], flat: false, near: true, ns: true });
   building(heroes[4], { top: P4[2] - 1.6, style: 5, tint: PAL[5], flat: true, near: true, floorMat: 'roofing', floorCol: [0.78, 0.76, 0.73], props: false });
-  B.box('plain', P4[0] + 4, P4[0] + 6.5, P4[1] + 4, P4[1] + 6.5, P4[2] - 1.6, P4[2] + 0.6, [0.82, 0.8, 0.76]);
+  B.box('f4', P4[0] - 8, P4[0] - 6.2, P4[1] + 5.5, P4[1] + 7.6, P4[2] - 1.6, P4[2] + 0.5, [0.82, 0.8, 0.76], 6, 'z');
   // quay strip
   for (let y = -1250; y < 1150; y += 25) { const x = coastX(y); B.quad('concrete', [x - 22, y, 2.25], [x + 1.5, y, 2.25], [coastX(y + 25) + 1.5, y + 25, 2.25], [coastX(y + 25) - 22, y + 25, 2.25], [0, 0, 6, 6], [0.62, 0.61, 0.6]); B.wall('concrete', x + 1.5, y, coastX(y + 25) + 1.5, y + 25, -1, 2.25, [0, 0, 6, 1], [0.45, 0.45, 0.44]); }
 

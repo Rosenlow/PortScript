@@ -5,7 +5,10 @@
   'use strict';
 
   var HAS_DOM = typeof document !== 'undefined';
-  var DATA = root.PA_DATA, BLOG = (root.PA_BLOG || []).slice().sort(function (a, b) { return a.tarih < b.tarih ? 1 : -1; });
+  var DATA = root.PA_DATA, BLOG = (root.PA_BLOG || []).slice().sort(function (a, b) {
+    return a.tarih !== b.tarih ? (a.tarih < b.tarih ? 1 : -1) : (a.sira || 99) - (b.sira || 99);
+  });
+  var KATEGORILER = ['Rapor okuma', 'Peptit profilleri', 'Temel bilgiler', 'Mevzuat ve spor'];
   var STATIC = !!root.PA_STATIC, BASE = root.PA_BASE || '/';
   /* Adres adı ('rapor-x', 'blog', 'marka-y') → bağlantı. */
   function href(name) {
@@ -430,16 +433,22 @@
   /* ---------- blog ---------- */
   function postRow(p) {
     return '<li><a class="post" href="' + href('blog-' + p.slug) + '"><span class="name">' + esc(p.baslik) + '</span>' +
-      '<span class="what">' + esc(p.ozet) + '</span>' + time(p.tarih) + '</a></li>';
+      '<span class="what">' + esc(p.ozet) + '</span><span class="cat">' + esc(p.kategori || '') + '</span></a></li>';
   }
   function viewBlog() {
+    var gruplar = KATEGORILER.concat(BLOG.map(function (p) { return p.kategori; }).filter(function (k, i, a) { return k && KATEGORILER.indexOf(k) === -1 && a.indexOf(k) === i; }));
     app.innerHTML = '<div class="wrap"><header class="page-head"><h1>Blog</h1>' +
-      '<p class="lede">Peptitler ve analiz raporları üzerine açıklayıcı yazılar. Yazılar bilgilendirme amaçlıdır; kullanım önerisi içermez.</p></header>' +
-      '<section class="band"><ul class="posts">' + BLOG.map(postRow).join('') + '</ul></section><div class="band"></div></div>';
+      '<p class="lede">Peptitler ve analiz raporları üzerine açıklayıcı yazılar. Yazılar bilgilendirme amaçlıdır; doz ya da kullanım önerisi içermez.</p></header>' +
+      gruplar.map(function (k, i) {
+        var list = BLOG.filter(function (p) { return p.kategori === k; }).sort(function (a, b) { return (a.sira || 99) - (b.sira || 99); });
+        return list.length ? '<section class="band" aria-labelledby="h-kat-' + i + '"><h2 id="h-kat-' + i + '">' + esc(k) + '</h2><ul class="posts in-cat">' + list.map(postRow).join('') + '</ul></section>' : '';
+      }).join('') + '<div class="band"></div></div>';
     return 'Blog';
   }
   function viewYazi(p) {
     var ilgili = RAPORLAR.filter(function (r) { return (p.urun && r.urun === p.urun) || (p.ilgili || []).indexOf(r.slug) !== -1; });
+    var ayni = BLOG.filter(function (x) { return x !== p && x.kategori === p.kategori; });
+    var benzer = ayni.concat(BLOG.filter(function (x) { return x !== p && ayni.indexOf(x) === -1; })).slice(0, 3);
     var govde = p.html.replace(/\{\{([a-z0-9-]+)\}\}/g, function (_, name) { return href(name); });
     app.innerHTML = '<div class="wrap"><article class="article"><header class="page-head"><p class="crumb"><a href="' + href('blog') + '">Blog</a></p>' +
       '<h1>' + esc(p.baslik) + '</h1><p class="lede">' + esc(p.ozet) + '</p>' +
@@ -447,6 +456,7 @@
       '<div class="prose">' + govde +
       '<p class="notice">Bu yazı bilgilendirme amaçlıdır; tıbbi tavsiye ya da kullanım önerisi değildir. ' + NOTICE + '</p></div></article>' +
       (ilgili.length ? '<section class="band" aria-labelledby="h-ilgili"><h2 id="h-ilgili">Arşivdeki ilgili raporlar</h2><ul class="files">' + ilgili.map(fileRow).join('') + '</ul></section>' : '') +
+      (benzer.length ? '<section class="band" aria-labelledby="h-benzer"><h2 id="h-benzer">' + esc(p.kategori ? p.kategori + ' üzerine diğer yazılar' : 'Diğer yazılar') + '</h2><ul class="posts">' + benzer.map(postRow).join('') + '</ul></section>' : '') +
       '<div class="band"></div></div>';
     return p.baslik;
   }

@@ -9,7 +9,7 @@ node build.js
 Çıktı `dist/` klasörüne yazılır: her rapor, marka ve yazı kendi adresinde hazır HTML sayfasıdır (`/rapor/<kayıt>/`, `/marka/<marka>/`, `/blog/<yazı>/`), yanında `sitemap.xml` ve `robots.txt` bulunur. Yayımlanacak klasör `dist/`'tir.
 
 - `data.js` — rapor kayıtları (`demo: true` olanlar hayalî; Young Pharma kaydı gerçek rapordan)
-- `blog.js` — blog yazıları
+- `yazilar/` — blog yazıları; her yazı bir dosya (`<adres>.html`), başta `---` arasında başlık, özet, tarih, kategori ve sıra
 - `app.js` — sayfa üretimi ve tarayıcıdaki etkileşim (arama, filtreler, kopyalama, belge büyütme)
 - `styles.css` — görsel dil
 - `belgeler/` — gerçek kayıtların rapor belgeleri ve numune fotoğrafları

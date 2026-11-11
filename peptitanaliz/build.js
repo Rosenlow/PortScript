@@ -16,8 +16,26 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 
 const KEEP_DEMO = process.argv.includes('--demo');
 let dataJs = '';
+/* yazilar/<adres>.html: başta '---' arasında alanlar (baslik, ozet, tarih, kategori, sira, urun, ilgili), sonra gövde. */
+function posts() {
+  const dir = path.join(SRC, 'yazilar');
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.html')).sort().map((f) => {
+    const raw = fs.readFileSync(path.join(dir, f), 'utf8');
+    const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/.exec(raw);
+    if (!m) throw new Error('Başlık bölümü eksik: yazilar/' + f);
+    const p = { slug: f.replace(/\.html$/, ''), html: m[2].trim() };
+    for (const line of m[1].split('\n')) {
+      const i = line.indexOf(':');
+      if (i > 0) p[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+    }
+    p.sira = p.sira ? Number(p.sira) : 99;
+    p.ilgili = p.ilgili ? p.ilgili.split(',').map((s) => s.trim()).filter(Boolean) : [];
+    ['baslik', 'ozet', 'tarih', 'kategori'].forEach((k) => { if (!p[k]) throw new Error(k + ' eksik: yazilar/' + f); });
+    return p;
+  });
+}
 function load(isStatic, keepDemo) {
-  ['data.js', 'blog.js', 'app.js'].forEach((f) => delete require.cache[require.resolve(path.join(SRC, f))]);
+  ['data.js', 'app.js'].forEach((f) => delete require.cache[require.resolve(path.join(SRC, f))]);
   global.window = global;
   global.PA_STATIC = isStatic;
   require(path.join(SRC, 'data.js'));
@@ -26,7 +44,7 @@ function load(isStatic, keepDemo) {
     global.PA_DATA.markalar = global.PA_DATA.markalar.filter((m) => !m.demo);
   }
   dataJs = 'window.PA_DATA = ' + JSON.stringify(global.PA_DATA) + ';\n';
-  require(path.join(SRC, 'blog.js'));
+  global.PA_BLOG = posts();
   return require(path.join(SRC, 'app.js'));
 }
 
@@ -132,7 +150,7 @@ ${read('styles.css')}</style>
 ${body(SPA, null)}<script>
 ${read('data.js')}</script>
 <script>
-${read('blog.js')}</script>
+window.PA_BLOG = ${JSON.stringify(posts()).replace(/</g, '\\u003c')};</script>
 <script>
 ${read('app.js')}</script>
 `);

@@ -70,10 +70,12 @@
       var fark = Math.round(Math.abs(r.miktar - r.beyan) * 100) / 100;
       var olc = num(r.miktar) + ' ' + r.birim;
       return { key: Math.abs(d) > TOL ? 'sapma' : 'uyumlu', alert: Math.abs(d) > TOL,
-        lines: ['Etikette ' + beyanAd(r) + '.', 'Raporda ' + olc + '.'],
+        lines: ['Etikette ' + beyanAd(r) + '.', (r.derisim != null ? 'Rapora göre ' : 'Raporda ') + olc + '.'],
         kisa: num(r.miktar) + ' / ' + beyanAd(r) + ' (' + yuzde(d) + ')',
-        satir: 'Etikette ' + beyanAd(r) + ', raporda ' + olc + ' ölçüldü.', delta: yuzde(d),
-        dek: lotOncesi(r) + (fark === 0 ? ', etikette belirtilen miktar ölçüldü.'
+        satir: r.derisim != null ? 'Etikette ' + beyanAd(r) + '; rapordaki ' + num(r.derisim) + ' mg/ml derişim ' + num(r.hacimMl) + ' ml şişede ' + olc + ' eder.'
+          : 'Etikette ' + beyanAd(r) + ', raporda ' + olc + ' ölçüldü.', delta: yuzde(d),
+        dek: r.derisim != null ? 'Raporda ' + num(r.derisim) + ' mg/ml derişim ölçüldü. ' + num(r.hacimMl) + ' ml şişe hacmiyle toplam ' + olc + ' eder; etikette belirtilenden ' + num(fark) + ' ' + r.birim + (r.miktar > r.beyan ? ' fazla.' : r.miktar < r.beyan ? ' az.' : ' farkı yok.')
+          : lotOncesi(r) + (fark === 0 ? ', etikette belirtilen miktar ölçüldü.'
           : ', etikette belirtilenden ' + num(fark) + ' ' + r.birim + (r.miktar > r.beyan ? ' fazla' : ' az') + ' ölçüldü.') };
     }
     if (r.miktar != null) {
@@ -163,7 +165,7 @@
         '<div class="chart-axis"><span>0</span><span class="a-ref" style="left:' + ref + '%">Etiket beyanı ' + esc(beyanAd(r)) + '</span></div>' +
       '</div>' +
       '<figcaption class="chart-key"><span><i class="k-ref"></i>Etiket beyanı <b>' + esc(beyanAd(r)) + '</b></span>' +
-        '<span><i></i>Ölçülen miktar <b>' + num(r.miktar) + ' ' + esc(r.birim) + '</b></span></figcaption></figure>';
+        '<span><i></i>' + (r.derisim != null ? 'Hesaplanan miktar' : 'Ölçülen miktar') + ' <b>' + num(r.miktar) + ' ' + esc(r.birim) + '</b></span></figcaption></figure>';
   }
 
   function headline(r) {
@@ -296,7 +298,7 @@
       ['Kimlik', r.kimlik === 'dogrulandi' ? 'Doğrulandı' : r.kimlik === 'dogrulanamadi' ? 'Doğrulanamadı' : null, 'Beyan edilen madde: ' + r.urun]
     ];
     if (!comparable(r)) olcumler.push(['Miktar', r.miktar != null ? num(r.miktar) + ' ' + r.miktarBirim : null, r.miktar != null ? 'Derişim olarak verilmiş; etiket beyanı ' + beyanAd(r) : 'Etiket beyanı ' + beyanAd(r)]);
-    if (r.derisim != null) olcumler.push(['Derişim', num(r.derisim) + ' mg/ml', 'Toplam miktar = derişim × ' + num(r.hacimMl) + ' ml']);
+    if (r.derisim != null) olcumler.push(['Derişim', num(r.derisim) + ' mg/ml', 'Toplam miktar = derişim × ' + num(r.hacimMl) + ' ml. ' + (r.hacimKaynak || '')]);
     olcumler.push(['Saflık', r.saflik != null ? '%' + num(r.saflik) : null, '']);
     var log = [];
     if (r.yanit) log.push({ tarih: r.yanit.tarih, kim: 'Marka yanıtı · ' + markaAd(r), metin: r.yanit.metin });

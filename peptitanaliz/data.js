@@ -10,7 +10,7 @@
    - belgeUrl / dogrulamaUrl: gerçek belge adresi ya da null. Görsel bir belge sayfada büyütülerek açılır.
    - gorsel / gorselAlt: numune fotoğrafı ya da rapor önizlemesi. Demo kayıtlarda yoksa temsili çizim kullanılır.
    - foto / fotoAlt: numune fotoğrafı; liste satırlarında ve kaynak bölümünde kullanılır.
-   - hacimMl: miktar mg/ml ise ve hacim belgelenmişse toplam miktar hesaplanıp beyanla karşılaştırılır.
+   - hacimMl / hacimKaynak: miktar mg/ml ise ve hacim belgelenmişse toplam miktar hesaplanıp beyanla karşılaştırılır.
    - kapak: true olan kayıt ana sayfa kapağında yer alır. */
 window.PA_DATA = {
   tolerans: 10, // etiket beyanından ±% kaç sapma "miktar sapması" sayılır
@@ -30,8 +30,8 @@ window.PA_DATA = {
       gorselAlt: 'Janoshik test raporu, görev numarası #248063',
       foto: 'belgeler/young-pharma-n-acetyl-semax-numune.jpg',
       fotoAlt: 'Numune fotoğrafı: Young Pharma N-Acetyl Semax burun spreyi, etikette 10 mg (50 mcg/sprey). Fotoğraf: Janoshik',
-      etiketNotu: 'Burun spreyi; etikette 10 mg ve 50 mcg/sprey yazıyor, hacim yazmıyor.',
-      hacimMl: null, // şişe hacmi belgelenirse yazın: toplam miktar = derişim × hacim olarak hesaplanır
+      etiketNotu: 'Burun spreyi; etikette 10 mg ve 50 mcg/sprey yazıyor.',
+      hacimMl: 25, hacimKaynak: 'Peptit Analiz’e bildirilen şişe hacmi; etikette ve raporda yazmıyor',
       dogrulamaUrl: 'https://www.janoshik.com/verify/', dogrulamaAnahtari: 'U8YE4DJ1CMX2',
       yanit: null, duzeltmeler: [] },
     { slug: 'tarn-gate-peptides-bpc-157-tg-2410-b157', demo: true, marka: 'tarn-gate-peptides', urun: 'BPC-157',

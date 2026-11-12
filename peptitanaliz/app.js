@@ -8,6 +8,8 @@
   var DATA = root.PA_DATA, BLOG = (root.PA_BLOG || []).slice().sort(function (a, b) {
     return a.tarih !== b.tarih ? (a.tarih < b.tarih ? 1 : -1) : (a.sira || 99) - (b.sira || 99);
   });
+  var blogBySlug = {};
+  BLOG.forEach(function (p) { blogBySlug[p.slug] = p; });
   var KATEGORILER = ['Rapor okuma', 'Peptit profilleri', 'Temel bilgiler', 'Mevzuat ve spor'];
   var STATIC = !!root.PA_STATIC, BASE = root.PA_BASE || '/';
   /* Adres adı ('rapor-x', 'blog', 'marka-y') → bağlantı. */
@@ -20,7 +22,7 @@
   function asset(p) { return STATIC && !/^(https?:|\/)/.test(p) ? BASE + p : p; }
   function target(url) { return url.charAt(0) === '#' ? href(url.slice(1)) : asset(url); }
   var TOL = DATA.tolerans;
-  var NOTICE = 'Burada ürün satışı yapılmaz. Farklı laboratuvarların raporlarını bir araya getiriyoruz.';
+  var NOTICE = 'Peptit Analiz’de ürün satışı yapılmaz. Dış laboratuvarların raporlarını burada bir araya getiriyoruz.';
   var YOK = 'Raporda belirtilmemiş';
   var app = HAS_DOM ? document.getElementById('app') : { innerHTML: '' };
   var filters = { q: '', marka: '', lab: '', bulgu: '' };
@@ -105,12 +107,35 @@
       : (r.saflik != null ? 'Yalnızca saflık ölçüldü: %' + num(r.saflik) + '.' : 'Miktar ölçülmedi.');
     return b;
   }
-  /* İki sade ölçüm, altında açıklama ve varsa fark. */
-  function sonuc(r) {
+  /* Sitenin imzası: etikette yazan / rapordan öğrenilen. Turuncu çizgi yalnızca burada ve logoda kullanılır. */
+  function versus(r) {
     var b = bulgu(r);
-    return '<dl class="measures"><div><dt>Etikette yazan</dt><dd>' + esc(beyanAd(r)) + '</dd></div>' +
-      '<div><dt>' + esc(b.etiket) + '</dt><dd' + (b.deger ? '' : ' class="none"') + '>' + esc(b.deger || 'Raporda yok') + '</dd></div></dl>' +
-      '<p class="explain">' + esc(b.aciklama) + '</p>' + (b.fark ? '<p class="diff">' + esc(b.fark) + '</p>' : '');
+    return '<div class="versus"><div class="v-side"><span class="v-k">Etikette</span><span class="v-n">' + esc(beyanAd(r)) + '</span></div>' +
+      '<span class="slash" aria-hidden="true"></span>' +
+      '<div class="v-side"><span class="v-k">' + esc(b.etiket) + '</span><span class="v-n' + (b.deger ? '' : ' none') + '">' + esc(b.deger || 'Raporda yok') + '</span>' +
+      (r.derisim != null ? '<span class="v-sub">Laboratuvarın ölçtüğü: ' + esc(birimli(r.derisim, 'mg/ml')) + '</span>' : '') + '</div></div>';
+  }
+  function aciklama(r) {
+    var b = bulgu(r);
+    return '<p class="explain">' + esc(b.aciklama) + '</p>' + (b.fark ? '<p class="diff">' + esc(b.fark) + '</p>' : '');
+  }
+  function foto(r) {
+    if (r.foto) return '<button type="button" class="lr-photo" data-zoom="' + esc(asset(r.foto)) + '" aria-label="Numune fotoğrafını büyüt"><img src="' + esc(asset(r.foto)) + '" alt="' + esc(r.fotoAlt || '') + '"></button>';
+    return r.demo ? '<div class="lr-photo">' + vial(r) + '</div>' : '';
+  }
+  /* Ana sayfada ve rapor sayfasında aynı kompozisyon: marka, ürün adı, numune fotoğrafı, etiket / rapor. */
+  function leadReport(r, detay) {
+    var f = foto(r);
+    var isImg = r.belgeUrl && /\.(webp|png|jpe?g|gif)$/i.test(r.belgeUrl);
+    var dugme = !detay ? '<a class="btn dark" href="' + href('rapor-' + r.slug) + '">Raporu incele</a>'
+      : !r.belgeUrl ? ''
+      : '<a class="btn dark" href="' + esc(target(r.belgeUrl)) + '"' + (isImg ? ' data-zoom="' + esc(target(r.belgeUrl)) + '"' : r.belgeUrl.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"') + '>Orijinal raporu aç</a>';
+    return '<article class="lead-report' + (f ? '' : ' no-photo') + '">' +
+      '<p class="eyebrow">' + (detay ? '' : 'Son rapor · ') + esc(labAd(r)) + ' raporu · ' + time(r.tarih) + '</p>' +
+      '<p class="lr-brand"><a href="' + href('marka-' + r.marka) + '">' + esc(markaAd(r)) + '</a>' + (r.demo ? demoTag : '') + '</p>' +
+      '<h1 class="lr-title">' + (detay ? esc(r.urun) : '<a href="' + href('rapor-' + r.slug) + '">' + esc(r.urun) + '</a>') + '</h1>' +
+      (detay ? '<p class="lotline"><span>Lot</span>' + (r.lot ? '<code id="lot-no">' + esc(r.lot) + '</code>' + copyBtn('lot-no', 'Lot numarasını kopyala') : '<span class="none">' + YOK + '</span>') + '</p>' : '') +
+      '<div class="lr-body">' + f + '<div class="lr-result">' + versus(r) + (detay ? '<h2 class="lr-h">Sonuç ne söylüyor?</h2>' : '') + aciklama(r) + dugme + '</div></div></article>';
   }
 
   /* Türkçe harfleri ve ayraçları yok sayan arama: "yg slk", "YGSLK0690", "kestrel" eşleşir. */
@@ -175,37 +200,41 @@
   }
 
   /* ---------- ana sayfa ---------- */
-  function searchBox(id, cls) {
-    return '<form class="searchbox ' + cls + '" id="' + id + '" role="search" autocomplete="off">' +
-      '<label class="sr" for="' + id + '-q">Marka, ürün veya lot numarası ara</label>' +
-      '<input id="' + id + '-q" type="search" enterkeyhint="search" placeholder="Marka, ürün veya lot numarası ara">' +
-      '<div class="search-results" hidden></div></form>';
-  }
   function fileRow(r) {
     var t = thumb(r);
     return '<li><a class="file' + (t ? '' : ' no-thumb') + '" href="' + href('rapor-' + r.slug) + '">' + (t ? '<span class="thumb">' + t + '</span>' : '') +
       '<span class="name">' + esc(r.urun) + (r.demo ? demoTag : '') + '</span>' +
       '<span class="what">' + esc(markaAd(r)) + ' · ' + esc(bulgu(r).satir) + '</span>' + time(r.tarih) + '</a></li>';
   }
-  function reportCard(r) {
-    var foto = r.foto ? '<img src="' + esc(asset(r.foto)) + '" alt="' + esc(r.fotoAlt || '') + '">' : (r.demo ? vial(r) : '');
-    return '<article class="report-card' + (foto ? '' : ' no-photo') + '">' +
-      (foto ? '<a class="rc-photo" href="' + href('rapor-' + r.slug) + '" tabindex="-1" aria-hidden="true">' + foto + '</a>' : '') +
-      '<div class="rc-head"><h3><a href="' + href('rapor-' + r.slug) + '">' + esc(r.urun) + '</a></h3>' +
-        '<p class="rc-brand">' + esc(markaAd(r)) + (r.demo ? ' ' + demoTag : '') + '</p>' +
-        '<p class="rc-meta">' + esc(labAd(r)) + ' raporu · ' + time(r.tarih) + '</p></div>' +
-      '<div class="rc-result">' + sonuc(r) + '<a class="btn primary" href="' + href('rapor-' + r.slug) + '">Raporu gör</a></div></article>';
+  /* Arşivde göz gezdirmek için: fotoğraf, ürün adı, tek cümlelik sonuç. */
+  function arsivKart(r) {
+    var t = thumb(r);
+    return '<li><a class="a-card" href="' + href('rapor-' + r.slug) + '">' + (t ? '<span class="a-photo">' + t + '</span>' : '') +
+      '<span class="a-brand">' + esc(markaAd(r)) + (r.demo ? demoTag : '') + '</span><span class="a-name">' + esc(r.urun) + '</span>' +
+      '<span class="a-what">' + esc(bulgu(r).satir) + '</span></a></li>';
+  }
+  /* İlk ekranın sağ yanı: gerçek rapordan bir kesit ve ilgili değeri işaretleyen açıklama. */
+  function leadGuide(p) {
+    var k = (p.kesitIsaret || '').split(',');
+    return '<a class="lead-guide" href="' + href('blog-' + p.slug) + '"><span class="eyebrow">Rehber</span>' +
+      '<span class="lg-title">Rapor nasıl okunur?</span>' +
+      '<span class="lg-text">Kimlik, miktar ve saflık ayrı şeylerdir. Laboratuvar terimi bilmeden bir raporu okumanın yolu.</span>' +
+      (p.kesit ? '<span class="excerpt"><img src="' + esc(asset(p.kesit)) + '" alt="Gerçek bir laboratuvar raporunun sonuç tablosu">' +
+        (k.length === 4 ? '<span class="mark" style="left:' + k[0] + '%;top:' + k[1] + '%;width:' + k[2] + '%;height:' + k[3] + '%"></span>' : '') + '</span>' +
+        '<span class="callout">' + esc(p.kesitNot || '') + '</span>' : '') +
+      '<span class="lg-more">Rehberi aç</span></a>';
   }
   function viewHome() {
     var one = RAPORLAR[0], rest = RAPORLAR.slice(1);
+    var okuma = blogBySlug['peptit-analiz-raporu-nasil-okunur'];
     var kapakli = BLOG.filter(function (p) { return p.kapak; }).slice(0, 2);
-    var diger = BLOG.filter(function (p) { return kapakli.indexOf(p) === -1; }).slice(0, kapakli.length ? 4 : 6);
+    var diger = BLOG.filter(function (p) { return kapakli.indexOf(p) === -1; }).slice(0, 6);
     app.innerHTML =
-      '<section class="wrap hero"><h1>Peptit analiz raporları</h1>' + searchBox('hero-search', 'big') +
-        '<p class="note">' + NOTICE + '</p></section>' +
-      (one ? '<section class="wrap block" aria-labelledby="h-son"><div class="block-head"><h2 id="h-son">Son rapor</h2>' +
-        '<a class="more" href="' + href('raporlar') + '">Tüm raporlar</a></div>' + reportCard(one) +
-        (rest.length ? '<h2 class="sub">Önceki raporlar</h2><ul class="files">' + rest.slice(0, 8).map(fileRow).join('') + '</ul>' : '') +
+      '<section class="wrap lead' + (okuma ? '' : ' solo') + '">' + (one ? leadReport(one, false) : '') + (okuma ? leadGuide(okuma) : '') + '</section>' +
+      '<div class="wrap lead-note"><p class="note">' + NOTICE + '</p></div>' +
+      (rest.length ? '<section class="wrap block" aria-labelledby="h-arsiv"><div class="block-head"><h2 id="h-arsiv">Rapor arşivi</h2>' +
+        '<a class="more" href="' + href('raporlar') + '">Tüm raporlar ve filtreler</a></div>' +
+        '<ul class="a-grid">' + rest.slice(0, 8).map(arsivKart).join('') + '</ul>' +
         (HAS_DEMO ? '<p class="muted small">Demo kayıtlardaki ürün görselleri temsilidir.</p>' : '') + '</section>' : '') +
       (BLOG.length ? '<section class="wrap block" aria-labelledby="h-rehber"><div class="block-head"><h2 id="h-rehber">Rehber</h2>' +
         '<a class="more" href="' + href('blog') + '">Tüm yazılar</a></div>' +
@@ -281,8 +310,7 @@
   function viewRapor(r) {
     var isImg = r.belgeUrl && /\.(webp|png|jpe?g|gif)$/i.test(r.belgeUrl);
     var belgeBtn = !r.belgeUrl ? ''
-      : isImg ? '<a class="btn primary" href="' + esc(target(r.belgeUrl)) + '" data-zoom="' + esc(target(r.belgeUrl)) + '">Orijinal raporu aç</a>'
-      : '<a class="btn primary" href="' + esc(target(r.belgeUrl)) + '"' + (r.belgeUrl.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"') + '>Orijinal raporu aç</a>';
+      : '<a class="btn" href="' + esc(target(r.belgeUrl)) + '"' + (isImg ? ' data-zoom="' + esc(target(r.belgeUrl)) + '"' : r.belgeUrl.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"') + '>Orijinal raporu aç</a>';
     var dogrulama = '';
     if (r.dogrulamaUrl) {
       var ext = r.dogrulamaUrl.charAt(0) !== '#';
@@ -300,22 +328,20 @@
 
     app.innerHTML = '<div class="wrap page report">' +
       '<p class="crumb"><a href="' + href('raporlar') + '">Raporlar</a> / <a href="' + href('marka-' + r.marka) + '">' + esc(markaAd(r)) + '</a></p>' +
-      '<header class="r-head"><h1>' + esc(r.urun) + '</h1>' +
-        '<p class="r-brand"><a href="' + href('marka-' + r.marka) + '">' + esc(markaAd(r)) + '</a>' + (r.demo ? ' ' + demoTag : '') + '</p>' +
-        '<p class="lotline"><span>Lot</span>' + (r.lot ? '<code id="lot-no">' + esc(r.lot) + '</code>' + copyBtn('lot-no', 'Lot numarasını kopyala') : '<span class="none">' + YOK + '</span>') + '</p></header>' +
-      '<section class="card" aria-labelledby="h-sonuc"><h2 id="h-sonuc">Sonuç ne söylüyor?</h2>' + sonuc(r) +
+      leadReport(r, true) +
+      '<section class="sec" aria-labelledby="h-sonuc"><h2 id="h-sonuc">Diğer ölçümler</h2>' +
         '<dl class="facts tight">' + diger.map(function (o) {
           return '<div><dt>' + o[0] + '</dt><dd' + (o[1] ? '' : ' class="none"') + '>' + esc(o[1] || YOK) + '</dd></div>';
         }).join('') + '</dl>' +
         '<p class="muted small">Bu sonuç yalnızca analiz edilen numuneye' + (r.lot ? ' ve ' + esc(r.lot) + ' lotuna' : '') + ' aittir.</p></section>' +
-      '<section class="card doc" aria-labelledby="h-belge"><h2 id="h-belge">Orijinal rapor</h2><div class="doc-row">' +
+      '<section class="sec doc" aria-labelledby="h-belge"><h2 id="h-belge">Orijinal rapor</h2><div class="doc-row">' +
         (isImg ? '<button type="button" class="doc-thumb" data-zoom="' + esc(target(r.belgeUrl)) + '" aria-label="Raporu büyüt"><img src="' + esc(target(r.belgeUrl)) + '" alt="' + esc(r.gorselAlt || 'Rapor belgesi') + '" loading="lazy"></button>' : '') +
         '<div class="doc-info">' +
           (r.belgeUrl ? '<p>' + esc(labAd(r)) + ' tarafından düzenlenen raporun kendisi.' + (r.raporNo ? ' Görev numarası ' + esc(r.raporNo) + '.' : '') + '</p>' + belgeBtn
             : '<p>Bu kayıt için rapor belgesi iletilmedi. Değerler raporu sağlayanın beyanına dayanıyor.</p>') +
           (dogrulama || (r.belgeUrl ? '<p class="muted small">Bu rapor için laboratuvar doğrulama bağlantısı yok.</p>' : '')) +
         '</div></div></section>' +
-      '<section class="card" aria-labelledby="h-kaynak"><h2 id="h-kaynak">Numune ve kaynak bilgileri</h2>' +
+      '<section class="sec" aria-labelledby="h-kaynak"><h2 id="h-kaynak">Numune ve kaynak bilgileri</h2>' +
         '<p>' + esc(kaynakCumle(r)) + '</p><div class="source-row">' +
         '<dl class="facts">' +
           '<div><dt>Analizi yapan laboratuvar</dt><dd>' + esc(labAd(r)) + '</dd></div>' +
@@ -324,11 +350,9 @@
           '<div><dt>Rapor tarihi</dt><dd>' + time(r.tarih) + '</dd></div>' +
           (r.hacimMl ? '<div><dt>Şişe hacmi</dt><dd>' + num(r.hacimMl) + ' ml' + (r.hacimKaynak ? '<small>' + esc(r.hacimKaynak) + '</small>' : '') + '</dd></div>' : '') +
         '</dl>' +
-        (r.foto ? '<figure class="sample"><img src="' + esc(asset(r.foto)) + '" alt="' + esc(r.fotoAlt || '') + '" loading="lazy"><figcaption>' + esc(r.fotoAlt || '') + '</figcaption></figure>'
-          : r.demo ? '<figure class="sample">' + vial(r) + '<figcaption>Temsili görsel. Demo kayıt.</figcaption></figure>' : '') +
-        '</div>' + (r.etiketNotu ? '<p class="muted small">' + esc(r.etiketNotu) + '</p>' : '') +
-        '<p class="note">' + NOTICE + ' Peptit Analiz analiz yapmaz; dış laboratuvarların raporlarını derler ve yayımlar.</p></section>' +
-      (log.length ? '<section class="card" aria-labelledby="h-log"><h2 id="h-log">Marka yanıtı ve düzeltmeler</h2><ol class="log">' + log.map(function (x) {
+        '</div>' + (r.foto ? '<p class="muted small">' + esc(r.fotoAlt || '') + '</p>' : r.demo ? '<p class="muted small">Üstteki ürün görseli temsilidir. Demo kayıt.</p>' : '') + (r.etiketNotu ? '<p class="muted small">' + esc(r.etiketNotu) + '</p>' : '') +
+        '<p class="note">' + NOTICE + ' Peptit Analiz analiz yapmaz; raporları derler ve yayımlar.</p></section>' +
+      (log.length ? '<section class="sec" aria-labelledby="h-log"><h2 id="h-log">Marka yanıtı ve düzeltmeler</h2><ol class="log">' + log.map(function (x) {
         return '<li>' + time(x.tarih) + '<p><b>' + esc(x.kim) + '</b>' + esc(x.metin) + '</p></li>';
       }).join('') + '</ol></section>' : '') +
       '</div><div class="tail"></div>';
@@ -407,7 +431,7 @@
   /* Kapak görseli olan yazılar için 16:10 kart; başlık görselin altında durur. */
   function guideCard(p) {
     return '<li><a class="guide-card" href="' + href('blog-' + p.slug) + '"><img src="' + esc(asset(p.kapak)) + '" alt="' + esc(p.kapakAlt || '') + '" loading="lazy">' +
-      '<span class="name">' + esc(p.baslik) + '</span><span class="what">' + esc(p.ozet) + '</span></a></li>';
+      '<span class="cat">' + esc(p.kategori || '') + '</span><span class="name">' + esc(p.baslik) + '</span><span class="what">' + esc(p.ozet) + '</span></a></li>';
   }
   function viewBlog() {
     var kapakli = BLOG.filter(function (p) { return p.kapak; });
@@ -429,7 +453,7 @@
     app.innerHTML = '<div class="wrap page"><article class="article"><header class="page-head"><p class="crumb"><a href="' + href('blog') + '">Rehber</a> / ' + esc(p.kategori || '') + '</p>' +
       '<h1>' + esc(p.baslik) + '</h1><p class="lede">' + esc(p.ozet) + '</p>' +
       '<p class="byline">' + time(p.tarih) + (p.guncelleme && p.guncelleme !== p.tarih ? ' · Güncelleme ' + time(p.guncelleme) : '') + ' · Peptit Analiz</p></header>' +
-      (p.kapak ? '<img class="article-cover" src="' + esc(asset(p.kapak)) + '" alt="' + esc(p.kapakAlt || '') + '">' : '') +
+      (p.kapak ? '<figure class="article-cover"><img src="' + esc(asset(p.kapak)) + '" alt="' + esc(p.kapakAlt || '') + '"><figcaption>Temsili fotoğraf. Belirli bir ürünü ya da raporu göstermez.</figcaption></figure>' : '') +
       '<div class="prose">' + govde +
       '<p class="note">Bu yazı bilgilendirme amaçlıdır; tıbbi tavsiye ya da kullanım önerisi değildir. ' + NOTICE + '</p></div></article>' +
       (ilgili.length ? '<section class="block" aria-labelledby="h-ilgili"><h2 id="h-ilgili">Arşivdeki ilgili raporlar</h2><ul class="files">' + ilgili.map(fileRow).join('') + '</ul></section>' : '') +
@@ -439,8 +463,6 @@
   }
 
   /* ---------- yönlendirme ---------- */
-  var blogBySlug = {};
-  BLOG.forEach(function (p) { blogBySlug[p.slug] = p; });
   /* Adres adından sayfayı üretir: { title, html, nav, desc, noindex, post }. */
   function render(h) {
     var v = { title: null, nav: '', desc: 'Peptit ürünlerine ait laboratuvar raporlarının kamuya açık arşivi. Peptit Analiz’de ürün satışı yapılmaz.', noindex: false }, m, r;
@@ -449,7 +471,7 @@
     else if (h === 'markalar') { v.title = viewMarkalar(); v.nav = 'markalar'; }
     else if (h === 'blog') { v.title = viewBlog(); v.nav = 'blog'; v.desc = 'Peptitler ve analiz raporları üzerine açıklayıcı rehber yazıları.'; }
     else if (h === 'yayin-ilkeleri') { v.title = viewIlkeler(); v.nav = 'yayin-ilkeleri'; v.desc = 'Peptit Analiz rapor kaynaklarını, sonuçları nasıl özetlediğini, marka yanıtlarını ve düzeltme sürecini açıklar.'; }
-    else if ((m = /^rapor-(.+)$/.exec(h)) && (r = raporBySlug[m[1]])) { v.title = viewRapor(r); v.nav = 'raporlar'; v.noindex = !!r.demo; v.desc = (markaAd(r) + ' ' + r.urun + ' analiz raporu. ' + bulgu(r).satir + ' Laboratuvar: ' + labAd(r) + '.').replace(/\u00a0/g, ' '); }
+    else if ((m = /^rapor-(.+)$/.exec(h)) && (r = raporBySlug[m[1]])) { v.title = viewRapor(r); v.nav = 'raporlar'; v.rapor = r.slug; v.noindex = !!r.demo; v.desc = (markaAd(r) + ' ' + r.urun + ' analiz raporu. ' + bulgu(r).satir + ' Laboratuvar: ' + labAd(r) + '.').replace(/\u00a0/g, ' '); }
     else if ((m = /^marka-(.+)$/.exec(h)) && markaBySlug[m[1]]) { v.title = viewMarka(markaBySlug[m[1]]); v.nav = 'markalar'; v.noindex = !!markaBySlug[m[1]].demo; v.desc = markaBySlug[m[1]].ad + ' ürünlerine ait laboratuvar analiz raporları.'; }
     else if ((m = /^blog-(.+)$/.exec(h)) && blogBySlug[m[1]]) { v.post = blogBySlug[m[1]]; v.title = viewYazi(v.post); v.nav = 'blog'; v.desc = v.post.ozet; }
     else if ((m = /^(belge|dogrulama)-(.+)$/.exec(h)) && raporBySlug[m[2]]) { v.title = viewDemoBelge(raporBySlug[m[2]], m[1]); v.nav = 'raporlar'; v.noindex = true; }
@@ -479,15 +501,13 @@
     document.body.classList.toggle('is-home', !!v.home);
     bindArsiv();
     bindSearch();
-    closeSearch(true);
+    closeSearch();
     window.scrollTo(0, 0);
   }
 
-  /* ---------- arama: üst menüdeki ve ana sayfadaki kutu aynı davranır ---------- */
-  var sToggle = document.getElementById('search-toggle'), sHeader = document.getElementById('site-search');
-  function closeSearch(collapse) {
+  /* ---------- arama: üst menüdeki kutu her sayfada aynı yerde ---------- */
+  function closeSearch() {
     document.querySelectorAll('.search-results').forEach(function (b) { b.hidden = true; });
-    if (collapse) { sHeader.classList.remove('open'); sToggle.setAttribute('aria-expanded', 'false'); }
   }
   function bindSearch() {
     document.querySelectorAll('form.searchbox').forEach(function (form) {
@@ -508,7 +528,7 @@
       }
       input.addEventListener('input', suggest);
       input.addEventListener('focus', suggest);
-      input.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSearch(false); });
+      input.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSearch(); });
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var q = input.value.trim();
@@ -522,12 +542,6 @@
       });
     });
   }
-  sToggle.addEventListener('click', function () {
-    var open = !sHeader.classList.contains('open');
-    sHeader.classList.toggle('open', open);
-    sToggle.setAttribute('aria-expanded', String(open));
-    if (open) sHeader.querySelector('input').focus(); else closeSearch(false);
-  });
 
   /* ---------- belge büyütme, kopyalama, satır tıklama ---------- */
   var lightbox = document.getElementById('lightbox');
@@ -556,7 +570,7 @@
       return;
     }
     if (e.target.closest('[data-clear]')) { clearFilters(); return; }
-    if (!e.target.closest('form.searchbox') && !e.target.closest('#search-toggle')) closeSearch(false);
+    if (!e.target.closest('form.searchbox')) closeSearch();
     var row = e.target.closest('tr[data-href]');
     if (row && !e.target.closest('a')) location.href = row.getAttribute('data-href');
   });

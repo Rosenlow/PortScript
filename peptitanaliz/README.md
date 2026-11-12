@@ -10,7 +10,8 @@ node build.js
 
 - `data.js` — rapor kayıtları (`demo: true` olanlar hayalî; Young Pharma kaydı gerçek rapordan)
 - `yazilar/` — rehber yazıları; her yazı bir dosya (`<adres>.html`), başta `---` arasında başlık, özet, tarih, kategori ve sıra. Kapak görseli için `kapak: gorseller/<dosya>` ve `kapakAlt: <açıklama>` satırları eklenir; kapaklı yazılar 16:10 kart olarak gösterilir
-- `gorseller/` — rehber kapak görselleri (şu an boş)
+- `gorseller/` — rehber kapak görselleri (yapay zekâyla üretilmiş temsili fotoğraflar; bir ürünü ya da raporu göstermez)
+- `paylasim/` — rapor bağlantısı paylaşıldığında görünen görseller; `node og.js` ile üretilir (Playwright gerekir)
 - `app.js` — sayfa üretimi ve tarayıcıdaki etkileşim (arama, filtreler, kopyalama, belge büyütme)
 - `styles.css` — görsel dil
 - `belgeler/` — gerçek kayıtların rapor belgeleri ve numune fotoğrafları

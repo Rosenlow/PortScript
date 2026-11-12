@@ -9,8 +9,8 @@ const path = require('path');
 const SRC = __dirname;
 const OUT = path.join(SRC, 'dist');
 const SITE = 'https://peptitanaliz.com';
-const FONTS = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap';
-const NOTICE = 'Burada ürün satışı yapılmaz. Farklı laboratuvarların raporlarını bir araya getiriyoruz.';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Schibsted+Grotesk:wght@600;700;800&display=swap';
+const NOTICE = 'Peptit Analiz’de ürün satışı yapılmaz. Dış laboratuvarların raporlarını burada bir araya getiriyoruz.';
 const read = (f) => fs.readFileSync(path.join(SRC, f), 'utf8');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -57,10 +57,9 @@ function body(PA, view) {
     <nav aria-label="Ana menü">
       ${nav.map(([n, t]) => `<a href="${PA.href(n)}" data-nav="${n}"${view && view.nav === n ? ' aria-current="page"' : ''}>${t}</a>`).join('\n      ')}
     </nav>
-    <button type="button" class="search-toggle" id="search-toggle" aria-expanded="false" aria-controls="site-search">Ara</button>
     <form class="searchbox" id="site-search" role="search" autocomplete="off">
-      <label class="sr" for="q">Marka, ürün veya lot numarası ara</label>
-      <input id="q" type="search" enterkeyhint="search" placeholder="Marka, ürün veya lot numarası ara">
+      <label class="sr" for="q">Marka, ürün veya lot ara</label>
+      <input id="q" type="search" enterkeyhint="search" placeholder="Marka, ürün veya lot ara">
       <div class="search-results" hidden></div>
     </form>
   </div>
@@ -101,7 +100,7 @@ ${view.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonica
 <meta property="og:type" content="${view.post ? 'article' : 'website'}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(view.desc)}">
-<meta property="og:url" content="${url}">
+<meta property="og:url" content="${url}">${view.rapor && fs.existsSync(path.join(SRC, 'paylasim', view.rapor + '.png')) ? `\n<meta property="og:image" content="${SITE}/paylasim/${view.rapor}.png">\n<meta name="twitter:card" content="summary_large_image">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
@@ -135,7 +134,7 @@ fs.writeFileSync(path.join(OUT, '404.html'), page(PA, 'bulunamadi', PA.render('b
 ['styles.css', 'app.js'].forEach((f) => fs.copyFileSync(path.join(SRC, f), path.join(OUT, f)));
 fs.writeFileSync(path.join(OUT, 'data.js'), distData);
 fs.cpSync(path.join(SRC, 'belgeler'), path.join(OUT, 'belgeler'), { recursive: true });
-if (fs.existsSync(path.join(SRC, 'gorseller'))) fs.cpSync(path.join(SRC, 'gorseller'), path.join(OUT, 'gorseller'), { recursive: true });
+['gorseller', 'paylasim'].forEach((d) => { if (fs.existsSync(path.join(SRC, d))) fs.cpSync(path.join(SRC, d), path.join(OUT, d), { recursive: true }); });
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);

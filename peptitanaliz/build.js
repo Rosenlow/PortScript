@@ -105,12 +105,12 @@ ${view.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonica
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=${VER}">
 ${ld}</head>
 <body${view.home ? ' class="is-home"' : ''}>
 ${body(PA, view)}<script>window.PA_STATIC = true;</script>
-<script src="/data.js"></script>
-<script src="/app.js"></script>
+<script src="/data.js?v=${VER}"></script>
+<script src="/app.js?v=${VER}"></script>
 </body>
 </html>
 `;
@@ -119,6 +119,8 @@ ${body(PA, view)}<script>window.PA_STATIC = true;</script>
 /* ---------- statik site ---------- */
 const PA = load(true, KEEP_DEMO);
 const distData = dataJs;
+/* Stil ve betik adreslerine içerik özeti eklenir; dosya değişince tarayıcılar eski kopyayı kullanamaz. */
+const VER = require('crypto').createHash('sha1').update(read('styles.css') + read('app.js') + distData).digest('hex').slice(0, 10);
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 const sitemap = [];

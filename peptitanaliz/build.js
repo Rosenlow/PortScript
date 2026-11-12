@@ -9,8 +9,8 @@ const path = require('path');
 const SRC = __dirname;
 const OUT = path.join(SRC, 'dist');
 const SITE = 'https://peptitanaliz.com';
-const FONTS = 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Instrument+Sans:wght@400;500;600;700&display=swap';
-const NOTICE = 'Peptit Analiz’de ürün satışı yapılmaz. Platform, farklı kaynaklardan derlenen laboratuvar raporlarını yayımlar.';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap';
+const NOTICE = 'Burada ürün satışı yapılmaz. Farklı laboratuvarların raporlarını bir araya getiriyoruz.';
 const read = (f) => fs.readFileSync(path.join(SRC, f), 'utf8');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -29,6 +29,7 @@ function posts() {
       if (i > 0) p[line.slice(0, i).trim()] = line.slice(i + 1).trim();
     }
     p.sira = p.sira ? Number(p.sira) : 99;
+    if (p.kapak && !fs.existsSync(path.join(SRC, p.kapak))) throw new Error('Kapak görseli yok: ' + p.kapak + ' (yazilar/' + f + ')');
     p.ilgili = p.ilgili ? p.ilgili.split(',').map((s) => s.trim()).filter(Boolean) : [];
     ['baslik', 'ozet', 'tarih', 'kategori'].forEach((k) => { if (!p[k]) throw new Error(k + ' eksik: yazilar/' + f); });
     return p;
@@ -49,7 +50,7 @@ function load(isStatic, keepDemo) {
 }
 
 function body(PA, view) {
-  const nav = [['raporlar', 'Raporlar'], ['markalar', 'Markalar'], ['blog', 'Blog'], ['yayin-ilkeleri', 'Yayın ilkeleri']];
+  const nav = [['raporlar', 'Raporlar'], ['markalar', 'Markalar'], ['blog', 'Rehber'], ['yayin-ilkeleri', 'Yayın İlkeleri']];
   return `<header class="site-head">
   <div class="wrap head-row">
     <a class="logo" href="${PA.href('')}" aria-label="Peptit Analiz, ana sayfa">PEPTİT<i>/</i>ANALİZ</a>
@@ -57,10 +58,10 @@ function body(PA, view) {
       ${nav.map(([n, t]) => `<a href="${PA.href(n)}" data-nav="${n}"${view && view.nav === n ? ' aria-current="page"' : ''}>${t}</a>`).join('\n      ')}
     </nav>
     <button type="button" class="search-toggle" id="search-toggle" aria-expanded="false" aria-controls="site-search">Ara</button>
-    <form class="site-search" id="site-search" role="search" autocomplete="off">
-      <label class="sr" for="q">Marka, ürün veya lot numarasıyla ara</label>
-      <input id="q" type="search" enterkeyhint="search" placeholder="Marka, ürün veya lot ara">
-      <div class="search-results" id="search-results" hidden></div>
+    <form class="searchbox" id="site-search" role="search" autocomplete="off">
+      <label class="sr" for="q">Marka, ürün veya lot numarası ara</label>
+      <input id="q" type="search" enterkeyhint="search" placeholder="Marka, ürün veya lot numarası ara">
+      <div class="search-results" hidden></div>
     </form>
   </div>
 </header>
@@ -69,8 +70,8 @@ function body(PA, view) {
   <div class="wrap foot-row">
     <span class="logo small">PEPTİT<i>/</i>ANALİZ</span>
     <span>${NOTICE}</span>
-${PA.hasDemo ? '    <span>“Demo veri” etiketli kayıtlar hayalîdir.</span>\n' : ''}    <a href="${PA.href('blog')}">Blog</a>
-    <a href="${PA.href('yayin-ilkeleri')}">Yayın ilkeleri</a>
+${PA.hasDemo ? '    <span>“Demo veri” etiketli kayıtlar hayalîdir.</span>\n' : ''}    <a href="${PA.href('blog')}">Rehber</a>
+    <a href="${PA.href('yayin-ilkeleri')}">Yayın İlkeleri</a>
   </div>
 </footer>
 <dialog class="lightbox" id="lightbox" aria-label="Rapor belgesi">
@@ -106,7 +107,7 @@ ${view.noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonica
 <link rel="stylesheet" href="${FONTS}">
 <link rel="stylesheet" href="/styles.css">
 ${ld}</head>
-<body>
+<body${view.home ? ' class="is-home"' : ''}>
 ${body(PA, view)}<script>window.PA_STATIC = true;</script>
 <script src="/data.js"></script>
 <script src="/app.js"></script>
@@ -132,6 +133,7 @@ fs.writeFileSync(path.join(OUT, '404.html'), page(PA, 'bulunamadi', PA.render('b
 ['styles.css', 'app.js'].forEach((f) => fs.copyFileSync(path.join(SRC, f), path.join(OUT, f)));
 fs.writeFileSync(path.join(OUT, 'data.js'), distData);
 fs.cpSync(path.join(SRC, 'belgeler'), path.join(OUT, 'belgeler'), { recursive: true });
+if (fs.existsSync(path.join(SRC, 'gorseller'))) fs.cpSync(path.join(SRC, 'gorseller'), path.join(OUT, 'gorseller'), { recursive: true });
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
